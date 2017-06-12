@@ -21,6 +21,8 @@
 \usepackage{amssymb}
 \setcounter{tocdepth}{3}
 \usepackage{graphicx}
+\usepackage{authblk}
+\usepackage{lineno}
 
 %\urldef{\mailsa}\path|{rtraborn, |
 %\urldef{\mailsb}\path|vbrendel}@indiana.edu|    
@@ -44,8 +46,15 @@
 % their surnames. This ensures that the names appear correctly in
 % the running heads and the author index.
 %
-\author{R. Taylor Raborn and Volker P. Brendel}%
-%\thanks{Department of Biology and School of Informatics and Computing}
+\author[1,2]{R. Taylor Raborn\thanks{Correspondence: rtraborn@indiana.edu}}
+\author[1,2]{Volker P. Brendel}
+
+\affil[1]{Department of Biology, Indiana University}
+\affil[2]{School of Informatics and Computing, Indiana University}
+
+%\date{\today}
+
+\renewcommand\Authands{ and }
 %
 \authorrunning{Raborn and Brendel}
 % (feature abused for this document to repeat the title also on left hand pages)
@@ -81,8 +90,10 @@ We demonstrate this using our bioinformatics pipeline GoRAMPAGE, providing detai
 \keywords{\textit{cis}-regulatory regions, promoter architecture, transcription initiation, transcription start sites (TSSs)}
 \end{abstract}
 
+\begin{linenumbers}
 \section{Introduction}
 
+\subsection{TSS Profiling}
 The promoter, defined in eukaryotes as the genomic region bound by RNA Polymerase II immediately prior to transcription initiation, is the site where regulatory signals unite to direct gene expression.
 The identification of promoter regions is a valuable step for understanding the \textit{cis}-regulatory signals that are present in an organism, and is important for genome annotation.
 However, despite the rapid accumulation of genome sequences, including those of insects, annotation of promoter regions remains sparse. 
@@ -94,127 +105,25 @@ At the onset of the NGS era, CAGE was coupled with massively-parallel sequencing
 Hoskins and colleagues \cite{Hoskins:2011io} performed CAGE in \textit{D. melanogaster}, revealing the promoter architecture in any insect.
 
 
-You are strongly encouraged to use \LaTeXe{} for the
-preparation of your camera-ready manuscript together with the
-corresponding Springer class file \verb+llncs.cls+. Only if you use
-\LaTeXe{} can hyperlinks be generated in the online version
-of your manuscript.
+%You are strongly encouraged to use \LaTeXe{} for the
+%preparation of your camera-ready manuscript together with the
+%corresponding Springer class file \verb+llncs.cls+. Only if you use
+%\LaTeXe{} can hyperlinks be generated in the online version
+%of your manuscript.
 
-The \LaTeX{} source of this instruction file for \LaTeX{} users may be
-used as a template. This is
-located in the ``authors'' subdirectory in
-\url{ftp://ftp.springer.de/pub/tex/latex/llncs/latex2e/instruct/} and
-entitled \texttt{typeinst.tex}. There is a separate package for Word 
-users. Kindly send the final and checked source
-and PDF files of your paper to the Contact Volume Editor. This is
-usually one of the organizers of the conference. You should make sure
-that the \LaTeX{} and the PDF files are identical and correct and that
-only one version of your paper is sent. It is not possible to update
-files at a later stage. Please note that we do not need the printed
-paper.
+\section{Materials}
 
-We would like to draw your attention to the fact that it is not possible
-to modify a paper in any way, once it has been published. This applies
-to both the printed book and the online version of the publication.
-Every detail, including the order of the names of the authors, should
-be checked before the paper is sent to the Volume Editors.
+\section{Methods}
 
-\subsection{Checking the PDF File}
+\section{Notes}
 
-Kindly assure that the Contact Volume Editor is given the name and email
-address of the contact author for your paper. The Contact Volume Editor
-uses these details to compile a list for our production department at
-SPS in India. Once the files have been worked upon, SPS sends a copy of
-the final pdf of each paper to its contact author. The contact author is
-asked to check through the final pdf to make sure that no errors have
-crept in during the transfer or preparation of the files. This should
-not be seen as an opportunity to update or copyedit the papers, which is
-not possible due to time constraints. Only errors introduced during the
-preparation of the files will be corrected.
-  
-This round of checking takes place about two weeks after the files have
-been sent to the Editorial by the Contact Volume Editor, i.e., roughly
-seven weeks before the start of the conference for conference
-proceedings, or seven weeks before the volume leaves the printer's, for
-post-proceedings. If SPS does not receive a reply from a particular
-contact author, within the timeframe given, then it is presumed that the
-author has found no errors in the paper. The tight publication schedule
-of LNCS does not allow SPS to send reminders or search for alternative
-email addresses on the Internet.
+\subsection*{Acknowledgments}
 
-In some cases, it is the Contact Volume Editor that checks all the final
-pdfs. In such cases, the authors are not involved in the checking phase.
+\subsection*{Disclosure Declaration}
+The authors declare that they have no competing interests.
+\end{linenumbers}
 
-\subsection{Copyright Forms}
-
-The copyright form may be downloaded from the ``For Authors"
-(Information for LNCS Authors) section of the LNCS Website:
-\texttt{www.springer.com/lncs}. Please send your signed copyright form
-to the Contact Volume Editor, either as a scanned pdf or by fax or by
-courier. One author may sign on behalf of all of the other authors of a
-particular paper. Digital signatures are acceptable.
-
-\section{Paper Preparation}
-
-Springer provides you with a complete integrated \LaTeX{} document class
-(\texttt{llncs.cls}) for multi-author books such as those in the LNCS
-series. Papers not complying with the LNCS style will be reformatted.
-This can lead to an increase in the overall number of pages. We would
-therefore urge you not to squash your paper.
-
-Please always cancel any superfluous definitions that are
-not actually used in your text. If you do not, these may conflict with
-the definitions of the macro package, causing changes in the structure
-of the text and leading to numerous mistakes in the proofs.
-
-If you wonder what \LaTeX{} is and where it can be obtained, see the
-``\textit{LaTeX project site}'' (\url{http://www.latex-project.org})
-and especially the webpage ``\textit{How to get it}''
-(\url{http://www.latex-project.org/ftp.html}) respectively.
-
-When you use \LaTeX\ together with our document class file,
-\texttt{llncs.cls},
-your text is typeset automatically in Computer Modern Roman (CM) fonts.
-Please do
-\emph{not} change the preset fonts. If you have to use fonts other
-than the preset fonts, kindly submit these with your files.
-
-Please use the commands \verb+\label+ and \verb+\ref+ for
-cross-references and the commands \verb+\bibitem+ and \verb+\cite+ for
-references to the bibliography, to enable us to create hyperlinks at
-these places.
-
-For preparing your figures electronically and integrating them into
-your source file we recommend using the standard \LaTeX{} \verb+graphics+ or
-\verb+graphicx+ package. These provide the \verb+\includegraphics+ command.
-In general, please refrain from using the \verb+\special+ command.
-
-Remember to submit any further style files and
-fonts you have used together with your source files.
-
-\subsubsection{Headings.}
-
-Headings should be capitalized
-(i.e., nouns, verbs, and all other words
-except articles, prepositions, and conjunctions should be set with an
-initial capital) and should,
-with the exception of the title, be aligned to the left.
-Words joined by a hyphen are subject to a special rule. If the first
-word can stand alone, the second word should be capitalized.
-
-Here are some examples of headings: ``Criteria to Disprove
-Context-Freeness of Collage Language", ``On Correcting the Intrusion of
-Tracing Non-deterministic Programs by Software", ``A User-Friendly and
-Extendable Data Distribution System", ``Multi-flip Networks:
-Parallelizing GenSAT", ``Self-determinations of Man".
-
-\subsubsection{Lemmas, Propositions, and Theorems.}
-
-The numbers accorded to lemmas, propositions, and theorems, etc. should
-appear in consecutive order, starting with Lemma 1, and not, for
-example, with Lemma 11.
-
-\subsection{Figures}
+\section{Figures}
 
 For \LaTeX\ users, we recommend using the \emph{graphics} or \emph{graphicx}
 package and the \verb+\includegraphics+ command.
@@ -255,17 +164,6 @@ italics, in parentheses, as shown in this sample caption.}
 
 Please define figures (and tables) as floating objects. Please avoid
 using optional location parameters like ``\verb+[h]+" for ``here".
-
-\paragraph{Remark 1.}
-
-In the printed volumes, illustrations are generally black and white
-(halftones), and only in exceptional cases, and if the author is
-prepared to cover the extra cost for color reproduction, are colored
-pictures accepted. Colored pictures are welcome in the electronic
-version free of charge. If you send colored figures that are to be
-printed in black and white, please make sure that they really are
-legible in black and white. Some colors as well as the contrast of
-converted colors show up very poorly when printed in black and white.
 
 \subsection{Formulas}
 
@@ -343,30 +241,13 @@ There is no need to include page numbers. If your paper title is too
 long to serve as a running head, it will be shortened. Your suggestion
 as to how to shorten it would be most welcome.
 
-\section{LNCS Online}
+\section{References}\label{references}
 
-The online version of the volume will be available in LNCS Online.
-Members of institutes subscribing to the Lecture Notes in Computer
-Science series have access to all the pdfs of all the online
-publications. Non-subscribers can only read as far as the abstracts. If
-they try to go beyond this point, they are automatically asked, whether
-they would like to order the pdf, and are given instructions as to how
-to do so.
+\newpage
 
-Please note that, if your email address is given in your paper,
-it will also be included in the meta data of the online version.
-
-\section{BibTeX Entries}
-
-The correct BibTeX entries for the Lecture Notes in Computer Science
-volumes can be found at the following Website shortly after the
-publication of the book:
-\url{http://www.informatik.uni-trier.de/~ley/db/journals/lncs.html}
-
-\subsubsection*{Acknowledgments.} The heading should be treated as a
-subsubsection heading and should not be assigned a number.
-
-\section{The References Section}\label{references}
+% if your bibliography is in bibtex format, use those commands:
+\bibliographystyle{IEEEtran} % Bibliography style file
+\bibliography{RAMPAGE_chapter}      % Bibliography file
 
 In order to permit cross referencing within LNCS-Online, and eventually
 between different publishers and their online databases, LNCS will,
@@ -392,45 +273,8 @@ journal articles \cite{jour}, an LNCS chapter \cite{lncschap}, a book
 Please note that proceedings published in LNCS are not cited with their
 full titles, but with their acronyms!
 
-\begin{thebibliography}{4}
-
-\bibitem{jour} Smith, T.F., Waterman, M.S.: Identification of Common Molecular
-Subsequences. J. Mol. Biol. 147, 195--197 (1981)
-
-\bibitem{lncschap} May, P., Ehrlich, H.C., Steinke, T.: ZIB Structure Prediction Pipeline:
-Composing a Complex Biological Workflow through Web Services. In: Nagel,
-W.E., Walter, W.V., Lehner, W. (eds.) Euro-Par 2006. LNCS, vol. 4128,
-pp. 1148--1158. Springer, Heidelberg (2006)
-
-\bibitem{book} Foster, I., Kesselman, C.: The Grid: Blueprint for a New Computing
-Infrastructure. Morgan Kaufmann, San Francisco (1999)
-
-\bibitem{proceeding1} Czajkowski, K., Fitzgerald, S., Foster, I., Kesselman, C.: Grid
-Information Services for Distributed Resource Sharing. In: 10th IEEE
-International Symposium on High Performance Distributed Computing, pp.
-181--184. IEEE Press, New York (2001)
-
-\bibitem{proceeding2} Foster, I., Kesselman, C., Nick, J., Tuecke, S.: The Physiology of the
-Grid: an Open Grid Services Architecture for Distributed Systems
-Integration. Technical report, Global Grid Forum (2002)
-
-\bibitem{url} National Center for Biotechnology Information, \url{http://www.ncbi.nlm.nih.gov}
-
-\end{thebibliography}
-
-
-\section*{Appendix: Springer-Author Discount}
-
-LNCS authors are entitled to a 33.3\% discount off all Springer
-publications. Before placing an order, the author should send an email, 
-giving full details of his or her Springer publication,
-to \url{orders-HD-individuals@springer.com} to obtain a so-called token. This token is a
-number, which must be entered when placing an order via the Internet, in
-order to obtain the discount.
-
 \section{Checklist of Items to be Sent to Volume Editors}
 Here is a checklist of everything the volume editor requires from you:
-
 
 \begin{itemize}
 \settowidth{\leftmargin}{{\Large$\square$}}\advance\leftmargin\labelsep
