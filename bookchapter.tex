@@ -94,15 +94,21 @@ We demonstrate this using our bioinformatics pipeline GoRAMPAGE, providing detai
 \section{Introduction}
 
 \subsection{TSS Profiling}
-The promoter, defined in eukaryotes as the genomic region bound by RNA Polymerase II immediately prior to transcription initiation, is the site where regulatory signals unite to direct gene expression.
+The promoter, defined in eukaryotes as the genomic region bound by RNA Polymerase II immediately prior to transcription initiation \cite{Kadonaga:2011gz}, is the site where regulatory signals unite to direct gene expression.
 The identification of promoter regions is a valuable step for understanding the \textit{cis}-regulatory signals that are present in an organism, and is important for genome annotation.
-However, despite the rapid accumulation of genome sequences, including those of insects, annotation of promoter regions remains sparse. 
-This is because--absent empirical mapping of TSSs--precisely identifying sequence motifs that demarcate the promoter is unreliable.
-In contrast with \textit{in silico} approaches, direct mapping of TSSs identifies the location of the core promoter.
-Cap Analysis of Gene Expression (CAGE) \cite{Kodzius:2006gy}, the first method to identify 5`-ends of mRNAs at large-scale, involves selective capture of 5`-capped transcripts, first-strand reverse-transcription and ligation of a short oligonucleotide (CAGE tag). 
+However, despite the rapid accumulation of genome sequences across metazoan and arthropod diversity, accurate annotation of promoter regions remains sparse. 
+This is because---empirical mapping of TSSs---precisely identifying sequence motifs that demarcate the promoter is unreliable.
+In contrast with current \textit{in silico} approaches, direct mapping of TSSs identifies the location of the core promoter.
+Cap Analysis of Gene Expression (CAGE) \cite{Kodzius:2006gy}, one of the first methods devised to identify 5`-ends of mRNAs at large-scale, involves selective capture of 5`-capped transcripts, first-strand reverse-transcription and ligation of a short oligonucleotide (CAGE tag). 
 CAGE was initially utilized by the FANTOM (Functional Annotation of the Mammalian Genome) consortium to identify promoter architecture in human and mouse \cite{Carninci:2005kp}, providing the first glimpse of the global landscape of transcription initiation.
-At the onset of the NGS era, CAGE was coupled with massively-parallel sequencing to generate 5`-ends of mRNAs at substantially higher scale. This advance provided more extensive coverage of the expressed transcriptome, and provided increased sensitivity for quantitative measurements \textit{i}.\textit{e}. measurement of promoter activity.
-Hoskins and colleagues \cite{Hoskins:2011io} performed CAGE in \textit{D. melanogaster}, revealing the promoter architecture in any insect.
+At the onset of the NGS era, CAGE was coupled with massively-parallel sequencing to generate 5`-ends of mRNAs at substantially higher scale. 
+This advance provided more extensive coverage of the expressed transcriptome, and provided increased sensitivity for quantitative measurements \textit{i}.\textit{e}. measurement of promoter activity.
+Hoskins and colleagues \cite{Hoskins:2011io} performed CAGE in \textit{D. melanogaster}, identifying promoters at large-scale and characterizing the promoter architecture of an insect genome for the first time.
+Hoskins \cite{Hoskins:2011io} indicated that TSS distributions at \textit{Drosophila} promoters exhibit a range of shapes that can be generally grouped into two major classifications: \textit{peaked} and \textit{broad}. 
+Peaked promoters have a single, major TSS position occupying a narrow genomic region, whereas broad promoters lack a single, major TSS and contain TSSs across a wider region \cite{Rach:2009ct}\cite{Lenhard:2012en}. 
+The authors also showed a strong association between promoter class and motif composition (consistent with previous findings \cite{Rach:2009ct,Ni:2010jh}). 
+Peaked promoters were associated with positionally-enriched \textit{cis}-regulatory motifs including TATA, Inr and DPE, while broad promoters had an enrichment of less-well characterized motifs, including \textit{Ohler6} and \textit{Ohler7} \cite{Ohler:2002vl}. 
+The existence of two promoter classes appears to be widespread, and has been reported in insects, cladocerans \cite{Raborn:2016cr}, fish \cite{Nepal:2013bga} and mammals \cite{Carninci:2006in,Lenhard:2012en}.
 
 
 %You are strongly encouraged to use \LaTeXe{} for the
