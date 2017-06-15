@@ -105,14 +105,26 @@ At the onset of the NGS era, CAGE was coupled with massively-parallel sequencing
 This advance provided more extensive coverage of the expressed transcriptome, and provided increased sensitivity for quantitative measurements \textit{i}.\textit{e}. measurement of promoter activity.
 
 \subsection{Promoter Architecture of \textit{Drosophila melanogaster}}
-Hoskins and colleagues \cite{Hoskins:2011io} performed CAGE in \textit{D. melanogaster}, identifying promoters at large-scale and characterizing the promoter architecture of an insect genome for the first time.
+Hoskins and colleagues \cite{Hoskins:2011io} performed CAGE in \textit{D. melanogaster} as part of the modENCODE consortium, identifying promoters at large-scale and characterizing the promoter architecture of an insect genome for the first time.
 Hoskins \cite{Hoskins:2011io} indicated that TSS distributions at \textit{Drosophila} promoters exhibit a range of shapes that can be generally grouped into two major classifications: \textit{peaked} and \textit{broad}. 
 Peaked promoters have a single, major TSS position occupying a narrow genomic region, whereas broad promoters lack a single, major TSS and contain TSSs across a wider region \cite{Rach:2009ct}\cite{Lenhard:2012en}. 
 The authors also showed a strong association between promoter class and motif composition (consistent with previous findings \cite{Rach:2009ct,Ni:2010jh}). 
-Peaked promoters were associated with positionally-enriched \textit{cis}-regulatory motifs including TATA, Inr and DPE, while broad promoters contained an enrichment of less-well characterized motifs, including \textit{Ohler6} and \textit{Ohler7} \cite{Ohler:2002vl}. 
-The existence of two promoter classes appears to be conserved among metazoans, and has been reported in insects, cladocerans \cite{Raborn:2016cr}, fish \cite{Nepal:2013bga} and mammals \cite{Carninci:2006in,Lenhard:2012en}.
+Peaked promoters were associated with positionally-enriched \textit{cis}-regulatory motifs including TATA, Initiator (Inr) and DPE, while broad promoters contained an enrichment of less-well characterized motifs, including \textit{Ohler6} and \textit{Ohler7} \cite{Ohler:2002vl}. 
+The existence of two promoter classes appears to be conserved among metazoans, and has been reported (using TSS profiling methodolgies) in insects, cladocerans \cite{Raborn:2016cr}, fish \cite{Nepal:2013bga} and mammals \cite{Carninci:2006in,Lenhard:2012en}.
 
 \subsection{Promoter Structure of Insects}
+Beyond \textit{D. melanogaster}, few investigations have utilized TSS profiling in insect genomes. 
+As a consequence, what is known about promoter architecture in insects is largely restricted to the \textit{Drosophila} genus. 
+As part of the modENCODE effort, CAGE was performed in multiple tissues and developmental stages of the \textit{Drosophila pseudoobscura}. 
+TSSs were found to be highly similar between species: more than 80\% of TSSs (81\%) of aligned, CAGE-identified TSSs from \textit{D. pseudoobscura} were positioned within 20nt of their counterparts in \textit{D. melanogaster}.
+An enrichment of the CA dinucleotide was detected at the TSS ([-1, +1]), and the motifs corresponding to TATA, Inr and DPE were positioned at the same locations relative to the TSS in both species.
+The one other insect species for which TSS profiling has been applied is the Tsetse fly (\textit{Glossina morsitans morsitans}) \cite{Mwangi:2015kn}. 
+Using TSS-seq (specifically Oligo-capping; for details on this method see \cite{Tsuchihara:2009dm}), the authors identified 3134 mapping to 1424 genes. 
+The authors found a preference for CA and AA dinucleotides at the TSS, and observe the major core promoter elements observed in \textit{Drosophila}: TATA, Inr, DPE, in addition to MTE (Motif Ten Element).
+As in \textit{D. melanogaster}, peaked promoters were more likely to contain TATA and Inr than broad promoters. 
+While the taxonomic sampling of species for TSS profiling has been limited, the existing studies are sufficient to provide a general picture of insect promoter architecture.
+A major demarcation between the promoter architecture of insects and mammals appears to be the large fraction of mammalian promoters found in CpG islands \cite{Mwangi:2015kn}.
+CpG island promoters (CPIs) form the largest class of promoter in mammals \cite{Cvetesic:2017hl}; by contrast, CPIs do not exist as a class in invertebrates.
 
 
 \subsection{Paired-end TSS Profiling with RAMPAGE}
