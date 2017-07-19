@@ -85,7 +85,7 @@ Application of Transcription Start Site (TSS) profiling technologies, coupled wi
 In insects, TSS profiling has been used to characterize the promoter architecture of \textit{D. melanogaster}, and, shortly thereafter, to reveal widespread transposon-driven alternative promoter usage. 
 
 In this chapter we highlight the utility of one TSS profiling method, RAMPAGE (RNA annotation and mapping of promoters for analysis of gene expression), for the precise, quantitative identification of promoters in insect genomes.
-We demonstrate this using our bioinformatics pipeline GoRAMPAGE, providing details instructions with the aim of taking the user from raw reads to processed results. 
+We demonstrate this using our tools GoRAMPAGE and TSRchitect, providing details instructions with the aim of taking the user from raw reads to processed results. 
 
 \keywords{\textit{cis}-regulatory regions, promoter architecture, transcription initiation, transcription start sites (TSSs)}
 \end{abstract}
@@ -124,12 +124,20 @@ The authors found a preference for CA and AA dinucleotides at the TSS, and obser
 As in \textit{D. melanogaster}, peaked promoters were more likely to contain TATA and Inr than broad promoters. 
 While the taxonomic sampling of species for TSS profiling has been limited, the existing studies are sufficient to provide a general picture of insect promoter architecture.
 A major demarcation between the promoter architecture of insects and mammals appears to be the large fraction of mammalian promoters found in CpG islands \cite{Mwangi:2015kn}.
-CpG island promoters (CPIs) form the largest class of promoter in mammals \cite{Cvetesic:2017hl}; by contrast, CPIs do not exist as a class in invertebrates.
+CpG island promoters (CPIs) form the largest class of promoter in mammals \cite{Cvetesic:2017hl}; by contrast, CPIs are not known to exist as a class in invertebrates.
 
 
 \subsection{Paired-end TSS Profiling with RAMPAGE}
-
-
+The most recent major methodological advance in TSS Profiling is RAMPAGE (RNA Annotation and Mapping of Promoters for the Analysis of Gene Expression)  . 
+RAMPAGE is a protocol for 5'-cDNA sequencing that combines cap trapping and template-switching with paired-end sequence information. 
+A key advantage of generating paired-end sequence is transcript connectivity, which provides a direct link between a given 5'-end and its associated mRNA molecule.
+Because short or spurious RNAs are found within the transcriptome, transcript connectivity allows the TSSs (and thus promoters) of full-length mRNAs to be unambiguously identified, which benefits genome annotation.
+Batut and colleagues generated libraries from total RNA isolated from 36 stages across the life cycle of \textit{D. melanogaster} providing a comprehensive gene expression and promoter atlas for fruit fly and in the process demonstrating the utility of RAMPAGE.
+RAMPAGE is currently being applied as part of the latest iteration of ENCODE to identify promoters in human, but as of this writing it has not been applied to any non-\textit{Drosophila} insect species. 
+In anticipation of the future application of TSS profiling into other insect model systems here we provide a documented protocol for the computational processing RAMPAGE data, using selected libraries from Batut \textit{et al.}. 
+This method will consist of two parts: first, we will process, filter and align the sequenced RAMPAGE libraries to the \textit{D. melanogaster} genome. 
+Second, we will identify TSSs and promoters from the aligned sequences and associate them with coding regions.
+In closing, we will consider further applications of this data and discuss the utility of reproducible workflows in bioinformatic analysis.
 
 %You are strongly encouraged to use \LaTeXe{} for the
 %preparation of your camera-ready manuscript together with the
@@ -138,6 +146,19 @@ CpG island promoters (CPIs) form the largest class of promoter in mammals \cite{
 %of your manuscript.
 
 \section{Materials}
+
+The analyses described herein require a workstation capable of modern bioinformatics computing. 
+Since installation of new packages will most likely be required, it will be necessary for the participant to have superuser privileges on the machine.
+An intermediate understanding of the Linux/Unix command line will be extremely useful, although we make efforts to explain the procedures with clarity.
+If you do not have a machine (or access to one) that meets these requirements, it is recommended that you consider cloud-based cyberinfrastructure, including Amazon Web Services (AWS; https://aws.amazon.com/) or CyVerse (http://www.cyverse.org/).
+The former is a well-known pay-per-use solution, while the latter is an NSF-funded resource that is made freely available to the public.
+
+\subsection{Hardware Requirements}
+\begin{itemize} 
+\item 8GB RAM
+\item 20-30GB hard disk storage
+\item 
+\end{itemize}
 
 \section{Methods}
 
