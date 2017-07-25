@@ -42,11 +42,6 @@
 \titlerunning{Identification of insect regulatory elements}
 
 % the name(s) of the author(s) follow(s) next
-%
-% NB: Chinese authors should write their first names(s) in front of
-% their surnames. This ensures that the names appear correctly in
-% the running heads and the author index.
-%
 \author[1,2]{R. Taylor Raborn\thanks{Correspondence: rtraborn@indiana.edu}}
 \author[1,2]{Volker P. Brendel}
 
@@ -188,9 +183,11 @@ Please install these packages as follows (as before, from an R console):
 
 \begin{lstlisting}
 source("https://bioconductor.org/biocLite.R")
-biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel", "ENCODExplorer", \
- "GenomicAlignments", "GenomeInfoDb", "GenomicRanges", "IRanges", "methods", \
- "Rsamtools", "rtracklayer", "S4Vectors", "SummarizedExperiment"))
+biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel",
+ "ENCODExplorer",  "GenomicAlignments", "GenomeInfoDb",
+ "GenomicRanges", "IRanges", "methods", 
+ "Rsamtools", "rtracklayer", "S4Vectors",
+ "SummarizedExperiment"))
 \end{lstlisting}
 
 To install \textit{TSRchitect}, please type the following from an R console:
