@@ -209,6 +209,27 @@ library(TSRchitect)
 To begin our analysis, we must download the RAMPAGE data to our workstation. 
 We will utilize tools provided by the SRA Toolkit, which should already be installed on your machine (see \textbf{Materials}).
 The command \textit{fastq-dump} allows one to directly retrieve data from the GEO database using the appropriate identifier(s).
+While there are 36 RAMPAGE libraries in the Batut \textit{et al.} dataset, we will select a subset of these to analyze here.
+We will compare samples from selected embryonic (E01h-E04h; E22h-E24h) tissues, representing the beginning and end of embryonic development.
+For more information about the experiment and the available RAMPAGE libraries, please see the following link: \url{https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP011193}
+
+First, let's proceed with the libraries from early embryonic tissues. 
+Note that since these fastq files are paired-end, we use the argument \textit{--split-files} to generate separate files for each read pair.
+
+\begin{lstlisting}
+fastq-dump --split-files SRR424683
+fastq-dump --split-files SRR424684
+fastq-dump --split-files SRR424685
+fastq-dump --split-files SRR424686
+\end{lstlisting}
+
+We continue with downloading the RAMPAGE libraries from late embryonic tissues:
+
+\begin{lstlisting}
+fastq-dump --split-files SRR424704
+fastq-dump --split-files SRR424705
+fastq-dump --split-files SRR424706
+\end{lstlisting}
 
 \section{Notes}
 
