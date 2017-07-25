@@ -172,22 +172,39 @@ The former is a well-known pay-per-use solution, while the latter is an NSF-fund
 \item TagDust (version 2.33)
 
 \subsection{Installation of R packages}
-For installation of the software listed above, please follow the instructions provided by each respective package. To install Bioconductor, please type the following from an R console: 
+For installation of the software listed above, please follow the instructions provided by each respective package. 
+Part of our analysis will require the use of R packages found in the Bioconductor suite.
+To install Bioconductor, please type the following from an R console: 
 
 \begin{lstlisting}
 source("https://bioconductor.org/biocLite.R")
 biocLite()
 \end{lstlisting}
 
-We will use the R package \textit{TSRchitect} to identify promoters from aligned RAMAPGE libraries. To install this, please type the following from an R console:
+We will use the R package \textit{TSRchitect} to identify promoters from aligned RAMAPGE libraries. 
+First, we will need to install a series of prerequisite packages to \textit{TSRchitect} from Bioconductor.
+Please install these packages as follows (as before, from an R console):
+
+
+\begin{lstlisting}
+source("https://bioconductor.org/biocLite.R")
+biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel", "ENCODExplorer", \
+ "GenomicAlignments", "GenomeInfoDb", "GenomicRanges", "IRanges", "methods", \
+ "Rsamtools", "rtracklayer", "S4Vectors", "SummarizedExperiment"))
+\end{lstlisting}
+
+To install \textit{TSRchitect}, please type the following from an R console:
 
 \begin{lstlisting}
 source("https://bioconductor.org/biocLite.R")
 biocLite("TSRchitect")
 \end{lstlisting}
 
+Finally, please confirm that TSRchitect has been installed correctly by loading it from your R console as follows:
 
-
+\begin{lstlisting}
+library(TSRchitect)
+\end{lstlisting}
 
 \section{Methods}
 
