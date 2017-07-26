@@ -210,26 +210,56 @@ To begin our analysis, we must download the RAMPAGE data to our workstation.
 We will utilize tools provided by the SRA Toolkit, which should already be installed on your machine (see \textbf{Materials}).
 The command \textit{fastq-dump} allows one to directly retrieve data from the GEO database using the appropriate identifier(s).
 While there are 36 RAMPAGE libraries in the Batut \textit{et al.} dataset, we will select a subset of these to analyze here.
-We will compare samples from selected embryonic (E01h-E04h; E22h-E24h) tissues, representing the beginning and end of embryonic development.
+We will compare samples from selected embryonic (E01h-E03h) and larval (L1-L3) tissues, representing the beginning and end of embryonic development.
 For more information about the experiment and the available RAMPAGE libraries, please see the following link: \url{https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP011193}
 
 First, let's proceed with the libraries from early embryonic tissues. 
 Note that since these fastq files are paired-end, we use the argument \textit{--split-files} to generate separate files for each read pair.
 
 \begin{lstlisting}
+mkdir fastq_files #creating a new folder to house the downloaded files
+cd fastq_files #moving into this directory
 fastq-dump --split-files SRR424683
 fastq-dump --split-files SRR424684
 fastq-dump --split-files SRR424685
-fastq-dump --split-files SRR424686
 \end{lstlisting}
 
-We continue with downloading the RAMPAGE libraries from late embryonic tissues:
+We continue by downloading the RAMPAGE libraries from late embryonic tissues:
 
 \begin{lstlisting}
-fastq-dump --split-files SRR424704
-fastq-dump --split-files SRR424705
-fastq-dump --split-files SRR424706
+fastq-dump --split-files SRR424707
+fastq-dump --split-files SRR424708
+fastq-dump --split-files SRR424709
+\end{lstlisting}  
+
+Once the download of the aforementioned files are complete, you should see a total of 12 (6x2) separate fastq files in your current working directory:
+
+\begin{lstlisting}
+ls -l *.fastq | wc -l
 \end{lstlisting}
+
+\subsection{Creating symlinks to the files}
+Our workflow expects fastq files that have the format ``*.R1/R2.fq". 
+Rather than rename them, we can simply create symbolic links to the files,
+as follows:
+
+\begin{lstlisting}
+mkdir symlinks
+ln -s SRR424683_1.fastq symlinks/E01h_R1.fq #embryonic libraries
+ln -s SRR424683_2.fastq symlinks/E01h_R2.fq
+ln -s SRR424684_1.fastq symlinks/E02h_R1.fq
+ln -s SRR424684_2.fastq symlinks/E02h_R2.fq
+ln -s SRR424685_1.fastq symlinks/E03h_R1.fq
+ln -s SRR424685_2.fastq symlinks/E03h_R2.fq
+
+ln -s SRR424707_1.fastq symlinks/L1_R1.fq #larval libraries
+ln -s SRR424707_2.fastq symlinks/L1_R2.fq
+ln -s SRR424708_1.fastq symlinks/L2_R1.fq
+ln -s SRR424708_2.fastq symlinks/L2_R2.fq
+ln -s SRR424709_1.fastq symlinks/L3_R1.fq
+ln -s SRR424709_1.fastq symlinks/L3_R2.fq
+\end{lstlisting}
+
 
 \section{Notes}
 
