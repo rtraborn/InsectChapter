@@ -262,6 +262,25 @@ ln -s SRR424709_2.fastq symlinks/L3_R2.fq
 
 \subsection{Downloading genomic data from \textit{D. melanogaster}}
 Now that we have the fastq files from the RAMPAGE libraries downloaded and named appropriately, we now must retrieve the genome assembly and rRNA sequences from \textit{D. melanogaster}.
+The genome assembly is required for aligning the RAMPAGE reads, and the rRNA sequences are required to filter out matching reads in the sequenced RAMPAGE libraries, since our sample is intended to contain only capped RNA transcripts. Please download the rRNA sequences from the link we provide below. These sequences were retrieved from Genbank at the NCBI database.
+
+Please download the assembly from the ENSEMBL database as follows:
+\begin{lstlisting}
+wget ftp://ftp.ensembl.org/pub/release-78/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz
+gzip -d Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz #uncompressing the file
+\end{lstlisting}
+
+The rRNA sequences are found at the following link:
+\url{https://iu.box.com/s/3a5lqbo58qlykhmqxw00h2uo9d996m2g}
+You should see a file entitled ``Dmel_rRNA.fasta" in your current directory.
+
+\begin{lstlisting}
+head -n 3
+>ref|NR_133562.1| Drosophila melanogaster 28S ribosomal RNA (28SrRNA:CR45844), rRNA
+TTATATACAACCTCAACTCATATGGGACTACCCCCTGAATTTAAGCATATTAATTAGGGGAGGAAAAGAA
+ACTAACAAGGATTTTCTTAGTAGCGGCGAGCGAAAAGAAAACAGTTCAGCACTAAGTCACTTTGTCTATA
+\end{lstlisting}
+
 
 \section{Notes}
 
