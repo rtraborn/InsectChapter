@@ -262,7 +262,9 @@ ln -s SRR424709_2.fastq symlinks/L3_R2.fq
 
 \subsection{Downloading genomic data from \textit{D. melanogaster}}
 Now that we have the fastq files from the RAMPAGE libraries downloaded and named appropriately, we now must retrieve the genome assembly and rRNA sequences from \textit{D. melanogaster}.
-The genome assembly is required for aligning the RAMPAGE reads, and the rRNA sequences are required to filter out matching reads in the sequenced RAMPAGE libraries, since our sample is intended to contain only capped RNA transcripts. Please download the rRNA sequences from the link we provide below. These sequences were retrieved from Genbank at the NCBI database.
+The genome assembly is required for aligning the RAMPAGE reads, and the rRNA sequences are required to filter out matching reads in the sequenced RAMPAGE libraries, since our sample is intended to contain only capped RNA transcripts. 
+Please download the rRNA sequences from the link we provide below. 
+These sequences were retrieved separately from Genbank at the NCBI database.
 
 Please download the assembly from the ENSEMBL database as follows:
 \begin{lstlisting}
@@ -272,13 +274,41 @@ gzip -d Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz #uncompressing the file
 
 The rRNA sequences are found at the following link:
 \url{https://iu.box.com/s/3a5lqbo58qlykhmqxw00h2uo9d996m2g}
-You should see a file entitled ``Dmel_rRNA.fasta" in your current directory.
+You should see a file entitled "Dmel_rRNA.fasta" in your current directory.
 
 \begin{lstlisting}
 head -n 3
 >ref|NR_133562.1| Drosophila melanogaster 28S ribosomal RNA (28SrRNA:CR45844), rRNA
 TTATATACAACCTCAACTCATATGGGACTACCCCCTGAATTTAAGCATATTAATTAGGGGAGGAAAAGAA
 ACTAACAAGGATTTTCTTAGTAGCGGCGAGCGAAAAGAAAACAGTTCAGCACTAAGTCACTTTGTCTATA
+\end{lstlisting}
+
+\subsection{Filtering and alignment of RAMPAGE reads using GoRAMPAGE}
+
+At this stage we are ready to commence with the rRNA filtering and alignment of the RAMPAGE libraries.
+We will use GoRAMPAGE, a tool we developed, to perform these tasks in a concerted workflow. 
+GoRAMPAGE runs TagDust \cite{Lassmann:2015gs} to remove rRNA and low-complexity reads, and uses STAR \cite{Dobin:2016kq} to align RAMPAGE (or other paired-end) reads to a given genome assembly.\\
+
+Before running GoRAMPAGE, please refer to the script "GoRAMPAGE_script_MMB.sh" and provide the appropriate paths to the genome assembly, symlinks (see above) and rRNA sequences. 
+It will also be necessary to select an appropriate output directory under "outputDir" for the results (or to create a new one).
+Once you've done this, you can start the GoRAMPAGE script as follows. 
+(Please note that if you are running this on a cluster with a job scheduler you'll need to add the necessary headers to the top of the script and submit the job in the appropriate manner.)
+
+\begin{lstlisting}
+./GoRAMPAGE_script_MMB.sh 
+\end{lstlisting}
+
+If everything is working correctly you should start to see the results of the job being written to the file "errScript".
+
+Here's a small snapshot:
+
+\begin{lstlisting}
+================================================================================
+GoRAMPAGE: Now running step 3 (read dusting) ...
+                                                                                                                                                                                                                     tagdust -ref /projects/rtraborn/genome_resources/Dm/rRNA/Dmel_rRNA.fasta -t 4 -dust 97 -fe 3 -1 R:N library1.R1.clipped.fq library1.R2.clipped.fq -o library1.dusted
+[2017-07-19 13:44:03]   Tagdust 2.33, Copyright (C) 2013 Timo Lassmann <timolassmann@gmail.com>
+[2017-07-19 13:44:03]   cmd: tagdust -ref /projects/rtraborn/genome_resources/Dm/rRNA/Dmel_rRNA.fasta -t 4 -dust 97 -fe 3 -1 R:N -o library1.dusted library1.R1.clipped.fq library1.R2.clipped.fq 
+│[2017-07-19 13:44:03]   Start Run
 \end{lstlisting}
 
 
