@@ -239,25 +239,24 @@ ls -l *.fastq | wc -l
 \end{lstlisting}
 
 \subsection{Creating symlinks to the files}
-Our workflow expects fastq files that have the format ``*.R1/R2.fq". 
-Rather than rename them, we can simply create symbolic links to the files,
-as follows:
+Our workflow expects fastq files that have the format ``*.R1/R2.clipped.fq". 
+Rather than rename them, we can simply create brand new symbolic links to the files, as follows:
 
 \begin{lstlisting}
 mkdir symlinks
-ln -s SRR424683_1.fastq symlinks/E01h_R1.fq #embryonic libraries
-ln -s SRR424683_2.fastq symlinks/E01h_R2.fq
-ln -s SRR424684_1.fastq symlinks/E02h_R1.fq
-ln -s SRR424684_2.fastq symlinks/E02h_R2.fq
-ln -s SRR424685_1.fastq symlinks/E03h_R1.fq
-ln -s SRR424685_2.fastq symlinks/E03h_R2.fq
+ln -s SRR424683_1.fastq symlinks/E01h.R1.clipped.fq #embryonic libraries
+ln -s SRR424683_2.fastq symlinks/E01h.R2.clipped.fq
+ln -s SRR424684_1.fastq symlinks/E02h.R1.clipped.fq
+ln -s SRR424684_2.fastq symlinks/E02h.R2.clipped.fq
+ln -s SRR424685_1.fastq symlinks/E03h.R1.clipped.fq
+ln -s SRR424685_2.fastq symlinks/E03h.R2.clipped.fq
 
-ln -s SRR424707_1.fastq symlinks/L1_R1.fq #larval libraries
-ln -s SRR424707_2.fastq symlinks/L1_R2.fq
-ln -s SRR424708_1.fastq symlinks/L2_R1.fq
-ln -s SRR424708_2.fastq symlinks/L2_R2.fq
-ln -s SRR424709_1.fastq symlinks/L3_R1.fq
-ln -s SRR424709_2.fastq symlinks/L3_R2.fq
+ln -s SRR424707_1.fastq symlinks/L1.R1.clipped.fq #larval libraries
+ln -s SRR424707_2.fastq symlinks/L1.R2.clipped.fq
+ln -s SRR424708_1.fastq symlinks/L2.R1.clipped.fq
+ln -s SRR424708_2.fastq symlinks/L2.R2.clipped.fq
+ln -s SRR424709_1.fastq symlinks/L3.R1.clipped.fq
+ln -s SRR424709_2.fastq symlinks/L3.R2.clipped.fq
 \end{lstlisting}
 
 \subsection{Downloading genomic data from \textit{D. melanogaster}}
@@ -289,28 +288,44 @@ At this stage we are ready to commence with the rRNA filtering and alignment of 
 We will use GoRAMPAGE, a tool we developed, to perform these tasks in a concerted workflow. 
 GoRAMPAGE runs TagDust \cite{Lassmann:2015gs} to remove rRNA and low-complexity reads, and uses STAR \cite{Dobin:2016kq} to align RAMPAGE (or other paired-end) reads to a given genome assembly.\\
 
-Before running GoRAMPAGE, please refer to the script "GoRAMPAGE_script_MMB.sh" and provide the appropriate paths to the genome assembly, symlinks (see above) and rRNA sequences. 
-It will also be necessary to select an appropriate output directory under "outputDir" for the results (or to create a new one).
-Once you've done this, you can start the GoRAMPAGE script as follows. 
-(Please note that if you are running this on a cluster with a job scheduler you'll need to add the necessary headers to the top of the script and submit the job in the appropriate manner.)
+\subsubsection{Preparing the output directory}
+
+It will also be necessary to create an output directory under "outputDir" for the results.
+GoRAMPAGE expects the results of a given step to be in place prior to initiating a run, so we'll need to create the appropriate folders before proceeding.
+Please do this as follows:
+\begin{lstlisting}
+mkdir output #omit if you already have an output directory selected
+mkdir output/reads
+mkdir output/reads/clipped
+\end{lstlisting}
+
+\subsubsection{Setting up the GoRAMPAGE job}
+
+Now, once this is complete, please copy the contents of the "symlinks" directory that you created earlier (\textit{i.e.} all of the *.fq files) into the "clipped/" directory.
+Please refer to the script "GoRAMPAGE_script_MMB.sh" and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences. 
+Note that if you are running this on a cluster with a job scheduler you'll need to add the necessary headers to the top of the script and submit the job in the appropriate manner.
+The script can be executed as follows:
 
 \begin{lstlisting}
 ./GoRAMPAGE_script_MMB.sh 
 \end{lstlisting}
 
 If everything is working correctly you should start to see the results of the job being written to the file "errScript".
-
-Here's a small snapshot:
+You can inspect the progress during the run using the "less" command. 
 
 \begin{lstlisting}
-================================================================================
-GoRAMPAGE: Now running step 3 (read dusting) ...
-                                                                                                                                                                                                                     tagdust -ref /projects/rtraborn/genome_resources/Dm/rRNA/Dmel_rRNA.fasta -t 4 -dust 97 -fe 3 -1 R:N library1.R1.clipped.fq library1.R2.clipped.fq -o library1.dusted
-[2017-07-19 13:44:03]   Tagdust 2.33, Copyright (C) 2013 Timo Lassmann <timolassmann@gmail.com>
-[2017-07-19 13:44:03]   cmd: tagdust -ref /projects/rtraborn/genome_resources/Dm/rRNA/Dmel_rRNA.fasta -t 4 -dust 97 -fe 3 -1 R:N -o library1.dusted library1.R1.clipped.fq library1.R2.clipped.fq 
-│[2017-07-19 13:44:03]   Start Run
+less -S errScript
 \end{lstlisting}
 
+Should the run fail before completion, any associated error messages will be printed to the errScript file. Once the job is complete, you should see the message "GoRAMPAGE job is complete!" appear on the command-line terminal.
+
+\subsubsection{Inspecting the rRNA filtering results}
+
+To evaluate the results from Step 3 (rRNA filtering), please navigate to the top level of the "output" directory and open the file "LOGFILES".
+
+You'll see the recorded progress of the program Tagdust and the outcome.
+
+Overall, for the L3h library, 1046448 of reads (78.1\%) were successfully extracted, meaning that slightly more than 20\% of reads were removed because of matches with ribosomal sequences. The removed reads from all libraries are found in the "dusted_discard" directory, and the extracted reads are found in the current directory.
 
 \section{Notes}
 
