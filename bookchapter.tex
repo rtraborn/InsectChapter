@@ -344,7 +344,7 @@ You'll see the recorded progress of the program Tagdust and a record of the resu
 We notice that (for the L3h library) 1046448 of reads (78.1\%) were "extracted", meaning that slightly more than 20\% of reads were removed because of matches with ribosomal sequences.
 The removed reads from all libraries are found in the \texttt{"dusted\_discard"} directory, and the extracted reads are found in the current directory. 
 Due to their sheer abundance within cells, ribosomal RNA sequences are an inevitable contaminant within TSS profiling libraries. 
-For analysis purposes, it is important that these sequences be removed, which is what we have done here.\\
+For analysis purposes, it is important that these sequences be removed, which is what has been completed here.\\
 Confident that this step was conducted successfully, we can proceed to the next step.
 
 \subsubsection{Evaluating the alignments}
@@ -355,9 +355,24 @@ Typing "ls -l" from the command line will show that these files are symlinks to 
 The files with the suffix "*.STAR.Log.final.out" each contain a summary of the alignment, such as the number of input reads, the percentage of uniquely-mapped reads and the percentage of unmapped reads.
 An inspection of these log files indicates that the alignments have similar mapping rates (~70-80\%), a reasonable outcome for our purposes.\\
 
-Now that our RAMPAGE libraries are filtered and aligned, we can commence with the second half of our analysis, which is identifying TSSs and promoters from RAMPAGE libraries.
+Now that our RAMPAGE libraries are filtered and aligned, we can commence with the second half of our analysis.
 
 \subsection{Promoter identification from aligned RAMPAGE libraries}
+
+We can now use the prepared alignment files to identify TSSs and promoters from the selected RAMPAGE libraries.
+There are currently several tools available for this purpose.
+\textit{CAGEr}, developed by Haberle \cite{Haberle:6TVSLN3N}, was utilized to perform TSS identification as part of the FANTOM5 efforts.
+We will use \textit{TSRchitect} in this demonstration, since it was specifically designed to analyze paired-end TSS profiling datasets, and also because it is more flexible with respect to model system (\textit{i.e.} it does not require a corresponding \textit{BSGenome} package).
+The latter feature will be helpful when analyzing the non-\textit{D. melanagaster} TSS profiling datasets that we expect to be generated in the near future.
+
+\subsubsection{Setting up the Analysis}
+\textit{TSRchitect}, the package we'll use for this analysis, is an R package available in the Bioconductor suite of genomics tools \cite{Lawrence:2014gy}.
+It makes use of existing packages and data structures within this environment, where available, to identify promoters from sequence alignments.
+Since you have already installed \textit{TSRchitect} and its dependencies (see section 2.3), we are set to proceed.
+There are two general ways one can choose to run \textit{TSRchitect}. 
+The first is interactively \textit{i.e.} typing the instructions directly into an R console.
+While this is certainly an acceptable way to run this package, but for larger jobs, it will likely be more efficient to run a dedicated R script.
+We have provided a sample script \texttt{"MMB\_chapter\_TSRchitect.R"} to make it easier for you to use this latter approach.
 
 
 \section{Notes}
