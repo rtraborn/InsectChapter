@@ -24,6 +24,7 @@
 \usepackage{authblk}
 \usepackage{lineno}
 \usepackage{listings}
+\usepackage[T1]{fontenc}
 
 %\urldef{\mailsa}\path|{rtraborn, |
 %\urldef{\mailsb}\path|vbrendel}@indiana.edu|    
@@ -268,7 +269,8 @@ These sequences were retrieved separately from Genbank at the NCBI database.
 Please download the assembly from the ENSEMBL database as follows:
 \begin{lstlisting}
 wget ftp://ftp.ensembl.org/pub/release-78/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz
-gzip -d Drosophila\_melanogaster.BDGP5.dna.toplevel.fa.gz #uncompressing the file
+#uncompressing the file
+gzip -d \texttt{Drosophila\_melanogaster.BDGP5.dna.toplevel.fa.gz}
 \end{lstlisting}
 
 The rRNA sequences are found at the following link:
@@ -277,7 +279,7 @@ You should see a file entitled "Dmel\_rRNA.fasta" in your current directory.
 
 \begin{lstlisting}
 head -n 3
->ref|NR\_133562.1| Drosophila melanogaster 28S ribosomal RNA (28SrRNA:CR45844), rRNA
+>ref|\texttt{NR\_133562.1}| Drosophila melanogaster 28S ribosomal RNA (28SrRNA:CR45844), rRNA
 TTATATACAACCTCAACTCATATGGGACTACCCCCTGAATTTAAGCATATTAATTAGGGGAGGAAAAGAA
 ACTAACAAGGATTTTCTTAGTAGCGGCGAGCGAAAAGAAAACAGTTCAGCACTAAGTCACTTTGTCTATA
 \end{lstlisting}
@@ -302,12 +304,13 @@ mkdir output/reads/clipped
 \subsubsection{Setting up the GoRAMPAGE job}
 
 Now, once this is complete, please copy the contents of the "symlinks" directory that you created earlier (\textit{i.e.} all of the *.fq files) into the "clipped/" directory.
-Please refer to the script "GoRAMPAGE\_script\_MMB.sh" and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences. 
+Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences. 
 Note that if you are running this on a cluster with a job scheduler you'll need to add the necessary headers to the top of the script and submit the job in the appropriate manner.
 The script can be executed as follows:
 
 \begin{lstlisting}
-./GoRAMPAGE\_script\_MMB.sh #alternatively 'sh GoRAMPAGE\_script\_MMB.sh'
+\texttt{./GoRAMPAGE\_script\_MMB.sh}
+#alternatively 'sh \texttt{GoRAMPAGE\_script\_MMB.sh'}
 \end{lstlisting}
 
 If everything is working correctly you should start to see the results of the job being written to the file "errScript".
@@ -324,7 +327,7 @@ Should the run fail before completion, any associated error messages will be pri
 To evaluate the results from Step 3 (rRNA filtering), please navigate to the top level of the "output" directory and open the file "LOGFILES".
 You'll see the recorded progress of the program Tagdust and a record of the results.
 We notice that (for the L3h library) 1046448 of reads (78.1\%) were "extracted", meaning that slightly more than 20\% of reads were removed because of matches with ribosomal sequences.
-The removed reads from all libraries are found in the "dusted\_discard" directory, and the extracted reads are found in the current directory. 
+The removed reads from all libraries are found in the \texttt{"dusted\_discard"} directory, and the extracted reads are found in the current directory. 
 Due to their sheer abundance within cells, ribosomal RNA sequences are an inevitable contaminant within TSS profiling libraries. 
 For analysis purposes, it is important that these sequences be removed, which is what we have done here.\\
 Confident that this step was conducted successfully, we can proceed to the next step.
