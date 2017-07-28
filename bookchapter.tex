@@ -172,6 +172,7 @@ For installation of the software listed above, please follow the instructions pr
 Part of our analysis will require the use of R packages found in the Bioconductor suite.
 To install Bioconductor, please type the following from an R console: 
 
+\noindent
 \begin{lstlisting}
 source("https://bioconductor.org/biocLite.R")
 biocLite()
@@ -181,6 +182,7 @@ We will use the R package \textit{TSRchitect} to identify promoters from aligned
 First, we will need to install a series of prerequisite packages to \textit{TSRchitect} from Bioconductor.
 Please install these packages as follows (as before, from an R console):
 
+\noindent
 \begin{lstlisting}
 source("https://bioconductor.org/biocLite.R")
 biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel",
@@ -192,6 +194,7 @@ biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel",
 
 To install \textit{TSRchitect}, please type the following from an R console:
 
+\indent
 \begin{lstlisting}
 source("https://bioconductor.org/biocLite.R")
 biocLite("TSRchitect")
@@ -199,6 +202,7 @@ biocLite("TSRchitect")
 
 Finally, please confirm that TSRchitect has been installed correctly by loading it from your R console as follows:
 
+\indent
 \begin{lstlisting}
 library(TSRchitect)
 \end{lstlisting}
@@ -217,6 +221,7 @@ For more information about the experiment and the available RAMPAGE libraries, p
 First, let's proceed with the libraries from early embryonic tissues. 
 Note that since these fastq files are paired-end, we use the argument \textit{--split-files} to generate separate files for each read pair.
 
+\noindent
 \begin{lstlisting}
 mkdir fastq_files #creating a new folder to house the downloaded files
 cd fastq_files #moving into this directory
@@ -227,6 +232,7 @@ fastq-dump --split-files SRR424685
 
 We continue by downloading the RAMPAGE libraries from late embryonic tissues:
 
+\noindent
 \begin{lstlisting}
 fastq-dump --split-files SRR424707
 fastq-dump --split-files SRR424708
@@ -235,6 +241,7 @@ fastq-dump --split-files SRR424709
 
 Once the download of the aforementioned files are complete, you should see a total of 12 (6x2) separate fastq files in your current working directory:
 
+\noindent
 \begin{lstlisting}
 ls -l *.fastq | wc -l
 \end{lstlisting}
@@ -243,6 +250,7 @@ ls -l *.fastq | wc -l
 Our workflow expects fastq files that have the format ``*.R1/R2.clipped.fq". 
 Rather than rename them, we can simply create brand new symbolic links to the files, as follows:
 
+\noindent
 \begin{lstlisting}
 mkdir symlinks
 ln -s SRR424683_1.fastq symlinks/E01h.R1.clipped.fq #embryonic libraries
@@ -267,6 +275,8 @@ Please download the rRNA sequences from the link we provide below.
 These sequences were retrieved separately from Genbank at the NCBI database.
 
 Please download the assembly from the ENSEMBL database as follows:
+
+\noindent
 \begin{lstlisting}
 wget ftp://ftp.ensembl.org/pub/release-78/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz
 #uncompressing the file
@@ -277,6 +287,7 @@ The rRNA sequences are found at the following link:
 \url{https://iu.box.com/s/3a5lqbo58qlykhmqxw00h2uo9d996m2g}
 You should see a file entitled \texttt{"Dmel\_rRNA.fasta"} in your current directory.
 
+\noindent
 \begin{lstlisting}
 head -n 3
 >ref|NR_133562.1| Drosophila melanogaster 28S ribosomal RNA (28SrRNA:CR45844), rRNA
@@ -295,6 +306,8 @@ GoRAMPAGE runs TagDust \cite{Lassmann:2015gs} to remove rRNA and low-complexity 
 It will also be necessary to create an output directory under "outputDir" for the results.
 GoRAMPAGE expects the results of a given step to be in place prior to initiating a run, so we'll need to create the appropriate folders before proceeding.
 Please do this as follows:
+
+\noindent
 \begin{lstlisting}
 mkdir output #omit if you already have an output directory selected
 mkdir output/reads
@@ -308,6 +321,7 @@ Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a tex
 Note that if you are running this on a cluster with a job scheduler you'll need to add the necessary headers to the top of the script and submit the job in the appropriate manner.
 The script can be executed as follows:
 
+\noindent
 \begin{lstlisting}
 \texttt{./GoRAMPAGE_script_MMB.sh}
 #alternatively 'sh GoRAMPAGE_script_MMB.sh'}
@@ -316,6 +330,7 @@ The script can be executed as follows:
 If everything is working correctly you should start to see the results of the job being written to the file "errScript".
 You can inspect the progress during the run using the \textit{less} command. 
 
+\noindent
 \begin{lstlisting}
 less -S errScript
 \end{lstlisting}
@@ -490,11 +505,6 @@ thoroughly when you receive the final pdf of your paper.
 The reference section must be complete. You may not omit references.
 Instructions as to where to find a fuller version of the references are
 not permissible.
-
-We only accept references written using the latin alphabet. If the title
-of the book you are referring to is in Russian or Chinese, then please write
-(in Russian) or (in Chinese) at the end of the transcript or translation
-of the title.
 
 The following section shows a sample reference list with entries for
 journal articles \cite{jour}, an LNCS chapter \cite{lncschap}, a book
