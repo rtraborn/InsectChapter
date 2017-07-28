@@ -270,16 +270,16 @@ Please download the assembly from the ENSEMBL database as follows:
 \begin{lstlisting}
 wget ftp://ftp.ensembl.org/pub/release-78/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz
 #uncompressing the file
-gzip -d \texttt{Drosophila\_melanogaster.BDGP5.dna.toplevel.fa.gz}
+gzip -d Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz}
 \end{lstlisting}
 
 The rRNA sequences are found at the following link:
 \url{https://iu.box.com/s/3a5lqbo58qlykhmqxw00h2uo9d996m2g}
-You should see a file entitled "Dmel\_rRNA.fasta" in your current directory.
+You should see a file entitled \texttt{"Dmel\_rRNA.fasta"} in your current directory.
 
 \begin{lstlisting}
 head -n 3
->ref|\texttt{NR\_133562.1}| Drosophila melanogaster 28S ribosomal RNA (28SrRNA:CR45844), rRNA
+>ref|NR_133562.1| Drosophila melanogaster 28S ribosomal RNA (28SrRNA:CR45844), rRNA
 TTATATACAACCTCAACTCATATGGGACTACCCCCTGAATTTAAGCATATTAATTAGGGGAGGAAAAGAA
 ACTAACAAGGATTTTCTTAGTAGCGGCGAGCGAAAAGAAAACAGTTCAGCACTAAGTCACTTTGTCTATA
 \end{lstlisting}
@@ -309,8 +309,8 @@ Note that if you are running this on a cluster with a job scheduler you'll need 
 The script can be executed as follows:
 
 \begin{lstlisting}
-\texttt{./GoRAMPAGE\_script\_MMB.sh}
-#alternatively 'sh \texttt{GoRAMPAGE\_script\_MMB.sh'}
+\texttt{./GoRAMPAGE_script_MMB.sh}
+#alternatively 'sh GoRAMPAGE_script_MMB.sh'}
 \end{lstlisting}
 
 If everything is working correctly you should start to see the results of the job being written to the file "errScript".
