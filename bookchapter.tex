@@ -368,12 +368,25 @@ The latter feature will be helpful when analyzing the non-\textit{D. melanagaste
 \subsubsection{Setting up the Analysis}
 \textit{TSRchitect}, the package we'll use for this analysis, is an R package available in the Bioconductor suite of genomics tools \cite{Lawrence:2014gy}.
 It makes use of existing packages and data structures within this environment, where available, to identify promoters from sequence alignments.
-Since you have already installed \textit{TSRchitect} and its dependencies (see section 2.3), we are set to proceed.
+Since you have already installed \textit{TSRchitect} and its dependencies (see section 2.3), we are set to proceed. \\
 There are two general ways one can choose to run \textit{TSRchitect}. 
 The first is interactively \textit{i.e.} typing the instructions directly into an R console.
-While this is certainly an acceptable way to run this package, but for larger jobs, it will likely be more efficient to run a dedicated R script.
-We have provided a sample script \texttt{"MMB\_chapter\_TSRchitect.R"} to make it easier for you to use this latter approach.
+While this is certainly an acceptable way to run this package, for larger jobs it will likely be more efficient to run a dedicated R script.
+We have provided a sample script \texttt{"MMB\_chapter\_TSRchitect.R"} to make it easier for you to set up an R script. 
+In the section to follow, we will go through the output of the analysis. 
+For further details on how to use \textit{TSRchitect}, please see its documentation at its Bioconductor page here \url{https://www.bioconductor.org/packages/release/bioc/html/TSRchitect.html}  \\
 
+To run TSRchitect using the batch script provided, first provide full paths for "BAMDIR" and "DmAnnot" in \texttt{"MMB\_chapter\_TSRchitect.R"} using a text editor. 
+\textit{BAMDIR} should be a path to the subdirectory "alignments/" in RAMPAGE output directory you specified earlier, and \textit{DmAnnot} should be a full path to the \textit{D. melanogaster} gene annotation listed above.
+Once this is complete, we can run the batch script from the Linux command-line as follows:
+
+\noindent
+\begin{lstlisting}
+R CMD BATCH MMB_chapter_TSRchitect.R #assumes variables BAMDIR and DmAnnot have already been set
+bg #puts the job in the background
+\end{lstlisting}
+
+Once the job is underway, you can monitor its progress by looking at the contents of the .Rout file (in this case,  \texttt{"MMB\_chapter\_TSRchitect.Rout"}).
 
 \section{Notes}
 
@@ -495,12 +508,6 @@ square brackets and consecutive numbers: \cite{jour}, \cite{lncschap},
 \cite{proceeding1} -- provided automatically
 by \LaTeX 's \verb|\cite| \dots\verb|\bibitem| mechanism.
 
-\subsection{Page Numbering and Running Heads}
-
-There is no need to include page numbers. If your paper title is too
-long to serve as a running head, it will be shortened. Your suggestion
-as to how to shorten it would be most welcome.
-
 \section{References}\label{references}
 
 \newpage
@@ -508,25 +515,6 @@ as to how to shorten it would be most welcome.
 % if your bibliography is in bibtex format, use those commands:
 \bibliographystyle{IEEEtran} % Bibliography style file
 \bibliography{RAMPAGE_chapter}      % Bibliography file
-
-In order to permit cross referencing within LNCS-Online, and eventually
-between different publishers and their online databases, LNCS will,
-from now on, be standardizing the format of the references. This new
-feature will increase the visibility of publications and facilitate
-academic research considerably. Please base your references on the
-examples below. References that don't adhere to this style will be
-reformatted by Springer. You should therefore check your references
-thoroughly when you receive the final pdf of your paper.
-The reference section must be complete. You may not omit references.
-Instructions as to where to find a fuller version of the references are
-not permissible.
-
-The following section shows a sample reference list with entries for
-journal articles \cite{jour}, an LNCS chapter \cite{lncschap}, a book
-\cite{book}, proceedings without editors \cite{proceeding1} and
-\cite{proceeding2}, as well as a URL \cite{url}.
-Please note that proceedings published in LNCS are not cited with their
-full titles, but with their acronyms!
 
 \section{Checklist of Items to be Sent to Volume Editors}
 Here is a checklist of everything the volume editor requires from you:
