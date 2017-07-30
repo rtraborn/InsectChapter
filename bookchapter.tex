@@ -37,7 +37,7 @@
 \mainmatter  % start of an individual contribution
 
 % first the title is needed
-\title{Using RAMPAGE to identify and annotate regulatory elements in insect genomes}
+\title{Using RAMPAGE to identify and annotate promoters in insect genomes}
 
 % a short form should be given in case it is too long for the running head
 \titlerunning{Identification of insect regulatory elements}
@@ -92,11 +92,11 @@ We demonstrate this using our tools GoRAMPAGE and TSRchitect, providing details 
 
 \subsection{TSS Profiling Identifies Promoters at Genome-Scale}
 The promoter, defined in eukaryotes as the genomic region bound by RNA Polymerase II immediately prior to transcription initiation \cite{Kadonaga:2011gz}, is the site where regulatory signals unite to direct gene expression.
-The identification of promoter regions is a valuable step for understanding the \textit{cis}-regulatory signals that are present in an organism, and is important for genome annotation.
+The identification of promoter regions is a valuable step for understanding the \textit{cis}-regulatory signals that are present in an organism, and is also important for genome annotation.
 However, despite the rapid accumulation of genome sequences across metazoan and arthropod diversity, accurate annotation of promoter regions remains sparse. 
 This is because---empirical mapping of TSSs---precisely identifying sequence motifs that demarcate the promoter is unreliable.
 In contrast with current \textit{in silico} approaches, direct mapping of TSSs identifies the location of the core promoter.
-Cap Analysis of Gene Expression (CAGE) \cite{Kodzius:2006gy}, one of the first methods devised to identify 5`-ends of mRNAs at large-scale, involves selective capture of 5`-capped transcripts, first-strand reverse-transcription and ligation of a short oligonucleotide (CAGE tag). 
+Cap Analysis of Gene Expression (CAGE) \cite{Kodzius:2006gy}, one of the first methods devised to identify 5`-ends of mRNAs at large-scale, involves selective capture of 5`-capped transcripts, first-strand reverse-transcription and ligation of a short oligonucleotide (CAGE tag). \\
 CAGE was initially utilized by the FANTOM (Functional Annotation of the Mammalian Genome) consortium to identify promoter architecture in human and mouse \cite{Carninci:2005kp}, providing the first glimpse of the global landscape of transcription initiation.
 At the onset of the NGS era, CAGE was coupled with massively-parallel sequencing to generate 5`-ends of mRNAs at substantially higher scale. 
 This advance provided more extensive coverage of the expressed transcriptome, and provided increased sensitivity for quantitative measurements \textit{i}.\textit{e}. measurement of promoter activity.
@@ -371,12 +371,13 @@ It makes use of existing packages and data structures within this environment, w
 Since you have already installed \textit{TSRchitect} and its dependencies (see section 2.3), we are set to proceed. \\
 There are two general ways one can choose to run \textit{TSRchitect}. 
 The first is interactively \textit{i.e.} typing the instructions directly into an R console.
-While this is certainly an acceptable way to run this package, for larger jobs it will likely be more efficient to run a dedicated R script.
+While this is a perfectly acceptable way to run analyses using package, for larger jobs it will likely be more efficient (and likely more reproducible) to run a dedicated R script.
 We have provided a sample script \texttt{"MMB\_chapter\_TSRchitect.R"} to make it easier for you to set up an R script. 
 In the section to follow, we will go through the output of the analysis. 
-For further details on how to use \textit{TSRchitect}, please see its documentation at its Bioconductor page here \url{https://www.bioconductor.org/packages/release/bioc/html/TSRchitect.html}  \\
+For further details on how to use \textit{TSRchitect}, please see its documentation at its Bioconductor page found here \url{https://www.bioconductor.org/packages/release/bioc/html/TSRchitect.html}.  \\
 
-To run TSRchitect using the batch script provided, first provide full paths for "BAMDIR" and "DmAnnot" in \texttt{"MMB\_chapter\_TSRchitect.R"} using a text editor. 
+\subsubsection{Running the Analysis}
+To run TSRchitect using the batch script provided, first provide full paths for the variables "BAMDIR" and "DmAnnot" in \texttt{"MMB\_chapter\_TSRchitect.R"} using a text editor. 
 \textit{BAMDIR} should be a path to the subdirectory "alignments/" in RAMPAGE output directory you specified earlier, and \textit{DmAnnot} should be a full path to the \textit{D. melanogaster} gene annotation listed above.
 Once this is complete, we can run the batch script from the Linux command-line as follows:
 
@@ -386,7 +387,58 @@ R CMD BATCH MMB_chapter_TSRchitect.R #assumes variables BAMDIR and DmAnnot have 
 bg #puts the job in the background
 \end{lstlisting}
 
-Once the job is underway, you can monitor its progress by looking at the contents of the .Rout file (in this case,  \texttt{"MMB\_chapter\_TSRchitect.Rout"}).
+Once the job is underway, you can monitor its progress by looking at the contents of the .Rout file (in this case, \texttt{"MMB\_chapter\_TSRchitect.Rout"}). 
+The job should complete within an hour on most systems. \\
+
+Before we evaluate the results (which will have been written to your working directory after running the batch script), there are some important parameters to review. 
+First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately. \\
+
+Note that since the samples provided derive from distinct developmental stages, they are not identified as biological replicates (using the argument \textit{replicateIDs}). 
+The input in this case are BAM files (\textit{inputType}="bam"); \textit{TSRchitect} also accepts input in BED format.
+
+\noindent
+\begin{lstlisting}
+DmRAMPAGE <- loadTSSobj(experimentTitle = "RAMPAGE Tutorial", \
+ inputDir=BAMDIR, inputType="bam", isPairedEnd=TRUE, \
+ sampleNames=c("E1h","E2h", "E3h", "L1", "L2", "L3"), \
+ replicateIDs=c(1,2,3,4,5,6))
+\end{lstlisting}
+
+A critical step in our analysis is identifying TSRs from the aligned TSS data; to do this we use the function \textit{determineTSR}. 
+We have selected the job to run on 4 cores in this example (\textit{n.cores}=4). 
+Because we want to identify TSRs from every one of the selected RAMPAGE libraries, we specify \textit{tssSet}="all".
+The parameter \textit{tagCountThreshold} was set to 25, meaning that only TSSs supported by 25 or more 5' RAMPAGE reads will be included within a TSR.
+Setting \textit{writeTable} to "TRUE" means that the identified TSRs from each set will be written to the working directory. 
+
+\noindent
+\begin{lstlisting}
+DmRAMPAGE <- determineTSR(experimentName=DmRAMPAGE, n.cores=4, tsrSetType="replicates", \
+tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
+\end{lstlisting}
+
+\textit{TSRchitect} can incorporate the tag abundances from each of the samples and append them to the list of identified TSRs. 
+This is useful for downstream analysis of differential expression.
+
+\noindent
+\begin{lstlisting}
+DmRAMPAGE <- addTagCountsToTSR(experimentName=DmRAMPAGE, tsrSetType="replicates", \
+ tsrSet=1, tagCountThreshold=10, writeTable=TRUE)
+\end{lstlisting}
+
+We can use \textit{TSRchitect} to import an annotation file (or, alternatively, use an existing one from \textit{AnnotationHub}) and use it to associate our set of identified TSRs with coding genes. 
+We can specify the maximum distances (both up- and downstream) between the TSR and the annotation using the arguments \textit{upstreamDist} and \textit{downstreamDist}.
+
+\noindent
+\begin{lstlisting}
+DmRAMPAGE <- importAnnotationExternal(experimentName=DmRAMPAGE, fileType="gff3", \
+ annotFile=DmAnnot)
+
+DmRAMPAGE <- addAnnotationToTSR(experimentName=DmRAMPAGE, tsrSetType="replicates", tsrSet=1, \
+upstreamDist=1000, downstreamDist=200, feature="gene", featureColumnID="ID", writeTable=TRUE)
+\end{lstlisting}
+
+\subsubsection{Evaluating the results}
+
 
 \section{Notes}
 
@@ -465,52 +517,11 @@ normal text area, with a line of about 2~cm set
 immediately above them.\footnote{The footnote numeral is set flush left
 and the text follows with the usual word spacing.}
 
-\subsection{Program Code}
-
-Program listings or program commands in the text are normally set in
-typewriter font, e.g., CMTT10 or Courier.
-
 \medskip
 
-\noindent
-{\it Example of a Computer Program}
-\begin{verbatim}
-program Inflation (Output)
-  {Assuming annual inflation rates of 7%, 8%, and 10%,...
-   years};
-   const
-     MaxYears = 10;
-   var
-     Year: 0..MaxYears;
-     Factor1, Factor2, Factor3: Real;
-   begin
-     Year := 0;
-     Factor1 := 1.0; Factor2 := 1.0; Factor3 := 1.0;
-     WriteLn('Year  7% 8% 10%'); WriteLn;
-     repeat
-       Year := Year + 1;
-       Factor1 := Factor1 * 1.07;
-       Factor2 := Factor2 * 1.08;
-       Factor3 := Factor3 * 1.10;
-       WriteLn(Year:5,Factor1:7:3,Factor2:7:3,Factor3:7:3)
-     until Year = MaxYears
-end.
-\end{verbatim}
-%
-\noindent
-{\small (Example from Jensen K., Wirth N. (1991) Pascal user manual and
-report. Springer, New York)}
-
-\subsection{Citations}
-
-For citations in the text please use
-square brackets and consecutive numbers: \cite{jour}, \cite{lncschap},
-\cite{proceeding1} -- provided automatically
-by \LaTeX 's \verb|\cite| \dots\verb|\bibitem| mechanism.
+\newpage
 
 \section{References}\label{references}
-
-\newpage
 
 % if your bibliography is in bibtex format, use those commands:
 \bibliographystyle{IEEEtran} % Bibliography style file
