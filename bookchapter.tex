@@ -393,7 +393,7 @@ The job should complete within an hour on most systems. \\
 Before we evaluate the results (which will have been written to your working directory after running the batch script), there are some important parameters to review. 
 First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately. \\
 
-Note that since the samples provided derive from distinct developmental stages, they are not identified as biological replicates (using the argument \textit{replicateIDs}). 
+Note that since the samples provided derive from related developmental stages, we will merge them for annotation purposes using the argument \textit{replicateIDs}, (though they emphaize that they are not replicates).
 The input in this case are BAM files (\textit{inputType}="bam"); \textit{TSRchitect} also accepts input in BED format.
 
 \noindent
@@ -401,11 +401,12 @@ The input in this case are BAM files (\textit{inputType}="bam"); \textit{TSRchit
 DmRAMPAGE <- loadTSSobj(experimentTitle = "RAMPAGE Tutorial", \
  inputDir=BAMDIR, inputType="bam", isPairedEnd=TRUE, \
  sampleNames=c("E1h","E2h", "E3h", "L1", "L2", "L3"), \
- replicateIDs=c(1,2,3,4,5,6))
+ replicateIDs=c(1,1,1,2,2,2))
 \end{lstlisting}
 
 A critical step in our analysis is identifying TSRs from the aligned TSS data; to do this we use the function \textit{determineTSR}. 
 We have selected the job to run on 4 cores in this example (\textit{n.cores}=4). 
+Please enter the number of cores appropriate for your system.
 Because we want to identify TSRs from every one of the selected RAMPAGE libraries, we specify \textit{tssSet}="all".
 The parameter \textit{tagCountThreshold} was set to 25, meaning that only TSSs supported by 25 or more 5' RAMPAGE reads will be included within a TSR.
 Setting \textit{writeTable} to "TRUE" means that the identified TSRs from each set will be written to the working directory. 
@@ -421,8 +422,9 @@ This is useful for downstream analysis of differential expression.
 
 \noindent
 \begin{lstlisting}
-DmRAMPAGE <- addTagCountsToTSR(experimentName=DmRAMPAGE, tsrSetType="replicates", \
- tsrSet=1, tagCountThreshold=10, writeTable=TRUE)
+DmRAMPAGE <- addTagCountsToTSR(experimentName=DmRAMPAGE, 
+tsrSetType="replicates",  tsrSet=1, tagCountThreshold=10, \
+ writeTable=TRUE)
 \end{lstlisting}
 
 We can use \textit{TSRchitect} to import an annotation file (or, alternatively, use an existing one from \textit{AnnotationHub}) and use it to associate our set of identified TSRs with coding genes. 
@@ -430,19 +432,83 @@ We can specify the maximum distances (both up- and downstream) between the TSR a
 
 \noindent
 \begin{lstlisting}
-DmRAMPAGE <- importAnnotationExternal(experimentName=DmRAMPAGE, fileType="gff3", \
- annotFile=DmAnnot)
+DmRAMPAGE <- importAnnotationExternal(experimentName=DmRAMPAGE, \
+ fileType="gff3",  annotFile=DmAnnot)
 
-DmRAMPAGE <- addAnnotationToTSR(experimentName=DmRAMPAGE, tsrSetType="replicates", tsrSet=1, \
-upstreamDist=1000, downstreamDist=200, feature="gene", featureColumnID="ID", writeTable=TRUE)
+DmRAMPAGE <- addAnnotationToTSR(experimentName=DmRAMPAGE,
+ tsrSetType="replicates", tsrSet=1, \
+upstreamDist=1000, downstreamDist=200, feature="gene", \
+ featureColumnID="ID", writeTable=TRUE)
+\end{lstlisting}
+
+Now we have generated a set of identified TSSs, TSRs from all 6 RAMPAGE libraries, and have associated the identified TSRs with annotated genes. 
+Next, we will merge the libraries into two samples according to condition: early embryonic (E1h, E2h, E3h) and late larval (L1, L2, L3) using the information we provided when we initialized the \textit{tssObject} at the start of this section.
+After merging, we identify promoters i) within the merged samples and ii) within the entire dataset combined, and associate with the \textit{D. melanogaster} gene annotation as described previously (not shown).
+
+\noindent
+\begin{lstlisting}
+#merging the sample data into two groups
+DmRAMPAGE <- mergeSampleData(DmRAMPAGE)
+
+# ... identifying TSRs from the merged samples:
+DmRAMPAGE <- determineTSR(experimentName=DmRAMPAGE, \
+n.cores=4, tsrSetType="merged", \
+ tssSet="all", tagCountThreshold=40, \
+ clustDist=20, writeTable=TRUE)
 \end{lstlisting}
 
 \subsubsection{Evaluating the results}
+Our analysis using \textit{TSRchitect} is now complete.
+For comparison, the example batch script we provide took just under 44 minutes to run.\\
+Your working directory should now contain the following:
+\item TSSs from each sample \textit{e.g.} TSSset-1.txt: (6)
+\item TSRs from each sample (in both .txt and .tab formats): (12)
+\item TSRs from each merged group (in both .txt and .tab formats): \textit{e.g.} TSRsetMerged-1.txt: (4)
+\item TSRs from the combined set of TSSs: TSRsetCombined.tab: (1) \\
 
+Let's briefly review the files. 
+We can quickly obtain the counts on the command line, as follows:
 
-\section{Notes}
+\noindent
+\begin{lstlisting}
+wc -l *.tab
+8377 TSRset-1.tab
+6159 TSRset-2.tab
+4814 TSRset-3.tab
+17924 TSRset-4.tab
+11851 TSRset-5.tab
+3242 TSRset-6.tab
+13986 TSRsetCombined.tab
+7344 TSRsetMerged-1.tab
+12126 TSRsetMerged-2.tab
+85823 total
+\end{lstlisting}
+
+We will see that we have identified between roughly 3,200 and 18,000 TSRs within the individual RAMPAGE samples, which is attributable to the differences in library sizes. 
+We detect 7,344 TSRs within the early embryonic samples ("TSRsetMerged-1.tab") and 12,126 TSRs in the late larval samples ("TSRsetMerged-2.tab").
+Within the combined samples ("TSRsetCombined.tab") we find 13,986 TSRs, which is similar to the number reported by Hoskins \textit{et. al.} \cite{Hoskins:2011io}.\\
+
+In addition to identifying the position of a given TSRs, \textit{TSRchitect} records other useful information about its properties.
+The \textit{width} of a TSR refers the span of the genomic region it occupies (in bp), and the \textit{Shape Index} (SI) is measure of the relative peakedness of the TSR.
+We can see an example of this in the file "TSRsetMerged-1.txt".
+
+\noindent
+\begin{lstlisting}
+seq     start   end     strand  nTSSs   tsrWidth        shapeIndex      featureID
+2L.67043.67044.+        2L      67043   67044   +       270     2       1       NA
+2L.74089.74115.+        2L      74089   74115   +       341     27      0.13    NA
+2L.94739.94752.+        2L      94739   94752   +       1650    14      0.55    FBgn0031216
+2L.102386.102386.+      2L      102386  102386  +       284     1       2       FBgn0031217
+\end{lstlisting}
+
+\subsection{Summary}
+The workflow provided here is intended to serve as a useful entry point for the analysis of TSS profiling data in insects. 
+On the computational side, we have provided an open source set of tools so that the uninitiated genome scientist can begin to analyze RAMPAGE (or other forms of TSS profiling data) quickly.
+While the analysis centered on \textit{D. melanogaster} via the use of public datasets, it is anticipated that this will assist groups who may be interested in performing TSS profiling in their preferred insect model system.
+The application of TSS profiling  technology across a more representative sample of insect diversity will improve our understanding of the positions and general structure \textit{cis}-regulatory regions in this phylum.
 
 \subsection*{Acknowledgments}
+The authors would like to thank Philippe Batut for generous technical assistance with the RAMPAGE protocol, and to Nathan Keith for his help establishing the protocol in our laboratory.
 
 \subsection*{Disclosure Declaration}
 The authors declare that they have no competing interests.
