@@ -166,6 +166,19 @@ The former is a well-known pay-per-use solution, while the latter is an NSF-fund
 \item SRA Toolkit (version 2.3.4-2 or above)
 \item STAR aligner (version 2.4 or above)
 \item TagDust (version 2.33)
+\end{itemize}
+
+\subsection{Online Appendix}
+We created an online appendix to serve as a companion to this chapter.
+Please find the repository at \url{\texttt{https://github.com/rtraborn/MMB\_appendix}}.
+You can clone this appendix to your workspace using git, as follows:
+
+\begin{verbatim}
+git clone https://github.com/rtraborn/MMB_appendix.git
+\end{verbatim}
+
+The "scripts/" folder in the Appendix contains code for you to run the two major workflows described in this chapter.
+The "\texttt{additional\_files/}" folder contains the following files which are necessary for the analysis: i) a fasta file containing ribosomal RNA sequences for \textit{D. melanogaster} (\texttt{Dmel\_rRNA.fasta}) and ii) a gene annotation for \textit{D. melanogaster} (\texttt{Drosophila\_melanogaster.BDGP5.78.gff}).
 
 \subsection{Installation of R packages}
 For installation of the software listed above, please follow the instructions provided by each respective package. 
@@ -286,8 +299,7 @@ wget ftp://ftp.ensembl.org/pub/release-78/fasta/drosophila_melanogaster/dna/Dros
 gzip -d Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz
 \end{verbatim}
 
-The rRNA sequences are found in the Appendix.
-You should see a file entitled \texttt{"Dmel\_rRNA.fasta"} in your current directory.
+Please navigate to the rRNA file texttt{"Dmel\_rRNA.fasta"} found in the Appendix.
 
 \noindent
 \begin{verbatim}
@@ -464,10 +476,12 @@ n.cores=4, tsrSetType="merged", \
 Our analysis using \textit{TSRchitect} is now complete.
 For comparison, the example batch script we provide took just under 44 minutes to run.\\
 Your working directory should now contain the following:
+\begin{itemize}
 \item TSSs from each sample \textit{e.g.} TSSset-1.txt: (6)
 \item TSRs from each sample (in both .txt and .tab formats): (12)
 \item TSRs from each merged group (in both .txt and .tab formats): \textit{e.g.} TSRsetMerged-1.txt: (4)
-\item TSRs from the combined set of TSSs: TSRsetCombined.tab: (1) \\
+\item TSRs from the combined set of TSSs: TSRsetCombined.tab: (1)
+\end{itemize} \\
 
 Let's briefly review the files. 
 We can quickly obtain the counts on the command line, as follows:
@@ -503,8 +517,6 @@ seq     start   end     strand  nTSSs   tsrWidth        shapeIndex      featureI
 2L.94739.94752.+        2L      94739   94752   +       1650    14      0.55    FBgn0031216
 2L.102386.102386.+      2L      102386  102386  +       284     1       2       FBgn0031217
 \end{verbatim}
-
-\subsection{Downstream applications}
 
 \subsection{Summary}
 The workflow provided here is intended to serve as a useful entry point for the analysis of TSS profiling data in insects. 
