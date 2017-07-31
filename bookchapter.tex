@@ -150,14 +150,14 @@ If you do not have a machine (or access to one) that meets these requirements, i
 The former is a well-known pay-per-use solution, while the latter is an NSF-funded resource that is made freely available to the public.
 
 \subsection{Hardware Requirements}
-\begin{itemize} 
+\begin{enumerate} 
 \item x86-64 compatible processors
 \item At least 8GB RAM
 \item 30GB+ hard disk space
-\end{itemize}
+\end{enumerate}
 
 \subsection{Software Requirements}
-\begin{itemize}
+\begin{enumerate}
 \item Operating system: 64 bit Linux (preferred) or Mac OS X (with Command Line Tools from XCode)
 \item R (version 3.4) 
 \item Bioconductor (version 3.5)
@@ -166,14 +166,11 @@ The former is a well-known pay-per-use solution, while the latter is an NSF-fund
 \item SRA Toolkit (version 2.3.4-2 or above)
 \item STAR aligner (version 2.4 or above)
 \item TagDust (version 2.33)
-\end{itemize}
+\end{enumerate}
 
 \subsection{Online Appendix}
-We created an online appendix to serve as a companion to this chapter.
+We created an online appendix to serve as a companion to this chapter, which contains both scripts and select files to assist you in completing this tutorial..
 Please find the repository at \url{\texttt{https://github.com/rtraborn/MMB\_appendix}} (\textit{see} \textbf{Note 1}).
-
-The "scripts/" folder in the Appendix contains code for you to run the two major workflows described in this chapter.
-The "\texttt{additional\_files/}" folder contains the following files which are necessary for the analysis: i) a fasta file containing ribosomal RNA sequences for \textit{D. melanogaster} (\texttt{Dmel\_rRNA.fasta}) and ii) a gene annotation for \textit{D. melanogaster} (\texttt{Drosophila\_melanogaster.BDGP5.78.gff}).
 
 \subsection{Installation of R packages}
 For installation of the software listed above, please follow the instructions provided by each respective package. 
@@ -522,6 +519,8 @@ The application of TSS profiling technology across a more representative sample 
 \begin{verbatim}
 git clone https://github.com/rtraborn/MMB_appendix.git
 \end{verbatim}
+The "scripts/" folder in the Appendix contains code for you to run the two major workflows described in this chapter.
+The "\texttt{additional\_files/}" folder contains the following files which are necessary for the analysis: i) a fasta file containing ribosomal RNA sequences for \textit{D. melanogaster} (\texttt{Dmel\_rRNA.fasta}) and ii) a gene annotation for \textit{D. melanogaster} (\texttt{Drosophila\_melanogaster.BDGP5.78.gff}).
 \item Since these fastq files are paired-end, we use the argument \textit{--split-files} to generate separate files for each read pair.
 \item If you are running this on a cluster with a job scheduler you'll need to add the necessary headers to the top of the script and submit the job in the appropriate manner.
 \item Because the samples provided derive from related developmental stages, we will merge them for annotation purposes using the argument \textit{replicateIDs}, (though it must be emphaized that they are not replicates).
