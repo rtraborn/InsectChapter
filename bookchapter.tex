@@ -386,8 +386,9 @@ Once this is complete, we can run the batch script from the Linux command-line a
 
 \noindent
 \begin{verbatim}
-R CMD BATCH MMB_chapter_TSRchitect.R #assumes variables BAMDIR and DmAnnot have already been set
-bg #puts the job in the background
+R CMD BATCH MMB_chapter_TSRchitect.R
+#assumes variables BAMDIR and DmAnnot have already been set
+bg #puts this job in the background
 \end{verbatim}
 
 Once the job is underway, you can monitor its progress by looking at the contents of the .Rout file (in this case, \texttt{"MMB\_chapter\_TSRchitect.Rout"}). 
@@ -504,10 +505,12 @@ seq     start   end     strand  nTSSs   tsrWidth        shapeIndex      featureI
 2L.102386.102386.+      2L      102386  102386  +       284     1       2       FBgn0031217
 \end{verbatim}
 
+\subsection{Downstream applications}
+
 \subsection{Summary}
 The workflow provided here is intended to serve as a useful entry point for the analysis of TSS profiling data in insects. 
 On the computational side, we have provided an open source set of tools so that the uninitiated genome scientist can begin to analyze RAMPAGE (or other forms of TSS profiling data) quickly.
-While the analysis centered on \textit{D. melanogaster} via the use of public datasets, it is anticipated that this will assist groups who may be interested in performing TSS profiling in their preferred insect model system.
+While the analysis centered on \textit{D. melanogaster} via the use of public datasets, it is anticipated that this will assist groups who may be interested in performing TSS profiling in their preferred insect model system.\\
 The application of TSS profiling  technology across a more representative sample of insect diversity will improve our understanding of the positions and general structure \textit{cis}-regulatory regions in this phylum.
 
 \subsection*{Acknowledgments}
