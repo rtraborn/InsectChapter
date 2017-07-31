@@ -195,17 +195,17 @@ biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel",
 To install \textit{TSRchitect}, please type the following from an R console:
 
 \indent
-\begin{lstlisting}
+\begin{verbatim}
 source("https://bioconductor.org/biocLite.R")
 biocLite("TSRchitect")
-\end{lstlisting}
+\end{verbatim}
 
 Finally, please confirm that TSRchitect has been installed correctly by loading it from your R console as follows:
 
 \indent
-\begin{lstlisting}
+\begin{verbatim}
 library(TSRchitect)
-\end{lstlisting}
+\end{verbatim}
 
 \section{Methods}
 
@@ -222,51 +222,54 @@ First, let's proceed with the libraries from early embryonic tissues.
 Note that since these fastq files are paired-end, we use the argument \textit{--split-files} to generate separate files for each read pair.
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 mkdir fastq_files #creating a new folder to house the downloaded files
 cd fastq_files #moving into this directory
 fastq-dump --split-files SRR424683
 fastq-dump --split-files SRR424684
 fastq-dump --split-files SRR424685
-\end{lstlisting}
+\end{verbatim}
 
 We continue by downloading the RAMPAGE libraries from late embryonic tissues:
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 fastq-dump --split-files SRR424707
 fastq-dump --split-files SRR424708
 fastq-dump --split-files SRR424709
-\end{lstlisting}  
+\end{verbatim}  
 
 Once the download of the aforementioned files are complete, you should see a total of 12 (6x2) separate fastq files in your current working directory:
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 ls -l *.fastq | wc -l
-\end{lstlisting}
+\end{verbatim}
 
 \subsection{Creating symlinks to the files}
 Our workflow expects fastq files that have the format ``*.R1/R2.clipped.fq". 
-Rather than rename them, we can simply create brand new symbolic links to the files, as follows:
+Rather than rename them, we can simply create brand new symbolic links (symlinks) to the files, as follows:
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 mkdir symlinks
-ln -s SRR424683_1.fastq symlinks/E01h.R1.clipped.fq #embryonic libraries
+
+#embryonic libraries
+ln -s SRR424683_1.fastq symlinks/E01h.R1.clipped.fq 
 ln -s SRR424683_2.fastq symlinks/E01h.R2.clipped.fq
 ln -s SRR424684_1.fastq symlinks/E02h.R1.clipped.fq
 ln -s SRR424684_2.fastq symlinks/E02h.R2.clipped.fq
 ln -s SRR424685_1.fastq symlinks/E03h.R1.clipped.fq
 ln -s SRR424685_2.fastq symlinks/E03h.R2.clipped.fq
 
-ln -s SRR424707_1.fastq symlinks/L1.R1.clipped.fq #larval libraries
+#larval libraries
+ln -s SRR424707_1.fastq symlinks/L1.R1.clipped.fq 
 ln -s SRR424707_2.fastq symlinks/L1.R2.clipped.fq
 ln -s SRR424708_1.fastq symlinks/L2.R1.clipped.fq
 ln -s SRR424708_2.fastq symlinks/L2.R2.clipped.fq
 ln -s SRR424709_1.fastq symlinks/L3.R1.clipped.fq
 ln -s SRR424709_2.fastq symlinks/L3.R2.clipped.fq
-\end{lstlisting}
+\end{verbatim}
 
 \subsection{Downloading genomic data from \textit{D. melanogaster}}
 Now that we have the fastq files from the RAMPAGE libraries downloaded and named appropriately, we now must retrieve the genome assembly and rRNA sequences from \textit{D. melanogaster}.
@@ -277,23 +280,23 @@ These sequences were retrieved separately from Genbank at the NCBI database.
 Please download the assembly from the ENSEMBL database as follows:
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 wget ftp://ftp.ensembl.org/pub/release-78/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz
 #uncompressing the file
 gzip -d Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz
-\end{lstlisting}
+\end{verbatim}
 
 The rRNA sequences are found at the following link:
 \url{https://iu.box.com/s/3a5lqbo58qlykhmqxw00h2uo9d996m2g}
 You should see a file entitled \texttt{"Dmel\_rRNA.fasta"} in your current directory.
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 head -n 3
 >ref|NR_133562.1| Drosophila melanogaster 28S ribosomal RNA (28SrRNA:CR45844), rRNA
 TTATATACAACCTCAACTCATATGGGACTACCCCCTGAATTTAAGCATATTAATTAGGGGAGGAAAAGAA
 ACTAACAAGGATTTTCTTAGTAGCGGCGAGCGAAAAGAAAACAGTTCAGCACTAAGTCACTTTGTCTATA
-\end{lstlisting}
+\end{verbatim}
 
 \subsection{Filtering and alignment of RAMPAGE reads using GoRAMPAGE}
 
@@ -308,11 +311,11 @@ GoRAMPAGE expects the results of a given step to be in place prior to initiating
 Please do this as follows:
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 mkdir output #omit if you already have an output directory selected
 mkdir output/reads
 mkdir output/reads/clipped
-\end{lstlisting}
+\end{verbatim}
 
 \subsubsection{Setting up the GoRAMPAGE job}
 
@@ -322,18 +325,18 @@ Note that if you are running this on a cluster with a job scheduler you'll need 
 The script can be executed as follows:
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 ./GoRAMPAGE_script_MMB.sh
 #alternatively 'sh GoRAMPAGE_script_MMB.sh'
-\end{lstlisting}
+\end{verbatim}
 
 If everything is working correctly you should start to see the results of the job being written to the file "errScript".
 You can inspect the progress during the run using the \textit{less} command. 
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 less -S errScript
-\end{lstlisting}
+\end{verbatim}
 
 Should the run fail before completion, any associated error messages will be printed to the errScript file. Once the job is complete, you should see the message "GoRAMPAGE job is complete!" appear on the command-line terminal.
 
@@ -345,7 +348,7 @@ We notice that (for the L3h library) 1046448 of reads (78.1\%) were "extracted",
 The removed reads from all libraries are found in the \texttt{"dusted\_discard"} directory, and the extracted reads are found in the current directory. 
 Due to their sheer abundance within cells, ribosomal RNA sequences are an inevitable contaminant within TSS profiling libraries. 
 For analysis purposes, it is important that these sequences be removed, which is what has been completed here.\\
-Confident that this step was conducted successfully, we can proceed to the next step.
+Since this step was conducted appropriately, we can proceed to the next step.
 
 \subsubsection{Evaluating the alignments}
 
@@ -382,10 +385,10 @@ To run TSRchitect using the batch script provided, first provide full paths for 
 Once this is complete, we can run the batch script from the Linux command-line as follows:
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 R CMD BATCH MMB_chapter_TSRchitect.R #assumes variables BAMDIR and DmAnnot have already been set
 bg #puts the job in the background
-\end{lstlisting}
+\end{verbatim}
 
 Once the job is underway, you can monitor its progress by looking at the contents of the .Rout file (in this case, \texttt{"MMB\_chapter\_TSRchitect.Rout"}). 
 The job should complete within an hour on most systems. \\
@@ -397,12 +400,12 @@ Note that since the samples provided derive from related developmental stages, w
 The input in this case are BAM files (\textit{inputType}="bam"); \textit{TSRchitect} also accepts input in BED format.
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 DmRAMPAGE <- loadTSSobj(experimentTitle = "RAMPAGE Tutorial", \
  inputDir=BAMDIR, inputType="bam", isPairedEnd=TRUE, \
  sampleNames=c("E1h","E2h", "E3h", "L1", "L2", "L3"), \
  replicateIDs=c(1,1,1,2,2,2))
-\end{lstlisting}
+\end{verbatim}
 
 A critical step in our analysis is identifying TSRs from the aligned TSS data; to do this we use the function \textit{determineTSR}. 
 We have selected the job to run on 4 cores in this example (\textit{n.cores}=4). 
@@ -412,26 +415,26 @@ The parameter \textit{tagCountThreshold} was set to 25, meaning that only TSSs s
 Setting \textit{writeTable} to "TRUE" means that the identified TSRs from each set will be written to the working directory. 
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 DmRAMPAGE <- determineTSR(experimentName=DmRAMPAGE, n.cores=4, tsrSetType="replicates", \
 tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
-\end{lstlisting}
+\end{verbatim}
 
 \textit{TSRchitect} can incorporate the tag abundances from each of the samples and append them to the list of identified TSRs. 
 This is useful for downstream analysis of differential expression.
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 DmRAMPAGE <- addTagCountsToTSR(experimentName=DmRAMPAGE, 
 tsrSetType="replicates",  tsrSet=1, tagCountThreshold=10, \
  writeTable=TRUE)
-\end{lstlisting}
+\end{verbatim}
 
 We can use \textit{TSRchitect} to import an annotation file (or, alternatively, use an existing one from \textit{AnnotationHub}) and use it to associate our set of identified TSRs with coding genes. 
 We can specify the maximum distances (both up- and downstream) between the TSR and the annotation using the arguments \textit{upstreamDist} and \textit{downstreamDist}.
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 DmRAMPAGE <- importAnnotationExternal(experimentName=DmRAMPAGE, \
  fileType="gff3",  annotFile=DmAnnot)
 
@@ -439,14 +442,14 @@ DmRAMPAGE <- addAnnotationToTSR(experimentName=DmRAMPAGE,
  tsrSetType="replicates", tsrSet=1, \
 upstreamDist=1000, downstreamDist=200, feature="gene", \
  featureColumnID="ID", writeTable=TRUE)
-\end{lstlisting}
+\end{verbatim}
 
 Now we have generated a set of identified TSSs, TSRs from all 6 RAMPAGE libraries, and have associated the identified TSRs with annotated genes. 
 Next, we will merge the libraries into two samples according to condition: early embryonic (E1h, E2h, E3h) and late larval (L1, L2, L3) using the information we provided when we initialized the \textit{tssObject} at the start of this section.
 After merging, we identify promoters i) within the merged samples and ii) within the entire dataset combined, and associate with the \textit{D. melanogaster} gene annotation as described previously (not shown).
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 #merging the sample data into two groups
 DmRAMPAGE <- mergeSampleData(DmRAMPAGE)
 
@@ -455,7 +458,7 @@ DmRAMPAGE <- determineTSR(experimentName=DmRAMPAGE, \
 n.cores=4, tsrSetType="merged", \
  tssSet="all", tagCountThreshold=40, \
  clustDist=20, writeTable=TRUE)
-\end{lstlisting}
+\end{verbatim}
 
 \subsubsection{Evaluating the results}
 Our analysis using \textit{TSRchitect} is now complete.
@@ -470,7 +473,7 @@ Let's briefly review the files.
 We can quickly obtain the counts on the command line, as follows:
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 wc -l *.tab
 8377 TSRset-1.tab
 6159 TSRset-2.tab
@@ -482,7 +485,7 @@ wc -l *.tab
 7344 TSRsetMerged-1.tab
 12126 TSRsetMerged-2.tab
 85823 total
-\end{lstlisting}
+\end{verbatim}
 
 We will see that we have identified between roughly 3,200 and 18,000 TSRs within the individual RAMPAGE samples, which is attributable to the differences in library sizes. 
 We detect 7,344 TSRs within the early embryonic samples ("TSRsetMerged-1.tab") and 12,126 TSRs in the late larval samples ("TSRsetMerged-2.tab").
@@ -493,13 +496,13 @@ The \textit{width} of a TSR refers the span of the genomic region it occupies (i
 We can see an example of this in the file "TSRsetMerged-1.txt".
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 seq     start   end     strand  nTSSs   tsrWidth        shapeIndex      featureID
 2L.67043.67044.+        2L      67043   67044   +       270     2       1       NA
 2L.74089.74115.+        2L      74089   74115   +       341     27      0.13    NA
 2L.94739.94752.+        2L      94739   94752   +       1650    14      0.55    FBgn0031216
 2L.102386.102386.+      2L      102386  102386  +       284     1       2       FBgn0031217
-\end{lstlisting}
+\end{verbatim}
 
 \subsection{Summary}
 The workflow provided here is intended to serve as a useful entry point for the analysis of TSS profiling data in insects. 
