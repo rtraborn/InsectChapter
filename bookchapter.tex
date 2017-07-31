@@ -173,24 +173,24 @@ Part of our analysis will require the use of R packages found in the Bioconducto
 To install Bioconductor, please type the following from an R console: 
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 source("https://bioconductor.org/biocLite.R")
 biocLite()
-\end{lstlisting}
+\end{verbatim}
 
 We will use the R package \textit{TSRchitect} to identify promoters from aligned RAMAPGE libraries. 
 First, we will need to install a series of prerequisite packages to \textit{TSRchitect} from Bioconductor.
 Please install these packages as follows (as before, from an R console):
 
 \noindent
-\begin{lstlisting}
+\begin{verbatim}
 source("https://bioconductor.org/biocLite.R")
 biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel",
  "ENCODExplorer",  "GenomicAlignments", "GenomeInfoDb",
  "GenomicRanges", "IRanges", "methods", 
  "Rsamtools", "rtracklayer", "S4Vectors",
  "SummarizedExperiment"))
-\end{lstlisting}
+\end{verbatim}
 
 To install \textit{TSRchitect}, please type the following from an R console:
 
