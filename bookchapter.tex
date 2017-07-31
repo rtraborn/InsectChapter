@@ -170,7 +170,7 @@ The former is a well-known pay-per-use solution, while the latter is an NSF-fund
 
 \subsection{Online Appendix}
 We created an online appendix to serve as a companion to this chapter.
-Please find the repository at \url{\texttt{https://github.com/rtraborn/MMB\_appendix}}.
+Please find the repository at \url{\texttt{https://github.com/rtraborn/MMB\_appendix}} (\textit{see} \textbf{Note 1}).
 You can clone this appendix to your workspace using git, as follows:
 
 \begin{verbatim}
@@ -231,7 +231,7 @@ While there are 36 RAMPAGE libraries in the Batut \textit{et al.} dataset, we wi
 We will compare samples from selected embryonic (E01h-E03h) and larval (L1-L3) tissues, representing the beginning and end of embryonic development.
 For more information about the experiment and the available RAMPAGE libraries, please see the following link: \url{https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP011193}
 
-First, let's proceed with the libraries from early embryonic tissues. 
+First, let's proceed with the libraries from early embryonic tissues (\textit{see} \textbf{See Note 2}).. 
 Note that since these fastq files are paired-end, we use the argument \textit{--split-files} to generate separate files for each read pair.
 
 \noindent
@@ -331,7 +331,7 @@ mkdir output/reads/clipped
 \subsubsection{Setting up the GoRAMPAGE job}
 
 Now, once this is complete, please copy the contents of the "symlinks" directory that you created earlier (\textit{i.e.} all of the *.fq files) into the "clipped/" directory.
-Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences. 
+Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 3}). 
 Note that if you are running this on a cluster with a job scheduler you'll need to add the necessary headers to the top of the script and submit the job in the appropriate manner.
 The script can be executed as follows:
 
@@ -406,9 +406,9 @@ Once the job is underway, you can monitor its progress by looking at the content
 The job should complete within an hour on most systems. \\
 
 Before we evaluate the results (which will have been written to your working directory after running the batch script), there are some important parameters to review. 
-First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately. \\
+First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately (\textit{see} \textbf{Note 4}). \\
 
-Note that since the samples provided derive from related developmental stages, we will merge them for annotation purposes using the argument \textit{replicateIDs}, (though they emphaize that they are not replicates).
+Note that since the samples provided derive from related developmental stages, we will merge them for annotation purposes using the argument \textit{replicateIDs}, (though it must be emphaized that they are not replicates).
 The input in this case are BAM files (\textit{inputType}="bam"); \textit{TSRchitect} also accepts input in BED format.
 
 \noindent
@@ -522,7 +522,17 @@ seq     start   end     strand  nTSSs   tsrWidth        shapeIndex      featureI
 The workflow provided here is intended to serve as a useful entry point for the analysis of TSS profiling data in insects. 
 On the computational side, we have provided an open source set of tools so that the uninitiated genome scientist can begin to analyze RAMPAGE (or other forms of TSS profiling data) quickly.
 While the analysis centered on \textit{D. melanogaster} via the use of public datasets, it is anticipated that this will assist groups who may be interested in performing TSS profiling in their preferred insect model system.\\
-The application of TSS profiling  technology across a more representative sample of insect diversity will improve our understanding of the positions and general structure \textit{cis}-regulatory regions in this phylum.
+The application of TSS profiling technology across a more representative sample of insect diversity will improve our understanding of the positions and general structure \textit{cis}-regulatory regions in this phylum.
+
+\subsection{Notes}
+\begin{enumerate}
+\item You can clone this appendix to your workspace on the command line using git, as follows:
+\begin{verbatim}
+git clone https://github.com/rtraborn/MMB_appendix.git
+\end{verbatim}
+\item Since these fastq files are paired-end, we use the argument \textit{--split-files} to generate separate files for each read pair.
+\item If you are running this on a cluster with a job scheduler you'll need to add the necessary headers to the top of the script and submit the job in the appropriate manner.
+\item Because the samples provided derive from related developmental stages, we will merge them for annotation purposes using the argument \textit{replicateIDs}, (though it must be emphaized that they are not replicates).
 
 \subsection*{Acknowledgments}
 The authors would like to thank Philippe Batut for generous technical assistance with the RAMPAGE protocol, and to Nathan Keith for his help establishing the protocol in our laboratory.
