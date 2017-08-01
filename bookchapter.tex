@@ -126,8 +126,8 @@ CpG island promoters (CPIs) form the largest class of promoter in mammals \cite{
 
 \subsection{Paired-end TSS Profiling with RAMPAGE}
 The most recent major methodological advance in TSS Profiling is RAMPAGE (RNA Annotation and Mapping of Promoters for the Analysis of Gene Expression)  . 
-RAMPAGE is a protocol for 5'-cDNA sequencing that combines cap trapping and template-switching with paired-end sequence information. 
-A key advantage of generating paired-end sequence is transcript connectivity, which provides a direct link between a given 5'-end and its associated mRNA molecule.
+RAMPAGE is a protocol for 5$^\prime$-cDNA sequencing that combines cap trapping and template-switching with paired-end sequence information. 
+A key advantage of generating paired-end sequence is transcript connectivity, which provides a direct link between a given 5$^\prime$-end and its associated mRNA molecule.
 Because short or spurious RNAs are found within the transcriptome, transcript connectivity allows the TSSs (and thus promoters) of full-length mRNAs to be unambiguously identified, which benefits genome annotation.
 Batut and colleagues generated libraries from total RNA isolated from 36 stages across the life cycle of \textit{D. melanogaster} providing a comprehensive gene expression and promoter atlas for fruit fly and in the process demonstrating the utility of RAMPAGE.
 RAMPAGE is currently being applied as part of the latest iteration of ENCODE to identify promoters in human, but as of this writing it has not been applied to any non-\textit{Drosophila} insect species. 
@@ -144,7 +144,7 @@ In closing, we will consider further applications of this data and discuss the u
 
 \section{Materials}
 
-The analyses described herein require a workstation capable for modern bioinformatics. 
+The analyses described herein require a workstation capable of doing bioinformatics, including a modern laptop.
 An intermediate understanding of the Linux/Unix command line will be extremely useful, although we make efforts to explain the procedures with clarity. In addition, it will likely be necessary for the participant to have superuser privileges on the machine.
 If you do not have a machine (or access to one) that meets these requirements, it is recommended that you consider cloud-based cyberinfrastructure, including Amazon Web Services (AWS; \url{https://aws.amazon.com/}) or CyVerse (\url{http://www.cyverse.org/}).
 The former is a well-known pay-per-use solution, while the latter is an NSF-funded resource that makes compute allocations freely available to the public.
@@ -162,9 +162,11 @@ The former is a well-known pay-per-use solution, while the latter is an NSF-fund
 \end{itemize}
 
 \subsection{Software}
+Below is a list of the software packages required for this demonstration (\textit{see} \textbf{Note 1}).
+
 \begin{enumerate}
 \item Bioconductor (v. 3.5 and up) \cite{Lawrence:2014gy} (\url{http://bioconductor.org/})
-\item FASTX-Toolkit \cite{citeulike:9103573} (\url{\texttt{http://hannonlab.cshl.edu/fastx\_toolkit/index.html}})
+\item FASTX-Toolkit \cite{citeulike:9103573} (\url{\texttt{http://hannonlab.cshl.edu/\_Toolkit/Index.html}})
 \item GoRAMPAGE \cite{Brendel:2016ab} (\url{https://github.com/brendelGroup/GoRAMPAGE})
 \item R (v. 3.4 and up) \cite{RCore:2017ab} (\url{https://www.r-project.org/})
 \item Samtools \cite{Li:2009ka} (\url{http://www.htslib.org/doc/samtools.html})
@@ -176,7 +178,7 @@ The former is a well-known pay-per-use solution, while the latter is an NSF-fund
 
 \subsection{Online Appendix}
 We created an online appendix to serve as a companion to this chapter, which contains both scripts and select files to assist you in completing this tutorial.
-Please find the repository at \url{\texttt{https://github.com/rtraborn/MMB\_appendix}} (\textit{see} \textbf{Note 1}).
+Please find the repository at \url{\texttt{https://github.com/rtraborn/MMB\_appendix}} (\textit{see} \textbf{Note 2}).
 
 \subsection{Installation of R packages}
 For installation of the software listed above, please follow the instructions provided by each respective package. 
@@ -229,7 +231,7 @@ While there are 36 RAMPAGE libraries in the Batut \textit{et al.} dataset, we wi
 We will compare samples from selected embryonic (E01h-E03h) and larval (L1-L3) tissues, representing the beginning and end of embryonic development.
 For more information about the experiment and the available RAMPAGE libraries, please see the following link: \url{https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP011193}.\\
 
-First, let's proceed with the libraries from early embryonic tissues (\textit{see} \textbf{See Note 2}).
+First, let's proceed with the libraries from early embryonic tissues (\textit{see} \textbf{See Note 3}).
 
 \noindent
 \begin{verbatim}
@@ -328,7 +330,7 @@ mkdir output/reads/clipped
 \subsubsection{Setting up the GoRAMPAGE job}
 
 Now, once this is complete, please copy the contents of the "symlinks" directory that you created earlier (\textit{i.e.} all of the *.fq files) into the "clipped/" directory.
-Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 3}). 
+Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 4}). 
 The script can be executed as follows:
 
 \noindent
@@ -384,7 +386,7 @@ The first is interactively \textit{i.e.} typing the instructions directly into a
 While this is a perfectly acceptable way to run analyses using package, for larger jobs it will likely be more efficient (and likely more reproducible) to run a dedicated R script.
 We have provided a sample script \texttt{"MMB\_chapter\_TSRchitect.R"} to make it easier for you to set up an R script. 
 In the section to follow, we will go through the output of the analysis. 
-For further details on how to use \textit{TSRchitect}, please see its documentation at its Bioconductor page found here \url{https://www.bioconductor.org/packages/release/bioc/html/TSRchitect.html}.\\
+For further details on how to use \textit{TSRchitect}, please see its documentation at its Bioconductor page found here: \url{https://www.bioconductor.org/packages/release/bioc/html/TSRchitect.html}.\\
 
 \subsubsection{Running the Analysis}
 To run TSRchitect using the batch script provided, first provide full paths for the variables "BAMDIR" and "DmAnnot" in \texttt{"MMB\_chapter\_TSRchitect.R"} using a text editor. 
@@ -402,7 +404,7 @@ Once the job is underway, you can monitor its progress by looking at the content
 The job should complete within an hour on most systems.\\
 
 Before we evaluate the results (which will have been written to your working directory after running the batch script), there are some important parameters to review. 
-First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately (\textit{see} \textbf{Note 4}).\\
+First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately (\textit{see} \textbf{Note 5}).\\
 
 The input in this case are BAM files (\textit{inputType}="bam"); \textit{TSRchitect} also accepts input in BED format.
 
@@ -418,7 +420,7 @@ A critical step in our analysis is identifying TSRs from the aligned TSS data; t
 We have selected the job to run on 4 cores in this example (\textit{n.cores}=4). 
 Please enter the number of cores appropriate for your system.
 Because we want to identify TSRs from every one of the selected RAMPAGE libraries, we specify \textit{tssSet}="all".
-The parameter \textit{tagCountThreshold} was set to 25, meaning that only TSSs supported by 25 or more 5' RAMPAGE reads will be included within a TSR.
+The parameter \textit{tagCountThreshold} was set to 25, meaning that only TSSs supported by 25 or more 5$^\prime$ RAMPAGE reads will be included within a TSR.
 Setting \textit{writeTable} to "TRUE" means that the identified TSRs from each set will be written to the working directory. 
 
 \noindent
@@ -469,8 +471,7 @@ n.cores=4, tsrSetType="merged", \
 
 \subsubsection{Evaluating the results}
 Our analysis using \textit{TSRchitect} is now complete.
-For comparison, the example batch script we provide took just under 44 minutes to run.\\
-Your working directory should now contain the following:
+Your working directory should now contain the following: 
 \begin{itemize}
 \item TSSs from each sample \textit{e.g.} TSSset-1.txt: (6)
 \item TSRs from each sample (in both .txt and .tab formats): (12)
@@ -537,6 +538,8 @@ The application of TSS profiling technology across a more representative sample 
 
 \section{Notes}
 \begin{enumerate}
+\item Please consult the GoRAMPAGE documentation found here: \url{https://github.com/BrendelGroup/GoRAMPAGE}.
+Installation instructions for the prerequisites of GoRAMPAGE (which includes some of the items listed) are found at the following link: \url{https://github.com/BrendelGroup/GoRAMPAGE/tree/master/src}.
 \item You can clone this appendix to your workspace on the command line using git, as follows:
 \begin{verbatim}
 git clone https://github.com/rtraborn/MMB_appendix.git
