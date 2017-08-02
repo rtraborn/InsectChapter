@@ -241,26 +241,31 @@ While there are 36 RAMPAGE libraries in the Batut \textit{et al.} paper, we will
 We will compare samples from selected embryonic (E01h-E03h) and larval (L1-L3) tissues, representing the beginning and end of embryonic development.
 For more information about the experiment and the available RAMPAGE libraries, please see the following link: \url{https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP011193}.\\
 
-First, let's proceed with the libraries from early embryonic tissues (\textit{see} \textbf{See Note 3}).
+First, let's proceed with downloading the libraries from early embryonic tissues (\textit{see} \textbf{See Note 3}).
+We will make a new folder (entitled \texttt{"fastq\_files/"}) to house these files.
 
 \noindent
 \begin{verbatim}
-mkdir fastq_files #creating a new folder to house the downloaded files
-cd fastq_files #moving into this directory
+mkdir fastq_files
+cd fastq_files
+
 fastq-dump --split-files SRR424683
 fastq-dump --split-files SRR424684
 fastq-dump --split-files SRR424685
 \end{verbatim}
 
 \noindent
-We continue by downloading the RAMPAGE libraries from late embryonic tissues:
+We continue by downloading the data from late larval tissues.
 
-\noindent
 \begin{verbatim}
+
 fastq-dump --split-files SRR424707
 fastq-dump --split-files SRR424708
 fastq-dump --split-files SRR424709
-\end{verbatim}  
+
+
+
+\end{verbatim}
 
 \noindent
 Once the download of the aforementioned files are complete, you should see a total of 12 (6 \textit{x} 2) separate fastq files in your current working directory:
@@ -268,6 +273,7 @@ Once the download of the aforementioned files are complete, you should see a tot
 \noindent
 \begin{verbatim}
 ls -l *.fastq | wc -l
+cd ..
 \end{verbatim}
 
 \subsection{Creating symlinks to the files}
@@ -276,23 +282,27 @@ Rather than rename them, we can simply create brand new symbolic links (symlinks
 
 \noindent
 \begin{verbatim}
-mkdir symlinks
+cd ..
+mkdir -p output/reads/clipped
+cd output/reads/clipped
 
 #embryonic libraries
-ln -s SRR424683_1.fastq symlinks/E01h.R1.clipped.fq 
-ln -s SRR424683_2.fastq symlinks/E01h.R2.clipped.fq
-ln -s SRR424684_1.fastq symlinks/E02h.R1.clipped.fq
-ln -s SRR424684_2.fastq symlinks/E02h.R2.clipped.fq
-ln -s SRR424685_1.fastq symlinks/E03h.R1.clipped.fq
-ln -s SRR424685_2.fastq symlinks/E03h.R2.clipped.fq
+ln -s ../../../fastq-files/SRR424683_1.fastq E01h.R1.clipped.fq 
+ln -s ../../../fastq-files/SRR424683_2.fastq E01h.R2.clipped.fq
+ln -s ../../../fastq-files/SRR424684_1.fastq E02h.R1.clipped.fq
+ln -s ../../../fastq-files/SRR424684_2.fastq E02h.R2.clipped.fq
+ln -s ../../../fastq-files/SRR424685_1.fastq E03h.R1.clipped.fq
+ln -s ../../../fastq-files/SRR424685_2.fastq E03h.R2.clipped.fq
 
 #larval libraries
-ln -s SRR424707_1.fastq symlinks/L1.R1.clipped.fq 
-ln -s SRR424707_2.fastq symlinks/L1.R2.clipped.fq
-ln -s SRR424708_1.fastq symlinks/L2.R1.clipped.fq
-ln -s SRR424708_2.fastq symlinks/L2.R2.clipped.fq
-ln -s SRR424709_1.fastq symlinks/L3.R1.clipped.fq
-ln -s SRR424709_2.fastq symlinks/L3.R2.clipped.fq
+ln -s ../../../fastq-files/SRR424707_1.fastq L1.R1.clipped.fq 
+ln -s ../../../fastq-files/SRR424707_2.fastq L1.R2.clipped.fq
+ln -s ../../../fastq-files/SRR424708_1.fastq L2.R1.clipped.fq
+ln -s ../../../fastq-files/SRR424708_2.fastq L2.R2.clipped.fq
+ln -s ../../../fastq-files/SRR424709_1.fastq L3.R1.clipped.fq
+ln -s ../../../fastq-files/SRR424709_2.fastq L3.R2.clipped.fq
+
+cd ../../.. #returning to the output directory
 \end{verbatim}
 
 \subsection{Downloading genomic data from \textit{D. melanogaster}}
@@ -302,16 +312,19 @@ Please download the rRNA sequences from the link we provide below.
 These sequences were retrieved separately from Genbank at the NCBI database. \\
 
 \noindent
-Please download the assembly from the ENSEMBL database as follows:
+To retrieve the genome assembly from the ENSEMBL database, please do the following:
 
 \noindent
-%please insert information from Volker's script 
 \begin{verbatim}
+mkdir genome
+cd genome
 wget ftp://ftp.ensembl.org/pub/release-78/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz
 #uncompressing the file
 gzip -d Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz
+cd ..
 \end{verbatim}
 
+\noindent
 Please navigate to the rRNA file \texttt{"Dmel\_rRNA.fasta"} found in the Appendix.
 
 \noindent
@@ -323,35 +336,19 @@ ACTAACAAGGATTTTCTTAGTAGCGGCGAGCGAAAAGAAAACAGTTCAGCACTAAGTCACTTTGTCTATA
 \end{verbatim}
 
 \subsection{Filtering and alignment of RAMPAGE reads using GoRAMPAGE}
-
 At this stage we are ready to commence with the rRNA filtering and alignment of the RAMPAGE libraries.
 We will use GoRAMPAGE, a tool we developed, to perform these tasks in a concerted workflow. 
 GoRAMPAGE runs TagDust \cite{Lassmann:2015gs} to remove rRNA and low-complexity reads, and uses STAR \cite{Dobin:2016kq} to align RAMPAGE (or other paired-end) reads to a given genome assembly.
 
-\subsubsection{Preparing the output directory.}
-
-It will also be necessary to create an output directory under "outputDir" for the results.
-GoRAMPAGE expects the results of a given step to be in place prior to initiating a run, so we'll need to create the appropriate folders before proceeding.
-Please do this as follows:
-
-\noindent
-\begin{verbatim}
-mkdir output #omit if you already have an output directory selected
-mkdir output/reads
-mkdir output/reads/clipped
-\end{verbatim}
-
 \subsubsection{Setting up the GoRAMPAGE job.}
-
-Now, once this is complete, please copy the contents of the "symlinks" directory that you created earlier (\textit{i.e.} all of the *.fq files) into the "clipped/" directory.
 Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 4}). 
 GoRAMPAGE jobs can optionally be run in parallel (\textit{see} \textbf{Note 5}).
 The script can be executed as follows:
 
 \noindent
 \begin{verbatim}
+#vi GoRAMPAGE_script_MMB.sh #updating with a text editor
 ./GoRAMPAGE_script_MMB.sh
-#alternatively 'sh GoRAMPAGE_script_MMB.sh'
 \end{verbatim}
 
 \noindent
