@@ -200,7 +200,7 @@ biocLite()
 \end{verbatim}
 
 We will use the R package \textit{TSRchitect} to identify promoters from aligned RAMAPGE libraries. 
-First, we will need to install a series of prerequisite packages to \textit{TSRchitect} from Bioconductor.
+Prior to running the analysis, it will be necessary to install a series of prerequisite packages to \textit{TSRchitect} from Bioconductor.
 Please install these packages as follows (as before, from an R console):
 
 \noindent
@@ -213,6 +213,7 @@ biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel",
  "SummarizedExperiment"))
 \end{verbatim}
 
+\noindent
 To install \textit{TSRchitect}, please type the following from an R console:
 
 \noindent
@@ -221,21 +222,22 @@ source("https://bioconductor.org/biocLite.R")
 biocLite("TSRchitect")
 \end{verbatim}
 
+\noindent
 Finally, please confirm that TSRchitect has been installed correctly by loading it from your R console as follows:
 
 \noindent
 \begin{verbatim}
-library(TSRchitect)
+library(TSRchitect) #installing TSRchitect
 \end{verbatim}
 
 \section{Methods}
 
-\subsection{Retrieving the RAMPAGE sequence data from NCBI's Gene Expression Omnibus (GEO)}
+\subsection{Retrieving the RAMPAGE sequence data from NCBI}
 
 To begin our analysis, we must download the RAMPAGE data to our workstation. 
 We will utilize tools provided by the SRA Toolkit, which should already be installed on your machine (see \textbf{Materials}).
 The command \textit{fastq-dump} allows one to directly retrieve data from the GEO database using the appropriate identifier(s).
-While there are 36 RAMPAGE libraries in the Batut \textit{et al.} dataset, we will select a subset of these to analyze here.
+While there are 36 RAMPAGE libraries in the Batut \textit{et al.} paper, we will select a subset of these to analyze here.
 We will compare samples from selected embryonic (E01h-E03h) and larval (L1-L3) tissues, representing the beginning and end of embryonic development.
 For more information about the experiment and the available RAMPAGE libraries, please see the following link: \url{https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP011193}.\\
 
@@ -250,6 +252,7 @@ fastq-dump --split-files SRR424684
 fastq-dump --split-files SRR424685
 \end{verbatim}
 
+\noindent
 We continue by downloading the RAMPAGE libraries from late embryonic tissues:
 
 \noindent
@@ -259,7 +262,8 @@ fastq-dump --split-files SRR424708
 fastq-dump --split-files SRR424709
 \end{verbatim}  
 
-Once the download of the aforementioned files are complete, you should see a total of 12 (6x2) separate fastq files in your current working directory:
+\noindent
+Once the download of the aforementioned files are complete, you should see a total of 12 (6 \textit{x} 2) separate fastq files in your current working directory:
 
 \noindent
 \begin{verbatim}
@@ -295,11 +299,13 @@ ln -s SRR424709_2.fastq symlinks/L3.R2.clipped.fq
 Now that we have the fastq files from the RAMPAGE libraries downloaded and named appropriately, we now must retrieve the genome assembly and rRNA sequences from \textit{D. melanogaster}.
 The genome assembly is required for aligning the RAMPAGE reads, and the rRNA sequences are required to filter out matching reads in the sequenced RAMPAGE libraries, since our sample is intended to contain only capped RNA transcripts. 
 Please download the rRNA sequences from the link we provide below. 
-These sequences were retrieved separately from Genbank at the NCBI database.
+These sequences were retrieved separately from Genbank at the NCBI database. \\
 
+\noindent
 Please download the assembly from the ENSEMBL database as follows:
 
 \noindent
+%please insert information from Volker's script 
 \begin{verbatim}
 wget ftp://ftp.ensembl.org/pub/release-78/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz
 #uncompressing the file
@@ -320,9 +326,9 @@ ACTAACAAGGATTTTCTTAGTAGCGGCGAGCGAAAAGAAAACAGTTCAGCACTAAGTCACTTTGTCTATA
 
 At this stage we are ready to commence with the rRNA filtering and alignment of the RAMPAGE libraries.
 We will use GoRAMPAGE, a tool we developed, to perform these tasks in a concerted workflow. 
-GoRAMPAGE runs TagDust \cite{Lassmann:2015gs} to remove rRNA and low-complexity reads, and uses STAR \cite{Dobin:2016kq} to align RAMPAGE (or other paired-end) reads to a given genome assembly.\\
+GoRAMPAGE runs TagDust \cite{Lassmann:2015gs} to remove rRNA and low-complexity reads, and uses STAR \cite{Dobin:2016kq} to align RAMPAGE (or other paired-end) reads to a given genome assembly.
 
-\subsubsection{Preparing the output directory}
+\subsubsection{Preparing the output directory.}
 
 It will also be necessary to create an output directory under "outputDir" for the results.
 GoRAMPAGE expects the results of a given step to be in place prior to initiating a run, so we'll need to create the appropriate folders before proceeding.
@@ -335,7 +341,7 @@ mkdir output/reads
 mkdir output/reads/clipped
 \end{verbatim}
 
-\subsubsection{Setting up the GoRAMPAGE job}
+\subsubsection{Setting up the GoRAMPAGE job.}
 
 Now, once this is complete, please copy the contents of the "symlinks" directory that you created earlier (\textit{i.e.} all of the *.fq files) into the "clipped/" directory.
 Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 4}). 
@@ -348,6 +354,7 @@ The script can be executed as follows:
 #alternatively 'sh GoRAMPAGE_script_MMB.sh'
 \end{verbatim}
 
+\noindent
 If everything is working correctly you should start to see the results of the job being written to the file "errScript".
 You can inspect the progress during the run using the \textit{less} command. 
 
@@ -356,9 +363,10 @@ You can inspect the progress during the run using the \textit{less} command.
 less -S errScript
 \end{verbatim}
 
+\noindent
 Should the run fail before completion, any associated error messages will be printed to the errScript file. Once the job is complete, you should see the message "GoRAMPAGE job is complete!" appear on the command-line terminal.
 
-\subsubsection{Inspecting the rRNA filtering results}
+\subsubsection{Inspecting the rRNA filtering results.}
 
 To evaluate the results from Step 3 (rRNA filtering), please navigate to the top level of the "output" directory and open the file "LOGFILES".
 You'll see the recorded progress of the program Tagdust and a record of the results.
@@ -368,14 +376,15 @@ Due to their sheer abundance within cells, ribosomal RNA sequences are an inevit
 For analysis purposes, it is important that these sequences be removed, which is what has been completed here.\\
 Since this step was conducted appropriately, we can proceed to the next step.
 
-\subsubsection{Evaluating the alignments}
+\subsubsection{Evaluating the alignments.}
 
-The folder "alignments/" in your GoRAMPAGE output folder will now contain 6 .bam files, each representing the distinct RAMAPGE libraries selected for our analysis.
+The folder "alignments/" in your GoRAMPAGE output folder will now contain 6 .bam files, each representing the distinct RAMPAGE libraries selected for our analysis.
 Typing "ls -l" from the command line will show that these files are symlinks to the original alignment files found in the "STARoutput/" directory.
 "STARoutput/", as its name suggests, contains the output from the STAR alignment, and this includes the alignment files "*.sortedByCoord.out.bam", and four additional log files.
 The files with the suffix "*.STAR.Log.final.out" each contain a summary of the alignment, such as the number of input reads, the percentage of uniquely-mapped reads and the percentage of unmapped reads.
 An inspection of these log files indicates that the alignments have similar mapping rates (~70-80\%), a reasonable outcome for our purposes.\\
 
+\noindent
 Now that our RAMPAGE libraries are filtered and aligned, we can commence with the second half of our analysis.
 
 \subsection{Promoter identification from aligned RAMPAGE libraries}
@@ -386,7 +395,7 @@ There are currently several tools available for this purpose.
 We will use \textit{TSRchitect} in this demonstration, since it was specifically designed to analyze paired-end TSS profiling datasets, and also because it is more flexible with respect to model system (\textit{i.e.} it does not require a corresponding \textit{BSGenome} package).
 The latter feature will be helpful when analyzing the non-\textit{D. melanagaster} TSS profiling datasets that we expect to be generated in the near future.
 
-\subsubsection{Setting up the Analysis}
+\subsubsection{Setting up the Analysis.}
 \textit{TSRchitect}, the package we'll use for this analysis, is an R package available in the Bioconductor suite of genomics tools \cite{Lawrence:2014gy}.
 It makes use of existing packages and data structures within this environment, where available, to identify promoters from sequence alignments.
 Since you have already installed \textit{TSRchitect} and its dependencies (see section 2.3), we are set to proceed.\\
@@ -397,8 +406,8 @@ We have provided a sample script \texttt{"MMB\_chapter\_TSRchitect.R"} to make i
 In the section to follow, we will go through the output of the analysis. 
 For further details on how to use \textit{TSRchitect}, please see its documentation at its Bioconductor page found here: \url{https://www.bioconductor.org/packages/release/bioc/html/TSRchitect.html}.\\
 
-\subsubsection{Running the Analysis}
-To run TSRchitect using the batch script provided, first provide full paths for the variables "BAMDIR" and "DmAnnot" in \texttt{"MMB\_chapter\_TSRchitect.R"} using a text editor. 
+\subsubsection{Running the Analysis.}
+To run TSRchitect using the batch script, provide full paths for the variables "BAMDIR" and "DmAnnot" in the script provided (\textit{see} \textbf{Note 6}).
 \textit{BAMDIR} should be a path to the subdirectory "alignments/" in RAMPAGE output directory you specified earlier, and \textit{DmAnnot} should be a full path to the \textit{D. melanogaster} gene annotation listed above.
 Once this is complete, we can run the batch script from the Linux command-line as follows:
 
@@ -409,13 +418,14 @@ R CMD BATCH MMB_chapter_TSRchitect.R
 bg #puts this job in the background
 \end{verbatim}
 
+\noindent
 Once the job is underway, you can monitor its progress by looking at the contents of the .Rout file (in this case, \texttt{"MMB\_chapter\_TSRchitect.Rout"}). 
 The job should complete within an hour on most systems.\\
 
-\subsubsection{Reviewing the \textit{TSRchitect} script} 
+\subsubsection{Reviewing the \textit{TSRchitect} script.} 
 Before we evaluate the results (which will have been written to your working directory after running the batch script), there are some important aspects of the analysis to review. 
 We discuss these for informational purposes only; it will not necessary to perform these commands separate from the batch script provided.
-First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately (\textit{see} \textbf{Note 6}).\\
+First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately (\textit{see} \textbf{Note 7}).\\
 
 The input in this case are BAM files (\textit{inputType}="bam"); \textit{TSRchitect} also accepts input in BED format.
 
@@ -436,8 +446,9 @@ Setting \textit{writeTable} to "TRUE" means that the identified TSRs from each s
 
 \noindent
 \begin{verbatim}
-DmRAMPAGE <- determineTSR(experimentName=DmRAMPAGE, n.cores=4, tsrSetType="replicates", \
-tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
+DmRAMPAGE <- determineTSR(experimentName=DmRAMPAGE, n.cores=4, \
+ tsrSetType="replicates", tssSet="all", tagCountThreshold=25, \
+ clustDist=20, writeTable=TRUE)
 \end{verbatim}
 
 \textit{TSRchitect} can incorporate the tag abundances from each of the samples and append them to the list of identified TSRs. 
@@ -490,6 +501,7 @@ Your working directory should now contain the following:
 \item TSRs from the combined set of TSSs: TSRsetCombined.tab: (1)
 \end{itemize} \\
 
+\noindent
 Let's briefly review the files. 
 We can quickly obtain the counts on the command line, as follows:
 
@@ -508,10 +520,12 @@ wc -l *.tab
 85823 total
 \end{verbatim}
 
+\noindent
 We will see that we have identified between roughly 3,200 and 18,000 TSRs within the individual RAMPAGE samples, which is attributable to the differences in library sizes. 
 We detect 7,344 TSRs within the early embryonic samples ("TSRsetMerged-1.tab") and 12,126 TSRs in the late larval samples ("TSRsetMerged-2.tab").
 Within the combined samples ("TSRsetCombined.tab") we find 13,986 TSRs, which is similar to the number reported by Hoskins \textit{et. al.} \cite{Hoskins:2011io}.\\
 
+\noindent
 In addition to identifying the position of a given TSRs, \textit{TSRchitect} records other useful information about its properties.
 The \textit{width} of a TSR refers the span of the genomic region it occupies (in bp), and the \textit{Shape Index} (SI) is measure of the relative peakedness of the TSR.
 We can see an example of this in the file "TSRsetMerged-1.txt".
@@ -549,8 +563,10 @@ The application of TSS profiling technology across a more representative sample 
 
 \section{Notes}
 \begin{enumerate}
-\item Please consult the GoRAMPAGE documentation found here: \url{https://github.com/BrendelGroup/GoRAMPAGE}.
-Installation instructions for the prerequisites of GoRAMPAGE (which includes some of the items listed) are found at the following link: \url{https://github.com/BrendelGroup/GoRAMPAGE/tree/master/src}.
+\item Please consult the GoRAMPAGE documentation found here:\\
+ \url{https://github.com/BrendelGroup/GoRAMPAGE}.
+Installation instructions for the prerequisites of GoRAMPAGE (which includes some of the items listed) are found at the following link:\\
+ \url{https://github.com/BrendelGroup/GoRAMPAGE/tree/master/src}.
 \item You can clone this appendix to your workspace on the command line using git, as follows:
 \begin{verbatim}
 git clone https://github.com/rtraborn/MMB_appendix.git
@@ -560,6 +576,7 @@ The "\texttt{additional\_files/}" folder contains the following files which are 
 \item Since these fastq files are paired-end, we use the argument \textit{--split-files} to generate separate files for each read pair.
 \item If you are running this on a cluster with a job scheduler you'll need to add the necessary headers to the top of the script and submit the job in the appropriate manner.
 \item For parallel execution, GoRAMPAGE uses the Linux package \textit{GNU parallel} \cite{Tange2011a}. Please see the GoRAMPAGE documentation for more information.
+\item To do this, please edit the batch script \texttt{TSRchitect\_script\_MMB.R} with a text editor of your choice.
 \item Because the samples provided derive from related developmental stages, we will merge them for annotation purposes using the argument \textit{replicateIDs}, (though it must be emphaized that they are not replicates).
 
 \subsection*{Acknowledgments}
