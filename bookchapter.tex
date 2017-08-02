@@ -409,6 +409,7 @@ For further details on how to use \textit{TSRchitect}, please see its documentat
 \subsubsection{Running the Analysis.}
 To run TSRchitect using the batch script, provide full paths for the variables "BAMDIR" and "DmAnnot" in the script provided (\textit{see} \textbf{Note 6}).
 \textit{BAMDIR} should be a path to the subdirectory "alignments/" in RAMPAGE output directory you specified earlier, and \textit{DmAnnot} should be a full path to the \textit{D. melanogaster} gene annotation listed above.
+\\
 Once this is complete, we can run the batch script from the Linux command-line as follows:
 
 \noindent
@@ -427,7 +428,8 @@ Before we evaluate the results (which will have been written to your working dir
 We discuss these for informational purposes only; it will not necessary to perform these commands separate from the batch script provided.
 First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately (\textit{see} \textbf{Note 7}).\\
 
-The input in this case are BAM files (\textit{inputType}="bam"); \textit{TSRchitect} also accepts input in BED format.
+\noindent
+The inputs in this case are BAM files (\textit{inputType}="bam"); \textit{TSRchitect} also accepts input in BED format.
 
 \noindent
 \begin{verbatim}
@@ -437,6 +439,7 @@ DmRAMPAGE <- loadTSSobj(experimentTitle = "RAMPAGE Tutorial", \
  replicateIDs=c(1,1,1,2,2,2))
 \end{verbatim}
 
+\noindent
 A critical step in our analysis is identifying TSRs from the aligned TSS data; to do this we use the function \textit{determineTSR}. 
 We have selected the job to run on 4 cores in this example (\textit{n.cores}=4). 
 Please enter the number of cores appropriate for your system.
