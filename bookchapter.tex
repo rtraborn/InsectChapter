@@ -331,6 +331,7 @@ mkdir output/reads/clipped
 
 Now, once this is complete, please copy the contents of the "symlinks" directory that you created earlier (\textit{i.e.} all of the *.fq files) into the "clipped/" directory.
 Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 4}). 
+GoRAMPAGE jobs can optionally be run in parallel (\textit{see} \textbf{Note 5}).
 The script can be executed as follows:
 
 \noindent
@@ -361,7 +362,7 @@ Since this step was conducted appropriately, we can proceed to the next step.
 
 \subsubsection{Evaluating the alignments}
 
-The folder "alignments/" in your GoRAMAPGE output folder will now contain 6 .bam files, each representing the distinct RAMAPGE libraries selected for our analysis.
+The folder "alignments/" in your GoRAMPAGE output folder will now contain 6 .bam files, each representing the distinct RAMAPGE libraries selected for our analysis.
 Typing "ls -l" from the command line will show that these files are symlinks to the original alignment files found in the "STARoutput/" directory.
 "STARoutput/", as its name suggests, contains the output from the STAR alignment, and this includes the alignment files "*.sortedByCoord.out.bam", and four additional log files.
 The files with the suffix "*.STAR.Log.final.out" each contain a summary of the alignment, such as the number of input reads, the percentage of uniquely-mapped reads and the percentage of unmapped reads.
@@ -373,7 +374,7 @@ Now that our RAMPAGE libraries are filtered and aligned, we can commence with th
 
 We can now use the prepared alignment files to identify TSSs and promoters from the selected RAMPAGE libraries.
 There are currently several tools available for this purpose.
-\textit{CAGEr}, developed by Haberle \cite{Haberle:6TVSLN3N}, was utilized to perform TSS identification as part of the FANTOM5 efforts.
+\textit{CAGEr}, developed by Haberle \cite{Haberle:2015fp}, was utilized to perform TSS identification as part of the FANTOM5 efforts.
 We will use \textit{TSRchitect} in this demonstration, since it was specifically designed to analyze paired-end TSS profiling datasets, and also because it is more flexible with respect to model system (\textit{i.e.} it does not require a corresponding \textit{BSGenome} package).
 The latter feature will be helpful when analyzing the non-\textit{D. melanagaster} TSS profiling datasets that we expect to be generated in the near future.
 
@@ -406,7 +407,7 @@ The job should complete within an hour on most systems.\\
 \subsubsection{Reviewing the \textit{TSRchitect} script} 
 Before we evaluate the results (which will have been written to your working directory after running the batch script), there are some important aspects of the analysis to review. 
 We discuss these for informational purposes only; it will not necessary to perform these commands separate from the batch script provided.
-First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately (\textit{see} \textbf{Note 5}).\\
+First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately (\textit{see} \textbf{Note 6}).\\
 
 The input in this case are BAM files (\textit{inputType}="bam"); \textit{TSRchitect} also accepts input in BED format.
 
@@ -550,6 +551,7 @@ The "scripts/" folder in the Appendix contains code for you to run the two major
 The "\texttt{additional\_files/}" folder contains the following files which are necessary for the analysis: i) a fasta file containing ribosomal RNA sequences for \textit{D. melanogaster} (\texttt{Dmel\_rRNA.fasta}) and ii) a gene annotation for \textit{D. melanogaster} (\texttt{Drosophila\_melanogaster.BDGP5.78.gff}).
 \item Since these fastq files are paired-end, we use the argument \textit{--split-files} to generate separate files for each read pair.
 \item If you are running this on a cluster with a job scheduler you'll need to add the necessary headers to the top of the script and submit the job in the appropriate manner.
+\item For parallel execution, GoRAMPAGE uses the Linux package \textit{GNU parallel} \cite{Tange2011a}. Please see the GoRAMPAGE documentation for more information.
 \item Because the samples provided derive from related developmental stages, we will merge them for annotation purposes using the argument \textit{replicateIDs}, (though it must be emphaized that they are not replicates).
 
 \subsection*{Acknowledgments}
