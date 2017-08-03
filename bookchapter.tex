@@ -115,7 +115,8 @@ As a consequence, what is known about promoter architecture in insects is largel
 As part of the modENCODE effort, CAGE was performed in multiple tissues and developmental stages of the \textit{Drosophila pseudoobscura}. 
 TSSs were found to be highly similar between species: more than 80\% of TSSs (81\%) of aligned, CAGE-identified TSSs from \textit{D. pseudoobscura} were positioned within 20nt of their counterparts in \textit{D. melanogaster}.
 An enrichment of the CA dinucleotide was detected at the TSS ([-1, +1]), and the motifs corresponding to TATA, Inr and DPE were positioned at the same locations relative to the TSS in both species.
-The one other insect species for which TSS profiling has been applied is the Tsetse fly (\textit{Glossina morsitans morsitans}) \cite{Mwangi:2015kn}. 
+\\
+The only other insect species for which TSS profiling has been applied is the Tsetse fly (\textit{Glossina morsitans morsitans}) \cite{Mwangi:2015kn}. 
 Using TSS-seq (specifically Oligo-capping; for details see \cite{Tsuchihara:2009dm}), the authors identified 3134 mapping to 1424 genes. 
 The authors found a preference for CA and AA dinucleotides at the TSS, and observe the major core promoter elements observed in \textit{Drosophila}: TATA, Inr, DPE, in addition to MTE (Motif Ten Element).
 As in \textit{D. melanogaster}, peaked promoters were more likely to contain TATA and Inr than broad promoters. 
@@ -127,8 +128,9 @@ CpG island promoters (CPIs) form the largest class of promoter in mammals \cite{
 \subsection{Paired-end TSS Profiling with RAMPAGE}
 The most recent major methodological advance in TSS Profiling is RAMPAGE (RNA Annotation and Mapping of Promoters for the Analysis of Gene Expression) \cite{Batut:2012kc,Batut:2013fu}. 
 RAMPAGE is a protocol for 5$^\prime$-cDNA sequencing that combines cap trapping and template-switching with paired-end sequence information. 
-A key advantage of generating paired-end sequence is transcript connectivity, which provides a direct link between a given 5$^\prime$-end and its associated mRNA molecule.
+A key advantage of generating paired-end sequence is transcript connectivity, which provides a direct link between a given 5$^\prime$-end and its associated mRNA molecule \cite{Batut:2012kc}.
 Because short or spurious RNAs are found within the transcriptome, transcript connectivity allows the TSSs (and thus promoters) of full-length mRNAs to be unambiguously identified, which benefits genome annotation and improves interpretation of transcript species.
+\\
 Batut and colleagues \cite{Batut:2012kc} generated libraries from total RNA isolated from 36 stages across the life cycle of \textit{D. melanogaster} providing a comprehensive gene expression and promoter atlas for fruit fly and in the process demonstrating the utility of RAMPAGE.
 RAMPAGE is currently being applied as part of the latest iteration of ENCODE to identify promoters in human, but as of this writing it has not been applied to any non-\textit{Drosophila} insect model system. 
 In anticipation of the future application of TSS profiling into other insect model systems here we provide a documented protocol for the computational processing RAMPAGE data, using selected libraries from Batut \textit{et al.} \cite{Batut:2012kc}. 
@@ -163,6 +165,7 @@ The former is a well-known pay-per-use solution, while the latter is an NSF-fund
 
 \subsection{Software}
 Below is a list of the software packages required for this demonstration (\textit{see} \textbf{Note 1}).\\
+\\
 \textbf{Sequence retrieval}
 \begin{enumerate}
 \item SRA Toolkit \cite{Leinonen:2011iw}  (\url{https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/})
@@ -170,7 +173,7 @@ Below is a list of the software packages required for this demonstration (\texti
 \textbf{GoRAMPAGE}
 \begin{enumerate}
 \item GoRAMPAGE \cite{Brendel:2016ab} (\url{https://github.com/brendelGroup/GoRAMPAGE})
-\item fastq-multx \cite{Aronesty:2013gt} (\url{https://github.com/brwnj/fastq-multx/blob/master/README.md})
+\item fastq-multx \cite{Aronesty:2013gt} (\url{https://github.com/brwnj/fastq-multx})
 \item FASTX-Toolkit \cite{citeulike:9103573} (\url{\texttt{http://hannonlab.cshl.edu/fastx\_toolkit/Index.html}})
 \item TagDust2 \cite{Lassmann:2015gs} (\url{https://sourceforge.net/projects/tagdust/})
 \item Samtools \cite{Li:2009ka} (\url{http://www.htslib.org/doc/samtools.html})
@@ -199,7 +202,8 @@ source("https://bioconductor.org/biocLite.R")
 biocLite()
 \end{verbatim}
 
-We will use the R package \textit{TSRchitect} to identify promoters from aligned RAMAPGE libraries. 
+\noindent
+We will use the R package \textit{TSRchitect} to identify promoters from aligned RAMPAGE libraries. 
 Prior to running the analysis, it will be necessary to install a series of prerequisite packages to \textit{TSRchitect} from Bioconductor.
 Please install these packages as follows (as before, from an R console):
 
@@ -564,7 +568,7 @@ The application of TSS profiling technology across a more representative sample 
 \section{Notes}
 \begin{enumerate}
 \item Please consult the GoRAMPAGE documentation found here:\\
- \url{https://github.com/BrendelGroup/GoRAMPAGE}.
+ \url{https://github.com/BrendelGroup/GoRAMPAGE}.\\
 Installation instructions for the prerequisites of GoRAMPAGE (which includes some of the items listed) are found at the following link:\\
  \url{https://github.com/BrendelGroup/GoRAMPAGE/tree/master/src}.
 \item You can clone this appendix to your workspace on the command line using git, as follows:
@@ -577,7 +581,7 @@ The "\texttt{additional\_files/}" folder contains the following files which are 
 \item If you are running this on a cluster with a job scheduler you'll need to add the necessary headers to the top of the script and submit the job in the appropriate manner.
 \item For parallel execution, GoRAMPAGE uses the Linux package \textit{GNU parallel} \cite{Tange2011a}. Please see the GoRAMPAGE documentation for more information.
 \item To do this, please edit the batch script \texttt{TSRchitect\_script\_MMB.R} with a text editor of your choice.
-\item Because the samples provided derive from related developmental stages, we will merge them for annotation purposes using the argument \textit{replicateIDs}, (though it must be emphaized that they are not replicates).
+\item Because the samples provided derive from related developmental stages, we will merge them for annotation purposes using the argument \textit{replicateIDs}, (though it must be emphasized that they are not replicates).
 
 \subsection*{Acknowledgments}
 The authors would like to thank Philippe Batut for generous technical assistance with the RAMPAGE protocol, and to Nathan Keith for his help establishing the protocol in our laboratory.
