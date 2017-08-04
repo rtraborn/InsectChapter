@@ -43,7 +43,7 @@
 \titlerunning{Identification of insect regulatory elements}
 
 % the name(s) of the author(s) follow(s) next
-\author[1,2]{R. Taylor Raborn\thanks{Correspondence: rtraborn@indiana.edu}}
+\author[1]{R. Taylor Raborn\thanks{Correspondence: rtraborn@indiana.edu}}
 \author[1,2]{Volker P. Brendel}
 
 \affil[1]{Department of Biology, Indiana University}
@@ -58,7 +58,7 @@
 
 % the affiliations are given next; don't give your e-mail address
 % unless you accept that it will be published
-\institute{Department of Biology and School of Informatics and Computing, \\
+\institute{Department of Biology\\
 Indiana University\\
 212 S. Hawthorne Drive 205 Simon Hall, Bloomington, IN 47401, USA\\
 %\mailsa\\
@@ -79,10 +79,10 @@ Indiana University\\
 
 \begin{abstract}
 Application of Transcription Start Site (TSS) profiling technologies, coupled with large-scale next-generation sequencing (NGS) has yielded valuable insights into the location, structure and activity of promoters across diverse metazoan model systems.
-In insects, TSS profiling has been used to characterize the promoter architecture of \textit{Drosophila melanogaster} \cite{Hoskins:2011io}, and, shortly thereafter, to reveal widespread transposon-driven alternative promoter usage in \textit{D. melanogaster} \cite{Batut:2012kc}. 
+In insects, TSS profiling has been used to characterize the promoter architecture of \textit{Drosophila melanogaster} \cite{Hoskins:2011io} and subsequently was employed to reveal widespread transposon-driven alternative promoter usage in the fruit fly \cite{Batut:2012kc}. 
 
-In this chapter we highlight the utility of one TSS profiling method, RAMPAGE (RNA annotation and mapping of promoters for analysis of gene expression), for the precise, quantitative identification of promoters in insect genomes.
-We demonstrate this using our tools GoRAMPAGE \cite{Brendel:2016ab} and TSRchitect \cite{Raborn:2017ab}, providing details instructions with the aim of taking the user from raw reads to processed results. 
+In this chapter we discuss the computational analysis of the experimental data derived from of one TSS profiling method, RAMPAGE (RNA Annotation and Mapping of Promoters for Analysis of Gene Expression), that can be used for the precise, quantitative identification of promoters in insect genomes.
+We demonstrate this using the software tools GoRAMPAGE \cite{Brendel:2016ab} and TSRchitect \cite{Raborn:2017ab}, providing detailed instructions with the aim of taking the user from raw reads to processed results. 
 
 \keywords{\textit{cis}-regulatory regions, promoter architecture, transcription initiation, transcription start sites (TSSs)}
 \end{abstract}
@@ -91,36 +91,37 @@ We demonstrate this using our tools GoRAMPAGE \cite{Brendel:2016ab} and TSRchite
 \section{Introduction}
 
 \subsection{TSS Profiling Identifies Promoters at Genome-Scale}
-The promoter, defined in eukaryotes as the genomic region bound by RNA Polymerase II immediately prior to transcription initiation \cite{Kadonaga:2011gz}, is the site where regulatory signals unite to direct gene expression.
-The identification of promoter regions is a valuable step for understanding the \textit{cis}-regulatory signals that are present in an organism, and is also important for genome annotation.
+The promoter, which is defined in eukaryotes as the genomic region bound by RNA Polymerase II immediately prior to transcription initiation \cite{Kadonaga:2011gz}, is the primary locus of the regulation of gene expression.
+The identification of promoter regions is necessary for understanding the \textit{cis}-regulatory signals controlling gene expression in an organism, and is also important for genome annotation.
 However, despite the rapid accumulation of genome sequences across metazoan and arthropod diversity, accurate annotation of promoter regions remains sparse. 
 This is because---absent empirically-defined information---precisely identifying sequence motifs that demarcate the promoter is unreliable.
 In contrast with current \textit{in silico} approaches, direct mapping of TSSs identifies the location of the core promoter.
 Cap Analysis of Gene Expression (CAGE) \cite{Kodzius:2006gy}, one of the first methods devised to identify 5$^\prime$-ends of mRNAs at large-scale, involves selective capture of 5$^\prime$-capped transcripts, first-strand reverse-transcription and ligation of a short oligonucleotide (CAGE tag). \\
 \\
 CAGE was initially utilized by the FANTOM (Functional Annotation of the Mammalian Genome) consortium to identify promoter architecture in human and mouse \cite{Carninci:2005kp}, providing the first glimpse of the global landscape of transcription initiation.
-At the onset of the NGS era, CAGE was coupled with massively-parallel sequencing to generate 5$^\prime$-ends of mRNAs at substantially higher scale. 
-This advance provided more extensive coverage of the expressed transcriptome, and provided increased sensitivity for quantitative measurements \textit{i}.\textit{e}. measurement of promoter activity.
+At the onset of the next-generation sequencing (NGS) era, CAGE was coupled with massively-parallel sequencing to define 5$^\prime$-mRNA ends at large scale. 
+This advance provided more extensive coverage of the expressed transcriptome and provided increased sensitivity for quantitative measurements of promoter activity.
 
 \subsection{Promoter Architecture of \textit{Drosophila melanogaster}}
 Hoskins and colleagues \cite{Hoskins:2011io} performed CAGE in \textit{D. melanogaster} as part of the modENCODE consortium, identifying promoters at large-scale and characterizing the promoter architecture of an insect genome for the first time.
-Hoskins \cite{Hoskins:2011io} indicated that TSS distributions at \textit{Drosophila} promoters exhibit a range of shapes that can be generally grouped into two major classifications: \textit{peaked} and \textit{broad}. 
+The authors found that TSS distributions at \textit{Drosophila} promoters exhibit a range of shapes that can be generally grouped into two major classes: \textit{peaked} and \textit{broad}. 
+This confirmed the original finding of Rach and colleagues \cite{Rach:2009ct}, which was done using publicly-available expressed sequence tags (ESTs).
 Peaked promoters have a single, major TSS position occupying a narrow genomic region, whereas broad promoters lack a single, major TSS and contain TSSs across a wider region \cite{Rach:2009ct,Lenhard:2012en}. 
 The authors also showed a strong association between promoter class and motif composition (consistent with previous findings \cite{Rach:2009ct,Ni:2010jh}). 
-Peaked promoters were associated with positionally-enriched \textit{cis}-regulatory motifs including TATA, Initiator (Inr) and DPE, while broad promoters contained an enrichment of less-well characterized motifs, including \textit{Ohler6} and \textit{Ohler7} \cite{Ohler:2002vl}. 
-The existence of two promoter classes appears to be conserved among metazoans, and has been reported (using TSS profiling methodolgies) in insects, cladocerans \cite{Raborn:2016cr}, fish \cite{Nepal:2013bga} and mammals \cite{Carninci:2006in,Lenhard:2012en}.
+Peaked promoters were associated with positionally-enriched \textit{cis}-regulatory motifs including TATA, Initiator (Inr) and DPE (Downstream Promoter Element), while broad promoters contained an enrichment of less-well characterized motifs, including \textit{Ohler6} and \textit{Ohler7} \cite{Ohler:2002vl}. 
+The existence of at least two promoter classes appears to be conserved among metazoans and has been reported (using TSS profiling methods) in insects, cladocerans \cite{Raborn:2016cr}, fish \cite{Nepal:2013bga} and mammals \cite{Carninci:2006in,Lenhard:2012en}.
 
 \subsection{Promoter Structure of Insects}
 Beyond \textit{D. melanogaster}, few investigations have utilized TSS profiling in insect genomes. 
 As a consequence, what is known about promoter architecture in insects is largely restricted to the \textit{Drosophila} genus. 
 As part of the modENCODE effort, CAGE was performed in multiple tissues and developmental stages of the \textit{Drosophila pseudoobscura}. 
-TSSs were found to be highly similar between species: more than 80\% of TSSs (81\%) of aligned, CAGE-identified TSSs from \textit{D. pseudoobscura} were positioned within 20nt of their counterparts in \textit{D. melanogaster}.
+TSSs were found to be highly similar between species: 81\% of TSSs of aligned, CAGE-identified TSSs from \textit{D. pseudoobscura} were positioned within 20nt of their counterparts in \textit{D. melanogaster}.
 An enrichment of the CA dinucleotide was detected at the TSS ([-1, +1]), and the motifs corresponding to TATA, Inr and DPE were positioned at the same locations relative to the TSS in both species.
 \\
 \\
 The only other insect species for which TSS profiling has been applied is the Tsetse fly (\textit{Glossina morsitans morsitans}) \cite{Mwangi:2015kn}. 
-Using TSS-seq (specifically Oligo-capping; for details see \cite{Tsuchihara:2009dm}), the authors identified 3134 mapping to 1424 genes. 
-The authors found a preference for CA and AA dinucleotides at the TSS, and observe the major core promoter elements observed in \textit{Drosophila}: TATA, Inr, DPE, in addition to MTE (Motif Ten Element).
+Using TSS-seq (specifically Oligo-capping; for details see \cite{Tsuchihara:2009dm}), the authors identified 3134 promoters associated with 1424 genes. 
+The authors found a preference for CA and AA dinucleotides at the TSSs and observe the major core promoter elements observed in \textit{Drosophila}: TATA, Inr, DPE, in addition to MTE (Motif Ten Element).
 As in \textit{D. melanogaster}, peaked promoters were more likely to contain TATA and Inr than broad promoters. 
 While the taxonomic sampling of species for TSS profiling has been limited, the existing studies are sufficient to provide a general picture of insect promoter architecture.
 A major demarcation between the promoter architecture of insects and mammals appears to be the large fraction of mammalian promoters found in CpG islands \cite{Mwangi:2015kn}.
@@ -128,17 +129,16 @@ CpG island promoters (CPIs) form the largest class of promoter in mammals \cite{
 
 
 \subsection{Paired-end TSS Profiling with RAMPAGE}
-The most recent major methodological advance in TSS Profiling is RAMPAGE (RNA Annotation and Mapping of Promoters for the Analysis of Gene Expression) \cite{Batut:2012kc,Batut:2013fu}. 
-RAMPAGE is a protocol for 5$^\prime$-cDNA sequencing that combines cap trapping and template-switching with paired-end sequence information. 
+The most recent major methodological advance in TSS Profiling is RAMPAGE \cite{Batut:2012kc,Batut:2013fu}, a protocol for 5$^\prime$-cDNA sequencing that combines cap trapping and template-switching with paired-end sequence information. 
 A key advantage of generating paired-end sequence is transcript connectivity, which provides a direct link between a given 5$^\prime$-end and its associated mRNA molecule \cite{Batut:2012kc}.
 Because short or spurious RNAs are found within the transcriptome, transcript connectivity allows the TSSs (and thus promoters) of full-length mRNAs to be unambiguously identified, which benefits genome annotation and improves interpretation of transcript species.
 \\
 \\
-Batut and colleagues \cite{Batut:2012kc} generated libraries from total RNA isolated from 36 stages across the life cycle of \textit{D. melanogaster} providing a comprehensive gene expression and promoter atlas for fruit fly and in the process demonstrating the utility of RAMPAGE.
+Batut and colleagues \cite{Batut:2012kc} generated libraries from total RNA isolated from 36 stages across the life cycle of \textit{D. melanogaster}, generating a comprehensive gene expression and promoter atlas for fruit fly and demonstrating the utility of RAMPAGE.
 RAMPAGE is currently being applied as part of the latest iteration of ENCODE to identify promoters in human, but as of this writing it has not been applied to any non-\textit{Drosophila} insect model system. 
-In anticipation of the future application of TSS profiling into other insect model systems here we provide a documented protocol for the computational processing RAMPAGE data, using selected libraries from Batut \textit{et al.} \cite{Batut:2012kc}. 
-This method will consist of two parts: first, we will process, filter and align the sequenced RAMPAGE libraries to the \textit{D. melanogaster} genome. 
-Second, we will identify TSSs and promoters from the aligned sequences and associate them with coding regions.
+In anticipation of the future application of TSS profiling into other insect model systems, we discuss in this chapter a well-documented protocol for the computational processing and analysis of RAMPAGE data, using selected libraries from Batut \textit{et al.} \cite{Batut:2012kc}. 
+This method consists of two parts: first, we discuss how to process, filter and align the sequenced RAMPAGE libraries to the \textit{D. melanogaster} genome. 
+Second, we show how to identify TSSs and promoters from the aligned sequences and associate them with coding regions.
 In closing, we will consider further applications of this data and discuss the utility of reproducible workflows in bioinformatic analysis.
 
 %You are strongly encouraged to use \LaTeXe{} for the
@@ -149,10 +149,10 @@ In closing, we will consider further applications of this data and discuss the u
 
 \section{Materials}
 
-The analyses described herein require a workstation capable of doing modern bioinformatics, including a reasonably-appointed laptop.
+The analyses described herein require a workstation capable of doing modern bioinformatics; minimally a reasonably-appointed laptop.
 An intermediate understanding of the Linux/Unix command line will be extremely useful, although we make efforts to explain the procedures with clarity. In addition, it will likely be necessary for the participant to have superuser privileges on the machine.
-If you do not have a machine (or have access to one) that meets these requirements, it is recommended that you consider cloud-based cyberinfrastructure, including Amazon Web Services (AWS; \url{https://aws.amazon.com/}) or CyVerse (\url{http://www.cyverse.org/}) \cite{Merchant:2016jn}.
-The former is a well-known pay-per-use solution, while the latter is an NSF-funded resource that makes compute allocations freely available to the public.
+If you do not have a machine (or have access to one) that meets these requirements, it is recommended that you consider cloud-based cyberinfrastructure, including Amazon Web Services (AWS; \url{https://aws.amazon.com/}), CyVerse (\url{http://www.cyverse.org/}) \cite{Merchant:2016jn}, or JetStream (\url{https://jetstream-cloud.org/}) \cite{Stewart:2015abc}.
+The former is a well-known pay-per-use solution, while the latter two are NSF-funded resources that makes compute allocations freely available to the public.
 
 \subsection{Hardware}
 \begin{enumerate} 
@@ -190,9 +190,9 @@ Below is a list of the software packages required for this demonstration (\texti
 \item Various R package dependencies (see \textbf{Methods})
 \end{enumerate}
 
-\subsection{Online Appendix}
-We created an online appendix to serve as a companion to this chapter, which contains both scripts and select files to assist you in completing this tutorial.
-Please find the repository at \url{\texttt{https://github.com/rtraborn/MMB\_appendix}} (\textit{see} \textbf{Note 2}).
+\subsection{Demonstration}
+We created an online demonstration (demo) to serve as a companion to this chapter, which contains both scripts and select files to assist you in completing this tutorial.
+Please find the repository at \url{https://github.com/brendelgroup/GoRAMPAGE/demo/MMB} (\textit{see} \textbf{Note 2}).
 
 \subsection{Installation of R packages}
 For installation of the software listed above, please follow the instructions provided by each respective package. 
@@ -208,7 +208,7 @@ biocLite()
 \noindent
 We will use the R package \textit{TSRchitect} to identify promoters from aligned RAMPAGE libraries. 
 Prior to running the analysis, it will be necessary to install a series of prerequisite packages to \textit{TSRchitect} from Bioconductor.
-Please install these packages as follows (as before, from an R console):
+Please install these packages, followed by \textit{TSRchitect} (as before, from an R console):
 
 \noindent
 \begin{verbatim}
@@ -218,14 +218,7 @@ biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel",
  "GenomicRanges", "IRanges", "methods", 
  "Rsamtools", "rtracklayer", "S4Vectors",
  "SummarizedExperiment"))
-\end{verbatim}
 
-\noindent
-To install \textit{TSRchitect}, please type the following from an R console:
-
-\noindent
-\begin{verbatim}
-source("https://bioconductor.org/biocLite.R")
 biocLite("TSRchitect")
 \end{verbatim}
 
@@ -234,7 +227,7 @@ Finally, please confirm that TSRchitect has been installed correctly by loading 
 
 \noindent
 \begin{verbatim}
-library(TSRchitect) #installing TSRchitect
+library(TSRchitect) #loading TSRchitect
 \end{verbatim}
 
 \section{Methods}
@@ -277,7 +270,6 @@ Once the download of the aforementioned files are complete, you should see a tot
 \noindent
 \begin{verbatim}
 ls -l *.fastq | wc -l
-cd ..
 \end{verbatim}
 
 \subsection{Creating symlinks to the files}
@@ -311,12 +303,24 @@ cd ../../.. #returning to the output directory
 
 \subsection{Downloading genomic data from \textit{D. melanogaster}}
 Now that we have the fastq files from the RAMPAGE libraries downloaded and named appropriately, we now must retrieve the genome assembly and rRNA sequences from \textit{D. melanogaster}.
-The genome assembly is required for aligning the RAMPAGE reads, and the rRNA sequences are required to filter out matching reads in the sequenced RAMPAGE libraries, since our sample is intended to contain only capped RNA transcripts. 
-Please download the rRNA sequences from the link we provide below. 
-These sequences were retrieved separately from Genbank at the NCBI database. \\
+The genome assembly is required for aligning the RAMPAGE reads, and the rRNA sequences are required to filter out matching reads in the sequenced RAMPAGE libraries.
+Because our sample is intended to contain only capped RNAs, any rRNA sequences we observe in these RAMPAGE libraries are contaminants that must be removed.\\
+\\
+\noindent
+Please download the rRNA sequences from the \texttt{demo/additional\_files} folder in the demo.
+These sequences were retrieved separately from Genbank at the NCBI database.
+Please navigate to the rRNA file \texttt{"Dmel\_rRNA.fasta"} found in the Demo.
 
 \noindent
-To retrieve the genome assembly from the ENSEMBL database, please do the following:
+\begin{verbatim}
+head -n 3
+>ref|NR_133562.1| Drosophila melanogaster 28S ribosomal RNA (28SrRNA:CR45844), rRNA
+TTATATACAACCTCAACTCATATGGGACTACCCCCTGAATTTAAGCATATTAATTAGGGGAGGAAAAGAA
+ACTAACAAGGATTTTCTTAGTAGCGGCGAGCGAAAAGAAAACAGTTCAGCACTAAGTCACTTTGTCTATA
+\end{verbatim}
+
+We will then download a version of the \textit{D. melanogaster} genome assembly from ENSEMBL (\url{www.ensembl.org}) \cite{Yates:2016tbc}.
+To retrieve the genome assembly, please do the following:
 
 \noindent
 \begin{verbatim}
@@ -328,21 +332,10 @@ gzip -d Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz
 cd ..
 \end{verbatim}
 
-\noindent
-Please navigate to the rRNA file \texttt{"Dmel\_rRNA.fasta"} found in the Appendix.
-
-\noindent
-\begin{verbatim}
-head -n 3
->ref|NR_133562.1| Drosophila melanogaster 28S ribosomal RNA (28SrRNA:CR45844), rRNA
-TTATATACAACCTCAACTCATATGGGACTACCCCCTGAATTTAAGCATATTAATTAGGGGAGGAAAAGAA
-ACTAACAAGGATTTTCTTAGTAGCGGCGAGCGAAAAGAAAACAGTTCAGCACTAAGTCACTTTGTCTATA
-\end{verbatim}
-
 \subsection{Filtering and alignment of RAMPAGE reads using GoRAMPAGE}
 At this stage we are ready to commence with the rRNA filtering and alignment of the RAMPAGE libraries.
 We will use GoRAMPAGE, a tool we developed, to perform these tasks in a concerted workflow. 
-GoRAMPAGE runs TagDust \cite{Lassmann:2015gs} to remove rRNA and low-complexity reads, and uses STAR \cite{Dobin:2016kq} to align RAMPAGE (or other paired-end) reads to a given genome assembly.
+GoRAMPAGE runs TagDust \cite{Lassmann:2015gs} to remove rRNA and low-complexity reads and STAR \cite{Dobin:2016kq} to align RAMPAGE (or other paired-end) reads to a given genome assembly.
 
 \subsubsection{Setting up the GoRAMPAGE job.}
 Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 4}). 
@@ -577,9 +570,10 @@ While the analysis centered on \textit{D. melanogaster} via the use of public da
  \url{https://github.com/BrendelGroup/GoRAMPAGE}.\\
 Installation instructions for the prerequisites of GoRAMPAGE (which includes some of the items listed) are found at the following link:\\
  \url{https://github.com/BrendelGroup/GoRAMPAGE/tree/master/src}.
-\item You can clone this appendix to your workspace on the command line using git, as follows:
+\item You can clone the entire GoRAMPAGE repository (including the contents of the Demo) to your workspace on the command line using git, as follows:
 \begin{verbatim}
-git clone https://github.com/rtraborn/MMB_appendix.git
+git clone https://github.com/brendelgroup/GoRAMPAGE/
+cd demo/MMB
 \end{verbatim}
 The "scripts/" folder in the Appendix contains code for you to run the two major workflows described in this chapter.
 The "\texttt{additional\_files/}" folder contains the following files which are necessary for the analysis: i) a fasta file containing ribosomal RNA sequences for \textit{D. melanogaster} (\texttt{Dmel\_rRNA.fasta}) and ii) a gene annotation for \textit{D. melanogaster} (\texttt{Drosophila\_melanogaster.BDGP5.78.gff}).
@@ -590,7 +584,7 @@ Please see the GoRAMPAGE documentation for more information.
 \item To do this, please edit the batch script \texttt{TSRchitect\_script\_MMB.R} with a text editor of your choice.
 \item Because the samples provided derive from related developmental stages, we will merge them for annotation purposes using the argument \textit{replicateIDs}, (though it must be emphasized that they are not replicates).
 \item All of \textit{TSRchitect's} output files are labeled according to the order that they are loaded onto the \textit{tssObject}. 
-For example, \textit{TSSset-1.txt} corresponds to the first RAMPAGE dataset (in our case E1h), and \textit{TSSset-2.txt} corresponds to the second RAMAPGE dataset (for this example E2h), and so on.
+For example, \textit{TSSset-1.txt} corresponds to the first RAMPAGE dataset (in our case E1h), and \textit{TSSset-2.txt} corresponds to the second RAMPAGE dataset (for this example E2h), and so on.
 You can check which datasets are loaded on the \textit{tssObject} by simply entering it on an R console. 
 Please see the \textit{TSRchitect} documentation for more information.
 
