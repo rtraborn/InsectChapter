@@ -196,7 +196,7 @@ Please find the repository at \url{https://github.com/brendelgroup/GoRAMPAGE/dem
 
 \subsection{Installation of R packages}
 For installation of the software listed above, please follow the instructions provided by each respective package. 
-Part of our analysis will require the use of R packages found in the Bioconductor suite \cite{Lawrence:2014gy}.
+Part of our analysis will require the use of R packages found in the Bioconductor suite \cite{Lawrence:2014gy} (\textit{see} \textbf{Note 3}).
 To install Bioconductor, please type the following from an R console: 
 
 \noindent
@@ -242,7 +242,7 @@ We will compare samples from selected embryonic (E01h-E03h) and larval (L1-L3) t
 For more information about the experiment and the available RAMPAGE libraries, please see the following link: \url{https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP011193}.\\
 
 \noindent
-First, let's proceed with downloading the libraries from early embryonic tissues (\textit{see} \textbf{See Note 3}).
+First, let's proceed with downloading the libraries from early embryonic tissues (\textit{see} \textbf{See Note 4}).
 We will make a new folder (entitled \texttt{"fastq\_files/"}) to house these files.
 
 \noindent
@@ -338,8 +338,8 @@ We will use GoRAMPAGE, a tool we developed, to perform these tasks in a concerte
 GoRAMPAGE runs TagDust \cite{Lassmann:2015gs} to remove rRNA and low-complexity reads and STAR \cite{Dobin:2016kq} to align RAMPAGE (or other paired-end) reads to a given genome assembly.
 
 \subsubsection{Setting up the GoRAMPAGE job.}
-Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 4}). 
-GoRAMPAGE jobs can optionally be run in parallel (\textit{see} \textbf{Note 5}).
+Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 5}). 
+GoRAMPAGE jobs can optionally be run in parallel (\textit{see} \textbf{Note 6}).
 The script can be executed as follows:
 
 \noindent
@@ -402,7 +402,7 @@ In the section to follow, we will go through the output of the analysis.
 For further details on how to use \textit{TSRchitect}, please see its documentation at its Bioconductor page found here: \url{https://www.bioconductor.org/packages/release/bioc/html/TSRchitect.html}.
 
 \subsubsection{Running the Analysis.}
-To run TSRchitect using the batch script, provide full paths for the variables "BAMDIR" and "DmAnnot" in the script provided (\textit{see} \textbf{Note 6}).
+To run TSRchitect using the batch script, provide full paths for the variables "BAMDIR" and "DmAnnot" in the script provided (\textit{see} \textbf{Note 7}).
 \textit{BAMDIR} should be a path to the subdirectory "alignments/" in RAMPAGE output directory you specified earlier, and \textit{DmAnnot} should be a full path to the \textit{D. melanogaster} gene annotation listed above.\\
 \\
 Once this is complete, we can run the batch script from the Linux command-line as follows:
@@ -420,7 +420,7 @@ Once the job is underway, you can monitor its progress by looking at the content
 \subsubsection{Reviewing the \textit{TSRchitect} script.} 
 Before we evaluate the results (which will have been written to your working directory after running the batch script), there are some important aspects of the analysis to review. 
 We discuss these for informational purposes only; it will not necessary to perform these commands separate from the batch script provided.
-First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately (\textit{see} \textbf{Note 7}).\\
+First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately (\textit{see} \textbf{Note 8}).\\
 
 \noindent
 The inputs in this case are BAM files (\textit{inputType}="bam"); \textit{TSRchitect} also accepts input in BED format.
@@ -499,7 +499,7 @@ Your working directory should now contain the following:
 \end{itemize} \\
 
 \noindent
-Let's briefly review the files (\textit{see} \textbf{Note 8}). 
+Let's briefly review the files (\textit{see} \textbf{Note 9}). 
 We can quickly obtain the counts on the command line, as follows:
 
 \noindent
@@ -570,6 +570,17 @@ While the analysis centered on \textit{D. melanogaster} via the use of public da
  \url{https://github.com/BrendelGroup/GoRAMPAGE}.\\
 Installation instructions for the prerequisites of GoRAMPAGE (which includes some of the items listed) are found at the following link:\\
  \url{https://github.com/BrendelGroup/GoRAMPAGE/tree/master/src}.
+\item On Linux, the installation of a few packages are necessary in order to install Bioconductor packages using \textit{biocLite}.\\
+To install them using Ubuntu:
+
+\begin{verbatim}
+apt-get install libssl-dev
+apt-get install libcurl4-openssl-dev
+apt-get install libxml2-dev
+\end{verbatim}
+
+If you do not Ubuntu, use the commands necessary to install the above packages on your Linux distribution.
+
 \item You can clone the entire GoRAMPAGE repository (which includes the contents of the Demo) to your workspace on the command line using git, as follows:
 \begin{verbatim}
 git clone https://github.com/brendelgroup/GoRAMPAGE/
