@@ -156,7 +156,7 @@ The former is a well-known pay-per-use solution, while the latter two are NSF-fu
 \subsection{Hardware}
 \begin{enumerate} 
 \item x86-64 compatible processors
-\item 8GB RAM 
+\item 8GB RAM
 \item 80GB+ hard disk space
 \end{enumerate}
 
@@ -273,7 +273,7 @@ ls -l *.fastq | wc -l
 \end{verbatim}
 
 \subsection{Creating symlinks to the files}
-Our workflow expects fastq files that have the format ``*.R1/R2.clipped.fq". 
+Our workflow expects fastq files that have the format "*.R1/R2.clipped.fq". 
 Rather than rename them, we can simply create brand new symbolic links (symlinks) to the files, as follows:
 
 \noindent
@@ -309,10 +309,10 @@ Because our sample is intended to contain only capped RNAs, any rRNA sequences w
 \noindent
 Please download the rRNA sequences from the \texttt{demo/additional\_files} folder in the demo.
 These sequences were retrieved separately from Genbank at the NCBI database.
-Please navigate to the rRNA file \texttt{"Dmel\_rRNA.fasta"} found in the Demo.
+Please navigate to the rRNA file \texttt{"Dmel\_rRNA.fasta"} found in the demo.
 
 \noindent
-\begin{verbatim}[fontsize=\small]
+\begin{verbatim}[gobble=2]
 head -n 3
 >ref|NR_133562.1| Drosophila melanogaster 28S ribosomal RNA (28SrRNA:CR45844), rRNA
 TTATATACAACCTCAACTCATATGGGACTACCCCCTGAATTTAAGCATATTAATTAGGGGAGGAAAAGAA
@@ -339,14 +339,14 @@ We will use GoRAMPAGE, a tool we developed, to perform these tasks in a concerte
 GoRAMPAGE runs TagDust \cite{Lassmann:2015gs} to remove rRNA and low-complexity reads and STAR \cite{Dobin:2016kq} to align RAMPAGE (or other paired-end) reads to a given genome assembly.
 
 \subsubsection{Setting up the GoRAMPAGE job.}
-Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 5}). 
+Please refer to the script \texttt{"GoRAMPAGE\_serial\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 5}). 
 GoRAMPAGE jobs can optionally be run in parallel (\textit{see} \textbf{Note 6}).
 The script can be executed as follows:
 
 \noindent
 \begin{verbatim}
-#vi GoRAMPAGE_script_MMB.sh #updating with a text editor
-./GoRAMPAGE_script_MMB.sh
+#vi GoRAMPAGE_serial_MMB.sh #updating with a text editor
+./GoRAMPAGE_serial_MMB.sh
 \end{verbatim}
 
 \noindent
@@ -586,18 +586,18 @@ apt-get install libxml2-dev
 
 If you do not Ubuntu, use the commands necessary to install the above packages on your Linux distribution.
 
-\item You can clone the entire GoRAMPAGE repository (which includes the contents of the Demo) to your workspace on the command line using git, as follows:
+\item You can clone the entire GoRAMPAGE repository (which includes the contents of the demo) to your workspace on the command line using git, as follows:
 \begin{verbatim}
 git clone https://github.com/brendelgroup/GoRAMPAGE/
 cd demo/MMB
 \end{verbatim}
-The "scripts/" folder in the Demo contains code for you to run the two major workflows described in this chapter.
+The "scripts/" folder in the demo contains code for you to run the two major workflows described in this chapter.
 The "\texttt{additional\_files/}" folder contains the following files which are necessary for the analysis: i) a fasta file containing ribosomal RNA sequences for \textit{D. melanogaster} (\texttt{Dmel\_rRNA.fasta}) and ii) a gene annotation for \textit{D. melanogaster} (\texttt{Drosophila\_melanogaster.BDGP5.78.gff}).
 \item Since these fastq files are paired-end, we use the argument \textit{--split-files} to generate separate files for each read pair.
 \item If you are running this on a cluster with a job scheduler you'll need to add the necessary headers to the top of the script and submit the job in the appropriate manner.
-\item For parallel execution, GoRAMPAGE uses the Linux package \textit{GNU parallel} \cite{Tange2011a}. 
+\item For parallel execution, GoRAMPAGE uses the Linux package \textit{GNU parallel} \cite{Tange2011a}.
 Please see the GoRAMPAGE documentation for more information.
-\item To do this, please edit the batch script \texttt{TSRchitect\_script\_MMB.R} with a text editor of your choice.
+\item To do this, please edit the batch script \texttt{TSRchitect\_serial\_MMB.R} with a text editor of your choice.
 \item Because the samples provided derive from related developmental stages, we will merge them for annotation purposes using the argument \textit{replicateIDs}, (though it must be emphasized that they are not replicates).
 \item All of \textit{TSRchitect's} output files are labeled according to the order that they are loaded onto the \textit{tssObject}. 
 For example, \textit{TSSset-1.txt} corresponds to the first RAMPAGE dataset (in our case E1h), and \textit{TSSset-2.txt} corresponds to the second RAMPAGE dataset (for this example E2h), and so on.
