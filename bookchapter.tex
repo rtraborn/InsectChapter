@@ -155,7 +155,7 @@ The example analyses described herein require a workstation capable of doing mod
 An intermediate understanding of the Linux/Unix command line will be extremely useful, although we make efforts to explain the procedures with clarity. 
 In addition, it will likely be necessary for the participant to have superuser privileges on the machine.
 If you do not have a machine (or have access to one) that meets these requirements, it is recommended that you consider cloud-based cyberinfrastructure, including Amazon Web Services (AWS; \url{https://aws.amazon.com/}), CyVerse (\url{http://www.cyverse.org/}) \cite{Merchant:2016jn}, or JetStream (\url{https://jetstream-cloud.org/}) \cite{Stewart:2015abc}.
-The former is a well-known pay-per-use solution, while the latter two are NSF-funded resources that makes compute allocations freely available to the public.\\
+The former is a well-known pay-per-use solution, while the latter two are NSF-funded resources that make compute allocations freely available to the public.\\
 For many users, the cyberinfrastructure approach is a convenient solution, particularly when providers offer task-dedicated virtual machines. In that case, the user essentially rents a fully equipped computer with all necessary software pre-installed and sufficient resources for the intended job. For the computational workflows discussed here, researchers can check out an instance of the "bgRAMOSE" image at JetStream which comes with all Brendel Group software (\url{https://brendelgroup.github.io/}) as well as other useful bioinformatics tools enabled.
 
 
@@ -197,8 +197,8 @@ Below is a list of the software packages required for this demonstration (\texti
 
 \subsection{Demonstration}
 We created an online demonstration (demo) to serve as a companion to this chapter, which contains both scripts and select files to assist you in completing this tutorial.
-Please find the repository here:\\
-\url{https://github.com/brendelgroup/GoRAMPAGE/demo/MMB} (\textit{see} \textbf{Note 2}).
+Please find the repository at here (in the folder "demo/MMB/"):\\
+\url{https://github.com/brendelgroup/GoRAMPAGE} (\textit{see} \textbf{Note 2}).
 
 \subsection{Installation of R packages}
 For installation of the software listed above, please follow the instructions provided by each respective package. 
@@ -289,20 +289,20 @@ mkdir -p output/reads/clipped
 cd output/reads/clipped
 
 #embryonic libraries
-ln -s ../../../fastq-files/SRR424683_1.fastq E01h.R1.clipped.fq 
-ln -s ../../../fastq-files/SRR424683_2.fastq E01h.R2.clipped.fq
-ln -s ../../../fastq-files/SRR424684_1.fastq E02h.R1.clipped.fq
-ln -s ../../../fastq-files/SRR424684_2.fastq E02h.R2.clipped.fq
-ln -s ../../../fastq-files/SRR424685_1.fastq E03h.R1.clipped.fq
-ln -s ../../../fastq-files/SRR424685_2.fastq E03h.R2.clipped.fq
+ln -s ../../../fastq_files/SRR424683_1.fastq E01h.R1.clipped.fq 
+ln -s ../../../fastq_files/SRR424683_2.fastq E01h.R2.clipped.fq
+ln -s ../../../fastq_files/SRR424684_1.fastq E02h.R1.clipped.fq
+ln -s ../../../fastq_files/SRR424684_2.fastq E02h.R2.clipped.fq
+ln -s ../../../fastq_files/SRR424685_1.fastq E03h.R1.clipped.fq
+ln -s ../../../fastq_files/SRR424685_2.fastq E03h.R2.clipped.fq
 
 #larval libraries
-ln -s ../../../fastq-files/SRR424707_1.fastq L1.R1.clipped.fq 
-ln -s ../../../fastq-files/SRR424707_2.fastq L1.R2.clipped.fq
-ln -s ../../../fastq-files/SRR424708_1.fastq L2.R1.clipped.fq
-ln -s ../../../fastq-files/SRR424708_2.fastq L2.R2.clipped.fq
-ln -s ../../../fastq-files/SRR424709_1.fastq L3.R1.clipped.fq
-ln -s ../../../fastq-files/SRR424709_2.fastq L3.R2.clipped.fq
+ln -s ../../../fastq_files/SRR424707_1.fastq L1.R1.clipped.fq 
+ln -s ../../../fastq_files/SRR424707_2.fastq L1.R2.clipped.fq
+ln -s ../../../fastq_files/SRR424708_1.fastq L2.R1.clipped.fq
+ln -s ../../../fastq_files/SRR424708_2.fastq L2.R2.clipped.fq
+ln -s ../../../fastq_files/SRR424709_1.fastq L3.R1.clipped.fq
+ln -s ../../../fastq_files/SRR424709_2.fastq L3.R2.clipped.fq
 
 cd ../../.. #returning to the output directory
 \end{verbatim}
