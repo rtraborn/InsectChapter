@@ -26,6 +26,7 @@
 \usepackage{listings}
 \usepackage[T1]{fontenc}
 \usepackage{breakurl}
+\usepackage{fancyvrb}
 
 %\urldef{\mailsa}\path|{rtraborn, |
 %\urldef{\mailsb}\path|vbrendel}@indiana.edu|    
@@ -155,7 +156,7 @@ The former is a well-known pay-per-use solution, while the latter two are NSF-fu
 \subsection{Hardware}
 \begin{enumerate} 
 \item x86-64 compatible processors
-\item At least 8GB RAM
+\item 8GB RAM 
 \item 80GB+ hard disk space
 \end{enumerate}
 
@@ -311,7 +312,7 @@ These sequences were retrieved separately from Genbank at the NCBI database.
 Please navigate to the rRNA file \texttt{"Dmel\_rRNA.fasta"} found in the Demo.
 
 \noindent
-\begin{verbatim}
+\begin{verbatim}[fontsize=\small]
 head -n 3
 >ref|NR_133562.1| Drosophila melanogaster 28S ribosomal RNA (28SrRNA:CR45844), rRNA
 TTATATACAACCTCAACTCATATGGGACTACCCCCTGAATTTAAGCATATTAATTAGGGGAGGAAAAGAA
@@ -532,7 +533,7 @@ The \textit{width} of a TSR refers the span of the genomic region it occupies (i
 We can see an example of this in the file "TSRsetMerged-1.txt".
 
 \noindent
-\begin{verbatim}
+\begin{verbatim}[fontsize=\small]
 seq     start   end     strand  nTSSs   tsrWidth        shapeIndex      featureID
 2L.67043.67044.+        2L      67043   67044   +       270     2       1       NA
 2L.74089.74115.+        2L      74089   74115   +       341     27      0.13    NA
