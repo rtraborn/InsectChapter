@@ -147,7 +147,7 @@ In closing, we will consider further applications of this data and discuss the u
 
 \section{Materials}
 
-The analyses described herein require a workstation capable of doing modern bioinformatics; minimally a reasonably-appointed laptop.
+The example analyses described herein require a workstation capable of doing modern bioinformatics; minimally a reasonably-appointed laptop.
 An intermediate understanding of the Linux/Unix command line will be extremely useful, although we make efforts to explain the procedures with clarity. 
 In addition, it will likely be necessary for the participant to have superuser privileges on the machine.
 If you do not have a machine (or have access to one) that meets these requirements, it is recommended that you consider cloud-based cyberinfrastructure, including Amazon Web Services (AWS; \url{https://aws.amazon.com/}), CyVerse (\url{http://www.cyverse.org/}) \cite{Merchant:2016jn}, or JetStream (\url{https://jetstream-cloud.org/}) \cite{Stewart:2015abc}.
@@ -156,7 +156,7 @@ The former is a well-known pay-per-use solution, while the latter two are NSF-fu
 \subsection{Hardware}
 \begin{enumerate} 
 \item x86-64 compatible processors
-\item 8GB RAM
+\item 16GB RAM
 \item 80GB+ hard disk space
 \end{enumerate}
 
@@ -307,18 +307,10 @@ The genome assembly is required for aligning the RAMPAGE reads, and the rRNA seq
 Because our sample is intended to contain only capped RNAs, any rRNA sequences we observe in these RAMPAGE libraries are contaminants that must be removed.\\
 \\
 \noindent
-Please download the rRNA sequences from the \texttt{demo/additional\_files} folder in the demo.
-These sequences were retrieved separately from Genbank at the NCBI database.
-Please navigate to the rRNA file \texttt{"Dmel\_rRNA.fasta"} found in the demo.
-
+Please make note of the rRNA sequences, found in the file \texttt{"Dmel\_rRNA.fasta"}, from the folder \texttt{additional\_files} folder in the demo (\textit{see} \textbf{Note 5}).
+\\
+\\
 \noindent
-\begin{verbatim}
-head -n 3
->ref|NR_133562.1| Drosophila melanogaster 28S ribosomal RNA (28SrRNA:CR45844), rRNA
-TTATATACAACCTCAACTCATATGGGACTACCCCCTGAATTTAAGCATATTAATTAGGGGAGGAAAAGAA
-ACTAACAAGGATTTTCTTAGTAGCGGCGAGCGAAAAGAAAACAGTTCAGCACTAAGTCACTTTGTCTATA
-\end{verbatim}
-
 We will then download a version of the \textit{D. melanogaster} genome assembly from ENSEMBL (\url{www.ensembl.org}) \cite{Yates:2016tbc}.
 To retrieve the genome assembly, please do the following:
 
@@ -339,8 +331,8 @@ We will use GoRAMPAGE, a tool we developed, to perform these tasks in a concerte
 GoRAMPAGE runs TagDust \cite{Lassmann:2015gs} to remove rRNA and low-complexity reads and STAR \cite{Dobin:2016kq} to align RAMPAGE (or other paired-end) reads to a given genome assembly.
 
 \subsubsection{Setting up the GoRAMPAGE job.}
-Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 5}). 
-GoRAMPAGE jobs can optionally be run in parallel (\textit{see} \textbf{Note 6}).
+Please refer to the script \\ \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 6}). 
+GoRAMPAGE jobs can optionally be run in parallel (\textit{see} \textbf{Note 7}).
 The script can be executed as follows:
 
 \noindent
@@ -405,7 +397,7 @@ In the section to follow, we will go through the output of the analysis.
 For further details on how to use \textit{TSRchitect}, please see its documentation at its Bioconductor page found here: \url{https://www.bioconductor.org/packages/release/bioc/html/TSRchitect.html}.
 
 \subsubsection{Running the Analysis.}
-To run TSRchitect using the batch script, provide full paths for the variables "BAMDIR" and "DmAnnot" in the script provided (\textit{see} \textbf{Note 7}).
+To run TSRchitect using the batch script, provide full paths for the variables "BAMDIR" and "DmAnnot" in the script provided (\textit{see} \textbf{Note 8}).
 \textit{BAMDIR} should be a path to the subdirectory "alignments/" in RAMPAGE output directory you specified earlier, and \textit{DmAnnot} should be a full path to the \textit{D. melanogaster} gene annotation listed above.\\
 \\
 Once this is complete, we can run the batch script from the Linux command-line as follows:
@@ -423,7 +415,7 @@ Once the job is underway, you can monitor its progress by looking at the content
 \subsubsection{Reviewing the \textit{TSRchitect} script.} 
 Before we evaluate the results (which will have been written to your working directory after running the batch script), there are some important aspects of the analysis to review. 
 We discuss these for informational purposes only; it will not necessary to perform these commands separate from the batch script provided.
-First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately (\textit{see} \textbf{Note 8}).\\
+First, we must initialize the \textit{tssObject} (which stores the information about the experiment) appropriately (\textit{see} \textbf{Note 9}).\\
 
 \noindent
 The inputs in this case are BAM files (\textit{inputType}="bam"); \textit{TSRchitect} also accepts input in BED format.
@@ -506,7 +498,7 @@ Your working directory should now contain the following:
 \end{itemize} \\
 
 \noindent
-Let's briefly review the files (\textit{see} \textbf{Note 9}). 
+Let's briefly review the files (\textit{see} \textbf{Note 10}). 
 We can quickly obtain the counts on the command line, as follows:
 
 \noindent
@@ -560,7 +552,7 @@ While the analysis centered on \textit{D. melanogaster} via the use of public da
 \begin{figure}
 \centering
 \includegraphics[height=7cm]{Figures/Insect_Chapter_Figure_2.png}
-\caption{An overview of promoter identification using RAMPAGE. a) RAMPAGE reads are aligned to the genome. The 5$^\prime$-most genomic coordinate from each properly-paired R1 read is estimated as a TSS. The ambundance of mapped 5$^\prime$-ends at a given TSS is a measure of its abundance. TSSs above a minimum threshold will be clustered into TSRs. b) RAMPAGE-derived Paired-end sequence information provides a connection between a 5$^\prime$-mRNA end and a gene coding region. Only properly-paired R1 reads (\textit{i.e.} with an aligned R2 read) are identified as TSSs and then included in the downstream clustering procedure described in part \textit{a}.}
+\caption{An overview of promoter identification using RAMPAGE. a) RAMPAGE reads are aligned to the genome. The 5$^\prime$-most genomic coordinate from each properly-paired R1 read is estimated as a TSS. The abundance of mapped 5$^\prime$-ends at a given TSS is a measure of its abundance. TSSs above a minimum threshold will be clustered into TSRs. b) RAMPAGE-derived Paired-end sequence information provides a connection between a 5$^\prime$-mRNA end and a gene coding region. Only properly-paired R1 reads (\textit{i.e.} with an aligned R2 read) are identified as TSSs and then included in the downstream clustering procedure described in part \textit{a}.}
 \label{fig:figure2}
 \end{figure}
 
@@ -597,6 +589,7 @@ The "scripts/" folder in the demo contains code for you to run the two major wor
 The "\texttt{additional\_files/}" folder contains the following files which are necessary for the analysis: i) a fasta file containing ribosomal RNA sequences for \textit{D. melanogaster} (\texttt{Dmel\_rRNA.fasta}) and ii) a gene annotation for \textit{D. melanogaster} (\texttt{Drosophila\_melanogaster.BDGP5.78.gff}).
 \item Since these fastq files are paired-end, we use the argument \textit{--split-files} to generate separate files for each read pair.
 \item If you are running this on a cluster with a job scheduler you'll need to add the necessary headers to the top of the script and submit the job in the appropriate manner.
+\item The rRNA sequences were retrieved separately from Genbank at NCBI \cite{Sayers:2012iv}.
 \item For parallel execution, GoRAMPAGE uses the Linux package \textit{GNU parallel} \cite{Tange2011a}.
 Please see the GoRAMPAGE documentation for more information.
 \item To do this, please edit the batch script \texttt{TSRchitect\_serial\_MMB.R} with a text editor of your choice.
