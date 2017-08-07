@@ -131,15 +131,19 @@ CpG island promoters (CPIs) form the largest class of promoter in mammals \cite{
 
 
 \subsection{Paired-end TSS Profiling with RAMPAGE}
-The most recent major methodological advance in TSS Profiling is RAMPAGE \cite{Batut:2012kc,Batut:2013fu}, a protocol for 5$^\prime$-cDNA sequencing that combines cap trapping and template-switching with paired-end sequence information (see Figure 1).
+A notable recent methodological advance in TSS Profiling is RAMPAGE \cite{Batut:2012kc,Batut:2013fu}, a protocol for 5$^\prime$-cDNA sequencing that combines cap trapping and template-switching with paired-end sequence information (see Figure 1).
 As with CAGE and other TSS profiling methods, RAMPAGE reads are aligned, to obtain TSSs and clustered to identify Transcription Start Regions (TSRs), which are enrichments of TSSs consistent with promoters (Figure 2a).
 A key advantage of generating paired-end sequence is transcript connectivity, which provides a direct link between a given 5$^\prime$-end and its associated mRNA molecule \cite{Batut:2012kc} (Figure 2b).
-Because short or spurious RNAs are found within the transcriptome, transcript connectivity allows the TSSs (and thus promoters) of full-length mRNAs to be unambiguously identified, which benefits genome annotation and improves interpretation of transcript species.
+Because short or spurious RNAs are found within the transcriptome, transcript connectivity allows the TSSs (and thus promoters) of full-length mRNAs to be unambiguously identified, which benefits genome annotation and improves interpretation of transcript species. 
+There are other TSS profiling methodologies provide paired-end information, although these methods differ (with each other and with RAMPAGE) in the ways capped RNA is captured and processed into finished libraries. 
+These include PEAT (Paired-end analysis of transcription) \cite{Ni:2010jh} and nanoCAGE \cite{Plessy:2010kb,Cumbie:2015fpa}. 
+PEAT has been applied in two species to date: \textit{D. melanogaster} \cite{Ni:2010jh} and the model plant \textit{Arabidopsis thaliana} \cite{Morton:2014io}, whereas nanoCAGE has been applied to mammalian systems.
+While this chapter will discuss the processing and analysis of RAMPAGE libraries, the code and tools we present here are capable of handling any other TSS profiling read datasets.
 \\
 \\
 Batut and colleagues \cite{Batut:2012kc} generated libraries from total RNA isolated from 36 stages across the life cycle of \textit{D. melanogaster}, generating a comprehensive gene expression and promoter atlas for fruit fly and demonstrating the utility of RAMPAGE.
-RAMPAGE is currently being applied as part of the latest iteration of ENCODE to identify promoters in human, but as of this writing it has not been applied to any non-\textit{Drosophila} insect model system. 
-
+RAMPAGE is currently being applied as part of the latest iteration of ENCODE \cite{Dunham:2012gc} to identify promoters in diverse human tissues \cite{ENCODE:2017bc}, but as of this writing it has not been applied to any non-\textit{Drosophila} insect model system. \\
+\\
 In anticipation of the future application of TSS profiling into other insect model systems, we discuss in this chapter a well-documented protocol for the computational processing and analysis of RAMPAGE data, using selected libraries from Batut \textit{et al.} \cite{Batut:2012kc}. 
 This method consists of two parts: first, we discuss how to process, filter and align the sequenced RAMPAGE libraries to the \textit{D. melanogaster} genome. 
 Second, we show how to identify TSSs and promoters from the aligned sequences and associate them with coding regions.
@@ -151,7 +155,9 @@ The example analyses described herein require a workstation capable of doing mod
 An intermediate understanding of the Linux/Unix command line will be extremely useful, although we make efforts to explain the procedures with clarity. 
 In addition, it will likely be necessary for the participant to have superuser privileges on the machine.
 If you do not have a machine (or have access to one) that meets these requirements, it is recommended that you consider cloud-based cyberinfrastructure, including Amazon Web Services (AWS; \url{https://aws.amazon.com/}), CyVerse (\url{http://www.cyverse.org/}) \cite{Merchant:2016jn}, or JetStream (\url{https://jetstream-cloud.org/}) \cite{Stewart:2015abc}.
-The former is a well-known pay-per-use solution, while the latter two are NSF-funded resources that makes compute allocations freely available to the public.
+The former is a well-known pay-per-use solution, while the latter two are NSF-funded resources that makes compute allocations freely available to the public.\\
+For many users, the cyberinfrastructure approach is a convenient solution, particularly when providers offer task-dedicated virtual machines. In that case, the user essentially rents a fully equipped computer with all necessary software pre-installed and sufficient resources for the intended job. For the computational workflows discussed here, researchers can check out an instance of the "bgRAMOSE" image at JetStream which comes with all Brendel Group software (\url{https://brendelgroup.github.io/}) as well as other useful bioinformatics tools enabled.
+
 
 \subsection{Hardware}
 \begin{enumerate} 
@@ -601,6 +607,7 @@ Please see the \textit{TSRchitect} documentation for more information.
 
 \subsection*{Acknowledgments}
 The authors would like to thank Philippe Batut for generous technical assistance with the RAMPAGE protocol, and to Nathan Keith for his help establishing the protocol in our laboratory.
+The authors are grateful to Thomas W. McCarthy for his help testing the code and providing editorial feedback.
 
 \subsection*{Disclosure Declaration}
 The authors declare that they have no competing interests.
