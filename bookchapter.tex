@@ -130,28 +130,25 @@ CpG island promoters (CPIs) form the largest class of promoter in mammals \cite{
 
 
 \subsection{Paired-end TSS Profiling with RAMPAGE}
-The most recent major methodological advance in TSS Profiling is RAMPAGE \cite{Batut:2012kc,Batut:2013fu}, a protocol for 5$^\prime$-cDNA sequencing that combines cap trapping and template-switching with paired-end sequence information. 
-A key advantage of generating paired-end sequence is transcript connectivity, which provides a direct link between a given 5$^\prime$-end and its associated mRNA molecule \cite{Batut:2012kc}.
+The most recent major methodological advance in TSS Profiling is RAMPAGE \cite{Batut:2012kc,Batut:2013fu}, a protocol for 5$^\prime$-cDNA sequencing that combines cap trapping and template-switching with paired-end sequence information (see Figure 1).
+As with CAGE and other TSS profiling methods, RAMPAGE reads are aligned, to obtain TSSs and clustered to identify Transcription Start Regions (TSRs), which are enrichments of TSSs consistent with promoters (Figure 2A).
+A key advantage of generating paired-end sequence is transcript connectivity, which provides a direct link between a given 5$^\prime$-end and its associated mRNA molecule \cite{Batut:2012kc} (Figure 2B).
 Because short or spurious RNAs are found within the transcriptome, transcript connectivity allows the TSSs (and thus promoters) of full-length mRNAs to be unambiguously identified, which benefits genome annotation and improves interpretation of transcript species.
 \\
 \\
 Batut and colleagues \cite{Batut:2012kc} generated libraries from total RNA isolated from 36 stages across the life cycle of \textit{D. melanogaster}, generating a comprehensive gene expression and promoter atlas for fruit fly and demonstrating the utility of RAMPAGE.
 RAMPAGE is currently being applied as part of the latest iteration of ENCODE to identify promoters in human, but as of this writing it has not been applied to any non-\textit{Drosophila} insect model system. 
+
 In anticipation of the future application of TSS profiling into other insect model systems, we discuss in this chapter a well-documented protocol for the computational processing and analysis of RAMPAGE data, using selected libraries from Batut \textit{et al.} \cite{Batut:2012kc}. 
 This method consists of two parts: first, we discuss how to process, filter and align the sequenced RAMPAGE libraries to the \textit{D. melanogaster} genome. 
 Second, we show how to identify TSSs and promoters from the aligned sequences and associate them with coding regions.
 In closing, we will consider further applications of this data and discuss the utility of reproducible workflows in bioinformatic analysis.
 
-%You are strongly encouraged to use \LaTeXe{} for the
-%preparation of your camera-ready manuscript together with the
-%corresponding Springer class file \verb+llncs.cls+. Only if you use
-%\LaTeXe{} can hyperlinks be generated in the online version
-%of your manuscript.
-
 \section{Materials}
 
 The analyses described herein require a workstation capable of doing modern bioinformatics; minimally a reasonably-appointed laptop.
-An intermediate understanding of the Linux/Unix command line will be extremely useful, although we make efforts to explain the procedures with clarity. In addition, it will likely be necessary for the participant to have superuser privileges on the machine.
+An intermediate understanding of the Linux/Unix command line will be extremely useful, although we make efforts to explain the procedures with clarity. 
+In addition, it will likely be necessary for the participant to have superuser privileges on the machine.
 If you do not have a machine (or have access to one) that meets these requirements, it is recommended that you consider cloud-based cyberinfrastructure, including Amazon Web Services (AWS; \url{https://aws.amazon.com/}), CyVerse (\url{http://www.cyverse.org/}) \cite{Merchant:2016jn}, or JetStream (\url{https://jetstream-cloud.org/}) \cite{Stewart:2015abc}.
 The former is a well-known pay-per-use solution, while the latter two are NSF-funded resources that makes compute allocations freely available to the public.
 
@@ -328,8 +325,8 @@ To retrieve the genome assembly, please do the following:
 \begin{verbatim}
 mkdir genome
 cd genome
-wget \texttt{ftp://ftp.ensembl.org/pub/release-78/fasta/}
-\texttt{drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz}
+wget ftp://ftp.ensembl.org/pub/release-78/fasta/
+drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz
 #uncompressing the file
 gzip -d Drosophila_melanogaster.BDGP5.dna.toplevel.fa.gz
 cd ..
@@ -493,6 +490,7 @@ n.cores=4, tsrSetType="merged", \
 
 \subsubsection{Evaluating the results}
 Our analysis using \textit{TSRchitect} is now complete.
+A snapshot of a representative sample of small set of aligned RAMPAGE libraries is shown in Figure 3.
 Your working directory should now contain the following: 
 \begin{itemize}
 \item TSSs from each sample \textit{e.g.} TSSset-1.txt: (6)
