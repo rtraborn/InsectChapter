@@ -339,14 +339,14 @@ We will use GoRAMPAGE, a tool we developed, to perform these tasks in a concerte
 GoRAMPAGE runs TagDust \cite{Lassmann:2015gs} to remove rRNA and low-complexity reads and STAR \cite{Dobin:2016kq} to align RAMPAGE (or other paired-end) reads to a given genome assembly.
 
 \subsubsection{Setting up the GoRAMPAGE job.}
-Please refer to the script \texttt{"GoRAMPAGE\_serial\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 5}). 
+Please refer to the script \texttt{"GoRAMPAGE\_script\_MMB.sh"} and (using a text editor) provide the appropriate paths to the genome assembly, output directory (see above) and rRNA sequences (\textit{see} \textbf{Note 5}). 
 GoRAMPAGE jobs can optionally be run in parallel (\textit{see} \textbf{Note 6}).
 The script can be executed as follows:
 
 \noindent
 \begin{verbatim}
-#vi GoRAMPAGE_serial_MMB.sh #updating with a text editor
-./GoRAMPAGE_serial_MMB.sh
+#vi GoRAMPAGE_script_MMB.sh #updating with a text editor
+./GoRAMPAGE_script_MMB.sh
 \end{verbatim}
 
 \noindent
@@ -398,7 +398,9 @@ Since you have already installed \textit{TSRchitect} and its dependencies (see s
 There are two general ways one can choose to run \textit{TSRchitect}. 
 The first is interactively \textit{i.e.} typing the instructions directly into an R console.
 While this is a perfectly acceptable way to run analyses using package, for larger jobs it will likely be more efficient (and likely more reproducible) to run a dedicated R script.
-We have provided a sample script \texttt{"MMB\_chapter\_TSRchitect.R"} to make it easier for you to set up an R script. 
+We have provided sample scripts to make it easier for you to set up an R script.
+The two scripts are identical with a single exception: one is set up to run in parallel (\texttt{"TSRchitect\_parallel\_MMB.R"}), while the other is written to run in serial (\texttt{"TSRchitect\_serial\_MMB.R"}). 
+Please select the script that best suits your computing resources.
 In the section to follow, we will go through the output of the analysis. 
 For further details on how to use \textit{TSRchitect}, please see its documentation at its Bioconductor page found here: \url{https://www.bioconductor.org/packages/release/bioc/html/TSRchitect.html}.
 
@@ -410,13 +412,13 @@ Once this is complete, we can run the batch script from the Linux command-line a
 
 \noindent
 \begin{verbatim}
-R CMD BATCH MMB_chapter_TSRchitect.R
+R CMD BATCH TSRchitect_parallel_MMB.R #or use 'serial script
 #assumes variables BAMDIR and DmAnnot have already been set
 bg #puts this job in the background
 \end{verbatim}
 
 \noindent
-Once the job is underway, you can monitor its progress by looking at the contents of the .Rout file (in this case, \texttt{"MMB\_chapter\_TSRchitect.Rout"}). 
+Once the job is underway, you can monitor its progress by looking at the contents of the .Rout file (in this case, \texttt{"TSRchitect\_parallel\_MMB.Rout"}). 
 
 \subsubsection{Reviewing the \textit{TSRchitect} script.} 
 Before we evaluate the results (which will have been written to your working directory after running the batch script), there are some important aspects of the analysis to review. 
