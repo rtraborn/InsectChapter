@@ -448,6 +448,7 @@ DmRAMPAGE <- determineTSR(experimentName=DmRAMPAGE, n.cores=4, \
  clustDist=20, writeTable=TRUE)
 \end{verbatim}
 
+\noindent
 \textit{TSRchitect} can incorporate the tag abundances from each of the samples and append them to the list of identified TSRs. 
 This is useful for downstream analysis of differential expression.
 
@@ -458,6 +459,7 @@ tsrSetType="replicates",  tsrSet=1, tagCountThreshold=10, \
  writeTable=TRUE)
 \end{verbatim}
 
+\noindent
 We can use \textit{TSRchitect} to import an annotation file (or, alternatively, use an existing one from \textit{AnnotationHub}) and use it to associate our set of identified TSRs with coding genes. 
 We can specify the maximum distances (both up- and downstream) between the TSR and the annotation using the arguments \textit{upstreamDist} and \textit{downstreamDist}.
 
@@ -472,6 +474,7 @@ upstreamDist=1000, downstreamDist=200, feature="gene", \
  featureColumnID="ID", writeTable=TRUE)
 \end{verbatim}
 
+\noindent
 Now we have generated a set of identified TSSs, TSRs from all 6 RAMPAGE libraries, and have associated the identified TSRs with annotated genes. 
 Next, we will merge the libraries into two samples according to condition: early embryonic (E1h, E2h, E3h) and late larval (L1, L2, L3) using the information we provided when we initialized the \textit{tssObject} at the start of this section.
 After merging, we identify promoters i) within the merged samples and ii) within the entire dataset combined, and associate with the \textit{D. melanogaster} gene annotation as described previously (not shown).
