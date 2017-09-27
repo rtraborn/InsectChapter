@@ -429,9 +429,17 @@ The inputs in this case are BAM files (\textit{inputType}="bam"); \textit{TSRchi
 \noindent
 \begin{verbatim}
 DmRAMPAGE <- loadTSSobj(experimentTitle = "RAMPAGE Tutorial", \
- inputDir=BAMDIR, inputType="bam", isPairedEnd=TRUE, \
+ inputDir=BAMDIR, isPairedBAM=TRUE, \
  sampleNames=c("E1h","E2h", "E3h", "L1", "L2", "L3"), \
  replicateIDs=c(1,1,1,2,2,2))
+\end{verbatim}
+
+\noindent
+Next, we extract TSSs from the alignment files:
+
+\noindent
+\begin{verbatim}
+DmRAMPAGE <- inputToTSS(DmRAMPAGE)
 \end{verbatim}
 
 \noindent
